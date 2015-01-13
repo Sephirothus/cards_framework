@@ -1,0 +1,468 @@
+2015-01-13 14:42:09 [127.0.0.1][-][-][error][yii\base\ErrorException:4096] exception 'yii\base\ErrorException' with message 'Argument 1 passed to yii\mongodb\Query::select() must be of the type array, string given, called in /home/konst/repos/da.dev/backend/controllers/SiteController.php on line 64 and defined' in /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Query.php:77
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): backend\controllers\SiteController->actionLogin()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#6 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#7 {main}
+2015-01-13 14:42:09 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42049'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160129.731
+    'REQUEST_TIME' => 1421160129
+]
+2015-01-13 14:42:20 [127.0.0.1][-][-][error][yii\base\ErrorException:8] exception 'yii\base\ErrorException' with message 'Undefined variable: query' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:67
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:42:20 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42050'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160140.151
+    'REQUEST_TIME' => 1421160140
+]
+2015-01-13 14:43:06 [127.0.0.1][-][-][error][yii\base\ErrorException:32] exception 'yii\base\ErrorException' with message 'Module 'mongo' already loaded' in Unknown:0
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:43:06 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42061'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160186.432
+    'REQUEST_TIME' => 1421160186
+]
+2015-01-13 14:43:35 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'backend\controllers\Query' not found' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:64
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:43:35 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42063'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160215.521
+    'REQUEST_TIME' => 1421160215
+]
+2015-01-13 14:49:48 [127.0.0.1][-][-][error][yii\base\ErrorException:8] exception 'yii\base\ErrorException' with message 'Undefined index: name' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:68
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:49:48 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42080'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160588.211
+    'REQUEST_TIME' => 1421160588
+]
+2015-01-13 14:49:53 [127.0.0.1][-][-][error][yii\base\ErrorException:8] exception 'yii\base\ErrorException' with message 'Undefined index: id' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:68
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:49:53 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42082'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160593.402
+    'REQUEST_TIME' => 1421160593
+]
+2015-01-13 14:50:06 [127.0.0.1][-][-][error][yii\base\ErrorException:8] exception 'yii\base\ErrorException' with message 'Undefined index: _id' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:68
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:50:06 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42084'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160606.201
+    'REQUEST_TIME' => 1421160606
+]
+2015-01-13 14:50:17 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Cannot use object of type yii\mongodb\Query as array' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:68
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:50:17 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42086'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160617.353
+    'REQUEST_TIME' => 1421160617
+]
+2015-01-13 14:50:31 [127.0.0.1][-][-][error][yii\base\ErrorException:8] exception 'yii\base\ErrorException' with message 'Array to string conversion' in /home/konst/repos/da.dev/backend/controllers/SiteController.php:68
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-13 14:50:31 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '42087'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421160631.396
+    'REQUEST_TIME' => 1421160631
+]

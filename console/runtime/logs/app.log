@@ -1,0 +1,440 @@
+2014-12-26 14:58:14 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'Schema' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:20
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2014-12-26 14:58:12 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-rvv7h8/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '56623116'
+    'OLDPWD' => '/home/konst'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2267'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-rvv7h8'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-rvv7h8/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2265'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-iwRKAG9njC'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1419605892.6685
+    'REQUEST_TIME' => 1419605892
+    'argv' => [
+        0 => './yii'
+        1 => 'migrate/down'
+    ]
+    'argc' => 2
+]
+2014-12-26 14:58:30 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'Schema' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:20
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2014-12-26 14:58:28 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-rvv7h8/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '56623116'
+    'OLDPWD' => '/home/konst'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2267'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-rvv7h8'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-rvv7h8/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2265'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-iwRKAG9njC'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1419605908.0655
+    'REQUEST_TIME' => 1419605908
+    'argv' => [
+        0 => './yii'
+        1 => 'migrate/down'
+    ]
+    'argc' => 2
+]
+2014-12-26 14:58:38 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'Schema' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:20
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2014-12-26 14:58:36 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-rvv7h8/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '56623116'
+    'OLDPWD' => '/home/konst'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2267'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-rvv7h8'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-rvv7h8/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2265'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-iwRKAG9njC'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1419605916.5154
+    'REQUEST_TIME' => 1419605916
+    'argv' => [
+        0 => './yii'
+        1 => 'migrate/down'
+    ]
+    'argc' => 2
+]
+2014-12-26 15:01:23 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'Schema' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:20
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2014-12-26 15:01:21 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-rvv7h8/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '56623116'
+    'OLDPWD' => '/home/konst'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2267'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-rvv7h8'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-rvv7h8/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2265'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-iwRKAG9njC'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1419606081.4663
+    'REQUEST_TIME' => 1419606081
+    'argv' => [
+        0 => './yii'
+        1 => 'migrate/down'
+    ]
+    'argc' => 2
+]
+2014-12-26 15:02:10 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'Schema' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:20
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2014-12-26 15:02:09 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-rvv7h8/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '56623116'
+    'OLDPWD' => '/home/konst'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2267'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-rvv7h8'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-rvv7h8/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2265'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-iwRKAG9njC'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1419606129.5283
+    'REQUEST_TIME' => 1419606129
+    'argv' => [
+        0 => './yii'
+        1 => 'migrate/down'
+    ]
+    'argc' => 2
+]
