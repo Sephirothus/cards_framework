@@ -101,7 +101,7 @@ class Cards extends Model {
 		    }
 	    }
 	    $deck = $new;
-	    print_r($deck);die;
+	    if (!$deck) $this->_decks = $deck;
         return $deck;
 	}
 
