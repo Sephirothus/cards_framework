@@ -7,12 +7,12 @@ use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
 use yii\mongodb\Query;
+use common\models\Cards;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
-{
+class SiteController extends Controller {
     /**
      * @inheritdoc
      */
@@ -61,12 +61,10 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        $rows = (new Query)
-            ->from('testData')
-            ->limit(10)
-            ->all();
-        print_r($rows);die;
-
+        $obj = new Cards();
+        $obj->getCards()->shuffleCards();
+        print_r($obj->dealCards(['doors' => 3, 'treasures' => 1], 5));
+        die;
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }

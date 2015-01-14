@@ -438,3 +438,1093 @@ Stack trace:
     ]
     'argc' => 2
 ]
+2015-01-14 12:38:07 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Unknown component ID: mongodb' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/ServiceLocator.php:136
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(96): yii\di\ServiceLocator->get('mongodb')
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(149): yii\mongodb\console\controllers\MigrateController->beforeAction(Object(yii\base\InlineAction))
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('', Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('', Array)
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate', Array)
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate', Array)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#7 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#8 {main}
+2015-01-14 12:38:07 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421239087.0915
+    'REQUEST_TIME' => 1421239087
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate'
+    ]
+    'argc' => 2
+]
+2015-01-14 12:43:30 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Unknown component ID: mongodb' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/ServiceLocator.php:136
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(96): yii\di\ServiceLocator->get('mongodb')
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(149): yii\mongodb\console\controllers\MigrateController->beforeAction(Object(yii\base\InlineAction))
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('', Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('', Array)
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate', Array)
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate', Array)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#7 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#8 {main}
+2015-01-14 12:43:30 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421239410.4668
+    'REQUEST_TIME' => 1421239410
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate'
+    ]
+    'argc' => 2
+]
+2015-01-14 12:44:56 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Invalid data type: yii\mongodb\Connection. yii\db\Connection is expected.' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/Instance.php:137
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/db/Migration.php(68): yii\di\Instance::ensure(Object(yii\mongodb\Connection), 'yii\\dbb\\Conneccti..)
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Object.php(107): yii\db\Migration->init()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(118): yii\base\Object->__construct(Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration('m130524_201442_...')
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m130524_201442_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate', Array)
+#12 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#14 {main}
+2015-01-14 12:44:50 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421239490.9972
+    'REQUEST_TIME' => 1421239490
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate'
+    ]
+    'argc' => 2
+]
+2015-01-14 12:47:51 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Invalid data type: yii\mongodb\Connection. yii\db\Connection is expected.' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/Instance.php:137
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/db/Migration.php(68): yii\di\Instance::ensure(Object(yii\mongodb\Connection), 'yii\\dbb\\Conneccti..)
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Object.php(107): yii\db\Migration->init()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(118): yii\base\Object->__construct(Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration('m130524_201442_...')
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m130524_201442_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate', Array)
+#12 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#14 {main}
+2015-01-14 12:47:49 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421239669.3821
+    'REQUEST_TIME' => 1421239669
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate'
+    ]
+    'argc' => 2
+]
+2015-01-14 13:14:22 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Invalid data type: yii\mongodb\Connection. yii\db\Connection is expected.' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/Instance.php:137
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/db/Migration.php(68): yii\di\Instance::ensure(Object(yii\mongodb\Connection), 'yii\\dbb\\Conneccti..)
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Object.php(107): yii\db\Migration->init()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(118): yii\base\Object->__construct(Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration('m130524_201442_...')
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m130524_201442_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('up', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('up', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate...', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate...', Array)
+#12 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#14 {main}
+2015-01-14 13:14:20 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421241260.832
+    'REQUEST_TIME' => 1421241260
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/up'
+    ]
+    'argc' => 2
+]
+2015-01-14 13:18:46 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Invalid data type: yii\mongodb\Connection. yii\db\Connection is expected.' in /home/konst/repos/da.dev/vendor/yiisoft/yii2/di/Instance.php:137
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/db/Migration.php(68): yii\di\Instance::ensure(Object(yii\mongodb\Connection), 'yii\\dbb\\Conneccti..)
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Object.php(107): yii\db\Migration->init()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/console/controllers/MigrateController.php(118): yii\base\Object->__construct(Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration('m141226_114418_...')
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m141226_114418_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('up', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('up', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate...', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate...', Array)
+#12 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#14 {main}
+2015-01-14 13:18:45 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421241525.9137
+    'REQUEST_TIME' => 1421241525
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/up'
+    ]
+    'argc' => 2
+]
+2015-01-14 13:19:15 [-][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class m141226_114418_new_table_quests contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (yii\db\MigrationInterface::up)' in /home/konst/repos/da.dev/console/migrations/m141226_114418_new_table_quests.php:7
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionUp()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#10 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#11 {main}
+2015-01-14 13:19:13 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421241553.4003
+    'REQUEST_TIME' => 1421241553
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/up'
+    ]
+    'argc' => 2
+]
+2015-01-14 13:19:44 [-][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class m150113_145611_cards contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (yii\db\MigrationInterface::up)' in /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php:46
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionUp()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2015-01-14 13:19:43 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421241583.2401
+    'REQUEST_TIME' => 1421241583
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/up'
+    ]
+    'argc' => 2
+]
+2015-01-14 13:20:25 [-][-][-][error][yii\mongodb\Exception] exception 'MongoCursorException' with message 'localhost:27017: insertDocument :: caused by :: 11000 E11000 duplicate key error index: munchkin.cards.$_id_  dup key: { : "doors" }' in /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Collection.php:383
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Collection.php(383): MongoCollection->insert(Array, Array)
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Migration.php(134): yii\mongodb\Collection->insert(Array, Array)
+#2 /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php(39): yii\mongodb\Migration->insert('cards', Array)
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(489): m150113_145611_cards->up()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m150113_145611_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('up', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('up', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate...', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate...', Array)
+#12 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#14 {main}
+
+Next exception 'yii\mongodb\Exception' with message 'localhost:27017: insertDocument :: caused by :: 11000 E11000 duplicate key error index: munchkin.cards.$_id_  dup key: { : "doors" }' in /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Collection.php:389
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2-mongodb/Migration.php(134): yii\mongodb\Collection->insert(Array, Array)
+#1 /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php(39): yii\mongodb\Migration->insert('cards', Array)
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(489): m150113_145611_cards->up()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m150113_145611_...')
+#4 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction('up', Array)
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction('up', Array)
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction('mongodb-migrate...', Array)
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction('mongodb-migrate...', Array)
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#12 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#13 {main}
+2015-01-14 13:20:23 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421241623.5165
+    'REQUEST_TIME' => 1421241623
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/up'
+    ]
+    'argc' => 2
+]
+2015-01-14 15:07:18 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected '_not' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php:732
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2015-01-14 15:07:16 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421248036.5703
+    'REQUEST_TIME' => 1421248036
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/down'
+    ]
+    'argc' => 2
+]
+2015-01-14 15:07:47 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected '_not' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php:744
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2015-01-14 15:07:46 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421248066.4146
+    'REQUEST_TIME' => 1421248066
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/down'
+    ]
+    'argc' => 2
+]
+2015-01-14 15:08:08 [-][-][-][error][yii\base\ErrorException:4] exception 'yii\base\ErrorException' with message 'syntax error, unexpected 'bonus' (T_STRING), expecting ']'' in /home/konst/repos/da.dev/console/migrations/m150113_145611_cards.php:881
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/controllers/BaseMigrateController.php(182): yii\console\controllers\BaseMigrateController->migrateDown()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): yii\console\controllers\BaseMigrateController->actionDown()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Controller.php(91): yii\base\Controller->runAction()
+#5 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\console\Controller->runAction()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(161): yii\base\Module->runAction()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/console/Application.php(137): yii\console\Application->runAction()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\console\Application->handleRequest()
+#9 /home/konst/repos/da.dev/yii(31): yii\base\Application->run()
+#10 {main}
+2015-01-14 15:08:07 [-][-][-][info][application] $_SERVER = [
+    'XDG_VTNR' => '7'
+    'XDG_SESSION_ID' => 'c2'
+    'CLUTTER_IM_MODULE' => 'xim'
+    'XDG_GREETER_DATA_DIR' => '/var/lib/lightdm-data/konst'
+    'GPG_AGENT_INFO' => '/run/user/1000/keyring-4pJPmV/gpg:0:1'
+    'TERM' => 'xterm'
+    'SHELL' => '/bin/bash'
+    'VTE_VERSION' => '3603'
+    'WINDOWID' => '69206028'
+    'OLDPWD' => '/home/konst/repos'
+    'UPSTART_SESSION' => 'unix:abstract=/com/ubuntu/upstart-session/1000/2227'
+    'GNOME_KEYRING_CONTROL' => '/run/user/1000/keyring-4pJPmV'
+    'GTK_MODULES' => 'overlay-scrollbar:unity-gtk-module'
+    'USER' => 'konst'
+    'LS_COLORS' => 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+    'XDG_SESSION_PATH' => '/org/freedesktop/DisplayManager/Session0'
+    'XDG_SEAT_PATH' => '/org/freedesktop/DisplayManager/Seat0'
+    'SSH_AUTH_SOCK' => '/run/user/1000/keyring-4pJPmV/ssh'
+    'DEFAULTS_PATH' => '/usr/share/gconf/ubuntu.default.path'
+    'XDG_CONFIG_DIRS' => '/etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+    'DESKTOP_SESSION' => 'ubuntu'
+    'QT_IM_MODULE' => 'ibus'
+    'QT_QPA_PLATFORMTHEME' => 'appmenu-qt5'
+    'XDG_SESSION_TYPE' => 'x11'
+    'JOB' => 'gnome-session'
+    'PWD' => '/home/konst/repos/da.dev'
+    'XMODIFIERS' => '@im=ibus'
+    'GNOME_KEYRING_PID' => '2225'
+    'LANG' => 'ru_UA.UTF-8'
+    'GDM_LANG' => 'ru'
+    'MANDATORY_PATH' => '/usr/share/gconf/ubuntu.mandatory.path'
+    'IM_CONFIG_PHASE' => '1'
+    'COMPIZ_CONFIG_PROFILE' => 'ubuntu'
+    'GDMSESSION' => 'ubuntu'
+    'SESSIONTYPE' => 'gnome-session'
+    'SHLVL' => '1'
+    'XDG_SEAT' => 'seat0'
+    'HOME' => '/home/konst'
+    'LANGUAGE' => 'ru_UA:ru'
+    'GNOME_DESKTOP_SESSION_ID' => 'this-is-deprecated'
+    'UPSTART_INSTANCE' => ''
+    'UPSTART_EVENTS' => 'started starting'
+    'XDG_SESSION_DESKTOP' => 'ubuntu'
+    'LOGNAME' => 'konst'
+    'QT4_IM_MODULE' => 'xim'
+    'XDG_DATA_DIRS' => '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/'
+    'DBUS_SESSION_BUS_ADDRESS' => 'unix:abstract=/tmp/dbus-S2wFrjV2uk'
+    'LESSOPEN' => '| /usr/bin/lesspipe %s'
+    'INSTANCE' => 'Unity'
+    'UPSTART_JOB' => 'unity-settings-daemon'
+    'TEXTDOMAIN' => 'im-config'
+    'XDG_RUNTIME_DIR' => '/run/user/1000'
+    'DISPLAY' => ':0'
+    'XDG_CURRENT_DESKTOP' => 'Unity'
+    'GTK_IM_MODULE' => 'xim'
+    'LESSCLOSE' => '/usr/bin/lesspipe %s %s'
+    'TEXTDOMAINDIR' => '/usr/share/locale/'
+    'COLORTERM' => 'gnome-terminal'
+    'XAUTHORITY' => '/home/konst/.Xauthority'
+    '_' => './yii'
+    'PHP_SELF' => './yii'
+    'SCRIPT_NAME' => './yii'
+    'SCRIPT_FILENAME' => './yii'
+    'PATH_TRANSLATED' => './yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421248087.375
+    'REQUEST_TIME' => 1421248087
+    'argv' => [
+        0 => './yii'
+        1 => 'mongodb-migrate/down'
+    ]
+    'argc' => 2
+]

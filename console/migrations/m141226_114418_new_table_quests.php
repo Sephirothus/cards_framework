@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141226_114418_new_table_quests extends Migration
 {
-    public function safeUp()
+    public function up()
     {
     	$this->createTable('users_quests', [
     		'id' => Schema::TYPE_PK,
