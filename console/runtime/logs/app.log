@@ -1709,3 +1709,78 @@ Stack trace:
     ]
     'argc' => 2
 ]
+2015-01-15 21:59:12 [-][-][-][error][yii\base\InvalidConfigException] exception 'yii\base\InvalidConfigException' with message 'Invalid data type: yii\mongodb\Connection. yii\db\Connection is expected.' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\di\Instance.php:137
+Stack trace:
+#0 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\db\Migration.php(68): yii\di\Instance::ensure(Object(yii\mongodb\Connection), 'yii\db\Connecti...')
+#1 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\base\Object.php(107): yii\db\Migration->init()
+#2 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\console\controllers\MigrateController.php(118): yii\base\Object->__construct(Array)
+#3 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(488): yii\mongodb\console\controllers\MigrateController->createMigration('m141226_114418_...')
+#4 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(126): yii\console\controllers\BaseMigrateController->migrateUp('m141226_114418_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\base\InlineAction.php(55): call_user_func_array(Array, Array)
+#7 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\base\Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#8 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\console\Controller.php(91): yii\base\Controller->runAction('', Array)
+#9 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\base\Module.php(455): yii\console\Controller->runAction('', Array)
+#10 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\console\Application.php(161): yii\base\Module->runAction('mongodb-migrate', Array)
+#11 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\console\Application.php(137): yii\console\Application->runAction('mongodb-migrate', Array)
+#12 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2\base\Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\yii(31): yii\base\Application->run()
+#14 {main}
+2015-01-15 21:59:04 [-][-][-][info][application] $_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\Ëàêè\\AppData\\Roaming'
+    'asl_log' => 'Destination=file'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'ËÀÊÈ-ÏÊ'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'FP_NO_HOST_CHECK' => 'NO'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\Ëàêè'
+    'LOCALAPPDATA' => 'C:\\Users\\Ëàêè\\AppData\\Local'
+    'LOGONSERVER' => '\\\\ËÀÊÈ-ÏÊ'
+    'MOZ_PLUGIN_PATH' => 'C:\\Program Files (x86)\\Foxit Software\\Foxit Reader\\plugins\\'
+    'NUMBER_OF_PROCESSORS' => '2'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;C:\\Users\\Ëàêè\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 23 Stepping 10, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '170a'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\69BD~1\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\69BD~1\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'Ëàêè-ÏÊ'
+    'USERNAME' => 'Ëàêè'
+    'USERPROFILE' => 'C:\\Users\\Ëàêè'
+    'VBOX_INSTALL_PATH' => 'C:\\Program Files\\Oracle\\VirtualBox\\'
+    'windir' => 'C:\\Windows'
+    'windows_tracing_flags' => '3'
+    'windows_tracing_logfile' => 'C:\\BVTBin\\Tests\\installpackage\\csilogfile.log'
+    'YII_PATH' => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\'
+    'PHP_SELF' => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\yii'
+    'SCRIPT_NAME' => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\yii'
+    'SCRIPT_FILENAME' => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\yii'
+    'PATH_TRANSLATED' => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1421351944.3943
+    'REQUEST_TIME' => 1421351944
+    'argv' => [
+        0 => 'D:\\!!!!\\!!!web_servers!!!\\localhost\\game.local\\cards_framework\\yii'
+        1 => 'mongodb-migrate'
+    ]
+    'argc' => 2
+]

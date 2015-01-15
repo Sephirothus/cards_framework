@@ -1058,3 +1058,278 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1421250671.292
     'REQUEST_TIME' => 1421250671
 ]
+2015-01-15 21:52:07 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:52:07 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53854'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351527.177
+    'REQUEST_TIME' => 1421351527
+]
+2015-01-15 21:52:32 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:52:32 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53858'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351552.168
+    'REQUEST_TIME' => 1421351552
+]
+2015-01-15 21:52:36 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:52:36 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53861'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351556.395
+    'REQUEST_TIME' => 1421351556
+]
+2015-01-15 21:52:37 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:52:37 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53866'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351557.737
+    'REQUEST_TIME' => 1421351557
+]
+2015-01-15 21:54:32 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:54:32 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53928'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351672.826
+    'REQUEST_TIME' => 1421351672
+]
+2015-01-15 21:54:34 [127.0.0.1][-][-][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Class 'MongoClient' not found' in D:\!!!!\!!!web_servers!!!\localhost\game.local\cards_framework\vendor\yiisoft\yii2-mongodb\Connection.php:247
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2015-01-15 21:54:33 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => '8evgoehc5qr6pc8pm04k33jle7'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'game.local'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_COOKIE' => 'PHPSESSID=8evgoehc5qr6pc8pm04k33jle7'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;d:\\!!!!\\!!!web_servers!!!\\php;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\nodejs\\;'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.2.25 (Win32) PHP/5.4.20'
+    'SERVER_NAME' => 'game.local'
+    'SERVER_ADDR' => '127.0.0.5'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web'
+    'SERVER_ADMIN' => 'cll123@mail.ru'
+    'SCRIPT_FILENAME' => 'D:/!!!!/!!!web_servers!!!/localhost/game.local/cards_framework/backend/web/index.php'
+    'REMOTE_PORT' => '53931'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421351673.96
+    'REQUEST_TIME' => 1421351673
+]
