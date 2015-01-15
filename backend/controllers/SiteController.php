@@ -6,7 +6,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
-use yii\mongodb\Query;
 use common\models\Cards;
 
 /**
@@ -56,6 +55,7 @@ class SiteController extends Controller {
 
     public function actionIndex()
     {
+
         return $this->render('index');
     }
 
@@ -63,7 +63,7 @@ class SiteController extends Controller {
     {
         $obj = new Cards();
         $obj->getCards()->shuffleCards();
-        print_r($obj->dealCards(['doors' => 3, 'treasures' => 1], 5));
+        print_r($obj->dealCards(['doors' => 4, 'treasures' => 4], 5));
         die;
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();

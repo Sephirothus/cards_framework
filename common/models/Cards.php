@@ -87,7 +87,11 @@ class Cards extends Model {
 	 * @author 
 	 **/
 	public function shuffleCards($deck=false) {
-		if (!$deck) $deck = $this->_decks;
+		$flag = false;
+		if (!$deck) {
+			$flag = true;
+			$deck = $this->_decks;
+		}
 		$new = [];
 		foreach ($deck as $type => $val) {
 			foreach ($val as $ind => $card) {
@@ -101,7 +105,7 @@ class Cards extends Model {
 		    }
 	    }
 	    $deck = $new;
-	    if (!$deck) $this->_decks = $deck;
+	    if ($flag) $this->_decks = $deck;
         return $deck;
 	}
 
