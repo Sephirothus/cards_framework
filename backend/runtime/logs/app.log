@@ -1058,3 +1058,183 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1421250671.292
     'REQUEST_TIME' => 1421250671
 ]
+2015-01-16 10:54:52 [127.0.0.1][-][-][error][yii\base\ErrorException:32] exception 'yii\base\ErrorException' with message 'Module 'mongo' already loaded' in Unknown:0
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#4 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#5 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#6 {main}
+2015-01-16 10:54:52 [127.0.0.1][-][-][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://da.dev/index.php?r=site%2Flogin'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '32863'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421405692.005
+    'REQUEST_TIME' => 1421405692
+]
+2015-01-16 10:56:53 [127.0.0.1][-][qdo9qbr3g00jhaidvmc18854f4][error][yii\base\ErrorException:32] exception 'yii\base\ErrorException' with message 'Module 'mongo' already loaded' in Unknown:0
+Stack trace:
+#0 {main}
+2015-01-16 10:56:52 [127.0.0.1][-][qdo9qbr3g00jhaidvmc18854f4][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SESSION = [
+    '__flash' => []
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://da.dev/index.php?r=site%2Flogin'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '32878'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421405812.939
+    'REQUEST_TIME' => 1421405812
+]
+2015-01-16 11:19:50 [127.0.0.1][-][qdo9qbr3g00jhaidvmc18854f4][error][yii\base\ErrorException:32] exception 'yii\base\ErrorException' with message 'Module 'mongo' already loaded' in Unknown:0
+Stack trace:
+#0 /home/konst/repos/da.dev/vendor/yiisoft/yii2/validators/InlineValidator.php(67): common\models\LoginForm->validatePassword()
+#1 /home/konst/repos/da.dev/vendor/yiisoft/yii2/validators/InlineValidator.php(67): ::call_user_func:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/validators/InlineValidator.php:67}()
+#2 /home/konst/repos/da.dev/vendor/yiisoft/yii2/validators/Validator.php(238): yii\validators\InlineValidator->validateAttribute()
+#3 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Model.php(333): yii\validators\Validator->validateAttributes()
+#4 /home/konst/repos/da.dev/common/models/LoginForm.php(59): yii\base\Model->validate()
+#5 /home/konst/repos/da.dev/backend/controllers/SiteController.php(73): common\models\LoginForm->login()
+#6 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): backend\controllers\SiteController->actionLogin()
+#7 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php(55): ::call_user_func_array:{/home/konst/repos/da.dev/vendor/yiisoft/yii2/base/InlineAction.php:55}()
+#8 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams()
+#9 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction()
+#10 /home/konst/repos/da.dev/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction()
+#11 /home/konst/repos/da.dev/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest()
+#12 /home/konst/repos/da.dev/backend/web/index.php(18): yii\base\Application->run()
+#13 {main}
+2015-01-16 11:19:50 [127.0.0.1][-][qdo9qbr3g00jhaidvmc18854f4][info][application] $_GET = [
+    'r' => 'site/login'
+]
+
+$_POST = [
+    '_csrf' => 'dDFkSVo2MEE8dyo/PGZ2MCVHNSACQkk7JXRQES97QDJNByUjaX1qBw=='
+    'LoginForm' => [
+        'username' => 'admin'
+        'password' => '1'
+        'rememberMe' => '1'
+    ]
+    'login-button' => ''
+]
+
+$_COOKIE = [
+    'PHPSESSID' => 'qdo9qbr3g00jhaidvmc18854f4'
+    '_csrf' => 'ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s:32:\"HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF\";'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__returnUrl' => '/index.php'
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'da.dev'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://da.dev/index.php?r=site%2Flogin'
+    'HTTP_COOKIE' => 'PHPSESSID=qdo9qbr3g00jhaidvmc18854f4; _csrf=ba0ce916f3e1e2a1754340d5a535f454f33ce679c94ba53d14b3476873129923s%3A32%3A%22HFNvfPFqQvQiXtyzQE4XuMps96Aj3KZF%22%3B'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'CONTENT_LENGTH' => '194'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.10 (Ubuntu) Server at da.dev Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.10 (Ubuntu)'
+    'SERVER_NAME' => 'da.dev'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/home/konst/repos/da.dev/backend/web'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/home/konst/repos/da.dev/backend/web/index.php'
+    'REMOTE_PORT' => '33171'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=site%2Flogin'
+    'REQUEST_URI' => '/index.php?r=site%2Flogin'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1421407190.556
+    'REQUEST_TIME' => 1421407190
+]

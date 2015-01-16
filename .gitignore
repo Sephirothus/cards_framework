@@ -30,9 +30,12 @@ phpunit.phar
 /yii
 
 /backend/config
+/backend/runtime
+/backend/runtime/debug/*
 /backend/web/uploads/*
 /common/config
 /console/config
+/console/runtime
 /frontend/config
 /common/runtime/*
 /tests/java/src/test/resources/seostatic_entity/random/*

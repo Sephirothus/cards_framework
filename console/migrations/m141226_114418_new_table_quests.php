@@ -1,12 +1,12 @@
 <?php
 
 use yii\db\Schema;
-use yii\db\Migration;
 
-class m141226_114418_new_table_quests extends Migration
+class m141226_114418_new_table_quests extends \yii\mongodb\Migration
 {
     public function up()
     {
+        return true;
     	$this->createTable('users_quests', [
     		'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
@@ -42,8 +42,9 @@ class m141226_114418_new_table_quests extends Migration
 
     public function down()
     {
-        $this->dropTable('users_quests');
-        $this->dropTable('texts');
+        return true;
+        //$this->dropTable('users_quests');
+        //$this->dropTable('texts');
         //$this->dropTable('quest_templates');
     }
 }
