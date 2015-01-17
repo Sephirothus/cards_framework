@@ -1,6 +1,9 @@
 <?php
+namespace backend\controllers;
 
-class SudokuGen {
+use yii\web\Controller;
+
+class SudokuGenController extends Controller {
 
     /**
      * undocumented function
@@ -8,7 +11,7 @@ class SudokuGen {
      * @return void
      * @author 
      **/
-    public function get() {
+    public function actionGet() {
         return $this->_gen();
     }
 
