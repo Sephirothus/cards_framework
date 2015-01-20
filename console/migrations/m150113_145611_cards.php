@@ -15,7 +15,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     						'_id' => 'dwarf',
     						'cards_count' => 3,
 							'name' => 'Дварф',
-							'bonuses' => [
+							'bonus' => [
 								'hand_cards' => 6,
 								'big_cloth_amount' => 9999
 							]
@@ -24,13 +24,11 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     						'_id' => 'elf',
     						'cards_count' => 3,
 							'name' => 'Эльф',
-							'bonuses' => [
-								'get_away' => 1,
-								'plus_lvl_for_help' => [
-									'phase' => 'kill_monster',
-									'action' => 'get_lvl_for_help',
-									'action_count' => 1
-								]
+							'get_away' => 1,
+							'condition' => [
+								'when_use' => 'after_win_battle',
+								'action' => 'get_lvl_for_help',
+								'action_count' => 1
 							]
     					],
 	    				[
@@ -153,26 +151,71 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'curses',
     				'children' => [
 						[	
-							'_id' => 'change_class'
+							'_id' => 'change_class',
+							'name' => 'Смена класса',
+							'discard' => [
+								'classes' => 'all'
+							],
+							'auto_get_card' => [
+								'from' => 'discard',
+								'type' => 'classes'
+							]
 						],
 						[
-							'_id' => 'change_race'
+							'_id' => 'change_race',
+							'name' => 'Смена расы',
+							'discard' => [
+								'races' => 'all'
+							],
+							'auto_get_card' => [
+								'from' => 'discard',
+								'type' => 'races'
+							]
 						],
 						[
-							'_id' => 'change_sex'
+							'_id' => 'change_sex',
+							'name' => 'Смена пола',
+							//TODO
 						],
 						[
-							'_id' => 'lose_class'
+							'_id' => 'lose_class',
+							'name' => 'Теряешь класс',
+							'discard' => [
+								'classes' => 1
+							],
+							'false_condition' => [
+								'player_info' => [
+									'lvl' => -1
+								]
+							]
 						],
 						[
-							'_id' => 'lose_race'
+							'_id' => 'lose_race',
+							'name' => 'Теряешь расу',
+							'discard' => [
+								'races' => 'all'
+							]
 						],
 						[
-							'_id' => 'lose_1_big_item'
+							'_id' => 'lose_1_big_item',
+							'name' => 'Большая потеря',
+							'discard' => [
+								'card_opt' => [
+									'size' => 'big'
+								],
+								'count' => 1
+							]
 						],
 						[
 							'_id' => 'lose_1_small_item',
 							'cards_count' => 2,
+							'name' => 'Невелика потеря',
+							'discard' => [
+								'card_opt' => [
+									'size_not' => 'big'
+								],
+								'count' => 1
+							]
 						],
 						[
 							'_id' => 'lose_1_lvl',
@@ -412,34 +455,46 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 						[
 							'_id' => 'out_lunch',
 						],
-						[
+    				]
+    			],
+    			[
+    				'_id' => 'in_battle_monster_bonuses',
+    				'children' => [
+    					[
 							'_id' => 'ancient',
 							'monster' => 10,
+							'treasures' => 2
 						],
 						[
 							'_id' => 'baby',
-							'monster' => -10,	
+							'monster' => -5,
+							'treasures' => -1	
 						],
 						[
 							'_id' => 'enraged',
-							'monster' => 5,	
+							'monster' => 5,
+							'treasures' => 1
 						],
 						[
 							'_id' => 'humongous',
 							'monster' => 10,	
+							'treasures' => 2
 						],
 						[
 							'_id' => 'intelligent',
-							'monster' => 5,	
+							'monster' => 5,
+							'treasures' => 1
 						],
-    				]
+					]
     			],
     			[
     				'_id' => 'other_doors',
     				'children' => [
     					[
     						'_id' => 'cheat',
-							'place' => 'on_item_card'
+							'condition' => [
+								'place_card' => ['head','armor','foot','arms','items']
+							]
 						],
 						[
 							'_id' => 'divine_intervent',
@@ -542,7 +597,9 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'_id' => 'protect_sandals',
 							'price' => 700,
 							'name' => 'Сандалеты-Протекторы',
-							'condition' => 'doors_curses_not_work'
+							'condition' => [
+								'off' => 'doors_curses'
+							]
 						],
 						[
 							'_id' => 'butt_kick_boots',
@@ -554,7 +611,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'_id' => 'run_fast_boots',
 							'price' => 400,
 							'name' => 'Башмаки Реально Быстрого Бега',
-							'get_away_bonus' => 2,
+							'get_away' => 2
 						],
 					]
 				],
@@ -568,7 +625,12 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'type' => 'one_hand',
 							'name' => 'Чарующая Дуда',
 							'get_away' => 3,
-							'succes_get_away' => 'one_treasure_face_down'
+							'condition' => [
+								'after_true_get_away' => [
+									'treasures' => 1,
+									'treasure_get' => 'close'
+								]
+							]
 						],
 						[
 							'_id' => 'bow_ribbons',
@@ -670,9 +732,10 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'bonus' => 1,
 							'type' => 'one_hand',
 							'name' => 'Крыска на Палочке',
-							//'condition' => 'even_in_game',
-							'on_discard' => 'auto_get_away',
-							'get_away_condition' => 'monster_lesser_9_lvl'
+							'condition' => [
+								'discard' => 'auto_get_away',
+								'monsters' => '<9'
+							]
 						],
 						[
 							'_id' => 'ubiquity_shield',
@@ -824,10 +887,13 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 						[
 							'_id' => 'yuppie_water',
 							'price' => 100,
-							'bonus' => 2,
 							'name' => 'Яппиток',
 							'use_type' => 'any_battle',
-							'action' => 'only_elf_help'
+							'condition' => [
+								'bonus' => 2,
+								'races' => 'elf',
+								'how_many' => 'all'
+							]
 						],
 						[
 							'_id' => 'ponfusion_cotion',
@@ -992,7 +1058,11 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'price' => 500,
 							'name' => 'Хотельное Кольцо',
 							'use_type' => 'any_time',
-							'action' => 'remove_curse'
+							'condition' => [
+								'off' => [
+									'curses' => 1
+								]
+							]
 						],
 					]
 				],

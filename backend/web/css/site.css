@@ -8,6 +8,8 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+    background: url(../imgs/wallpapers/background-1600x1200.jpg);
+    background-size: 100%;
 }
 
 .wrap > .container {
@@ -88,4 +90,42 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+
+
+.decks {
+    height: 100px;
+    width: 64px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+.card {
+    height: 100px;
+    width: 64px;
+    cursor: pointer;
+}
+.on_hand {
+    margin-left: -80px;
+}
+.playing_rows {
+    min-height: 230px; 
+    border: 1px solid black;
+}
+.decks_col {
+    height: 460px; 
+    border: 1px solid black;
+}
+.js_action_buttons {
+    cursor: pointer;
+}
+.action_buttons_field {
+    border: 1px solid black;
+}
+.discards {
+    position: absolute;
 }

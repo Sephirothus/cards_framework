@@ -63,9 +63,8 @@ class SiteController extends Controller {
     {
         /*$obj = new Cards();
         $obj->getCards()->shuffleCards();
-        print_r($obj->dealCards(['doors' => 4, 'treasures' => 4], 5));
-        die;*/
-        if (!\Yii::$app->user->isGuest) {
+        print_r($obj->dealCards(['doors' => 4, 'treasures' => 4], 5));*/
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 

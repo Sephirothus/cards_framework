@@ -9,5 +9,12 @@ return [
             'class' => '\yii\mongodb\Connection',
             'dsn' => 'mongodb://localhost:27017/munchkin',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                '<controller>/<action>' => '<controller>/<action>',
+            ]
+        ],
     ],
 ];

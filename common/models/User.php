@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\mongodb\ActiveRecord;
+use yii\mongodb\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -84,7 +85,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        print_r(self::find()->from('users')->where(['username' => $username, 'status' => self::STATUS_ACTIVE])->one());die;
+        //echo '<pre>';
+        print_r((new Query)->from('users')->where(['username' => $username, 'status' => self::STATUS_ACTIVE])->one());
+        //echo '</pre>';
+        die;
         return self::find()->where(['username' => $username, 'status' => self::STATUS_ACTIVE])->one();
     }
 
