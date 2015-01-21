@@ -61,9 +61,6 @@ class SiteController extends Controller {
 
     public function actionLogin()
     {
-        /*$obj = new Cards();
-        $obj->getCards()->shuffleCards();
-        print_r($obj->dealCards(['doors' => 4, 'treasures' => 4], 5));*/
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

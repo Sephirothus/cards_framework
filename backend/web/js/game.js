@@ -1,8 +1,19 @@
 $(function() {
+
+	$('#doors').click(function() {
+		var parPos = $('#2').find('.js_hand_cards').offset();
+		console.log(parPos)
+		$(this).css({'position': 'absolute'});
+		$(this).animate({
+			"left": parPos.left+'px',
+			"top": parPos.top+'px'
+		}, 'fast');
+	});
 	
 	$('.js_hand_card').draggable({
 		containment: '#player',
 		stack: '.js_hand_cards',
+		//axis: "x",
 		cursor: 'move',
 		revert: true
     });

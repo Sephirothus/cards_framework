@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 $cardsBlock = '';
 $flag = false;
-foreach ($cards as $type) {
+/*foreach ($cards as $type) {
 	foreach ($type as $id => $card) {
 		$cardsBlock .= Html::img(Yii::getAlias('@web').'/imgs/cards/'.$id.'-small.jpg', [
 			'class' => "card ".($flag ? "on_hand " : '')."js_hand_card js_enlarge_card", 
@@ -14,7 +14,7 @@ foreach ($cards as $type) {
 		]);
 		$flag = true;
 	}
-}
+}*/
 
 echo Html::tag('div', 
 	Html::tag('div', 

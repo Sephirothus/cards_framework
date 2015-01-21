@@ -37,10 +37,10 @@ echo Html::tag('div',
 			['class' => 'row']
 		).Html::tag('div', 
 			Html::tag('div', 
-				Html::img(Yii::getAlias('@web').'/imgs/doors.jpg', ['class' => "decks"]),
+				Html::img(Yii::getAlias('@web').'/imgs/doors.jpg', ['class' => "decks", 'id' => 'doors']),
 				['class' => 'col-md-12 text-center']	
 			),
-			['class' => 'row', 'id' => 'doors']
+			['class' => 'row']
 		).Html::tag('div', 
 			Html::tag('div', 
 				'',
@@ -49,10 +49,10 @@ echo Html::tag('div',
 			['class' => 'row', 'id' => 'doors_discard']
 		).Html::tag('div', 
 			Html::tag('div', 
-				Html::img(Yii::getAlias('@web').'/imgs/treasures.jpg', ['class' => "decks"]),
+				Html::img(Yii::getAlias('@web').'/imgs/treasures.jpg', ['class' => "decks", 'id' => 'treasures']),
 				['class' => 'col-md-12 text-center']	
 			),
-			['class' => 'row', 'id' => 'treasures']
+			['class' => 'row']
 		).Html::tag('div', 
 			Html::tag('div', 
 				'',
