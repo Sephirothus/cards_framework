@@ -23,7 +23,7 @@ echo Html::tag('div',
 			['class' => 'col-md-4 js_hand_cards']
 		).Html::tag('div', 
 			'', 
-			['class' => 'col-md-8 js_first_row']
+			['class' => 'col-md-8 js_first_row', 'style' => 'height:100px;']
 		), 
 		['class' => 'row']
 	).Html::tag('div', 

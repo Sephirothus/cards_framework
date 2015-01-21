@@ -3,6 +3,8 @@ namespace backend\controllers;
 
 use Yii;
 use yii\helpers\Html;
+use yii\jui\Draggable;
+use yii\jui\Droppable;
 
 $this->title = "Игра на {$players} игроков";
 
@@ -74,5 +76,6 @@ echo Html::tag('div',
 	),
 	['class' => 'row', 'style' => 'margin: 0;']
 ).Html::tag('div', '', ['id' => 'message_box']);
+echo Draggable::widget().Droppable::widget();
 
 $this->registerJsFile('/js/game.js', ['depends' => [\yii\web\JqueryAsset::className()]]);

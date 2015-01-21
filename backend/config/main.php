@@ -29,6 +29,19 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                '<controller>/<action>' => '<controller>/<action>',
+            ]
+        ],
+        'request' => [
+            'enableCookieValidation' => true,
+            'enableCsrfValidation'   => true,
+            'cookieValidationKey'    => 'cookieValidationKey',
+        ],
     ],
     'params' => $params,
 ];

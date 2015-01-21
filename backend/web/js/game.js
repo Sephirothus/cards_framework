@@ -1,11 +1,25 @@
 $(function() {
 	
-	/*$('.js_hand_card').draggable({
+	$('.js_hand_card').draggable({
 		containment: '#player',
 		stack: '.js_hand_cards',
 		cursor: 'move',
 		revert: true
-    });*/
+    });
+
+    $('.js_first_row').droppable({
+		accept: '.js_hand_card',
+		drop: function(event, ui) {
+			ui.draggable.detach().appendTo($(this));
+			//ui.draggable.addClass('correct');
+		    ui.draggable.draggable('disable');
+		    //$(this).droppable('disable');
+		    //ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+		    ui.draggable.draggable('option', 'revert', false);
+		    ui.draggable.attr('style', '');
+		    ui.draggable.removeClass('on_hand js_hand_card');
+		}
+    });
 
     $(document).on({
 		mouseenter: function(e) {
