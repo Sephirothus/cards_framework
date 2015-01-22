@@ -1,36 +1,42 @@
 $(function() {
 
-	$('#doors').click(function() {
-		var parPos = $('#2').find('.js_hand_cards').offset();
-		console.log(parPos)
-		$(this).css({'position': 'absolute'});
-		$(this).animate({
-			"left": parPos.left+'px',
-			"top": parPos.top+'px'
-		}, 'fast');
-	});
-	
-	$('.js_hand_card').draggable({
-		containment: '#player',
-		stack: '.js_hand_cards',
-		//axis: "x",
-		cursor: 'move',
-		revert: true
-    });
+	dealCards('doors');
+	dealCards('treasures', function() {
+		setTimeout(function() {
+			alert('Пусть победит истинный Манчкин!');
 
-    $('.js_first_row').droppable({
-		accept: '.js_hand_card',
-		drop: function(event, ui) {
-			ui.draggable.detach().appendTo($(this));
-			//ui.draggable.addClass('correct');
-		    ui.draggable.draggable('disable');
-		    //$(this).droppable('disable');
-		    //ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
-		    ui.draggable.draggable('option', 'revert', false);
-		    ui.draggable.attr('style', '');
-		    ui.draggable.removeClass('on_hand js_hand_card');
-		}
-    });
+			$('#0').find('.js_hand_cards').find('img').each(function() {
+				$(this).css({
+					'-webkit-transform' : 'rotate('+ degrees +'deg)',
+                	'-moz-transform' : 'rotate('+ degrees +'deg)',
+                	'-ms-transform' : 'rotate('+ degrees +'deg)',
+                	'transform' : 'rotate('+ degrees +'deg)'
+                });
+			});
+
+			$('.js_hand_card').draggable({
+				containment: '#player',
+				stack: '.js_hand_cards',
+				//axis: "x",
+				cursor: 'move',
+				revert: true
+		    });
+
+		    $('.js_first_row').droppable({
+				accept: '.js_hand_card',
+				drop: function(event, ui) {
+					ui.draggable.detach().appendTo($(this));
+					//ui.draggable.addClass('correct');
+				    ui.draggable.draggable('disable');
+				    //$(this).droppable('disable');
+				    //ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+				    ui.draggable.draggable('option', 'revert', false);
+				    ui.draggable.attr('style', '');
+				    ui.draggable.removeClass('on_hand js_hand_card');
+				}
+		    });
+		}, 1000);
+	});
 
     $(document).on({
 		mouseenter: function(e) {
@@ -47,3 +53,31 @@ $(function() {
 		}
 	}, '.js_enlarge_card');
 });
+
+function dealCards(deckId, callback) {
+	var totalCards = 0,
+		i = 0;
+
+	var timer = setInterval(function() {
+		var deck = $('#'+deckId).offset(),
+			parent = $('#'+i).find('.js_hand_cards'),
+			parPos = parent.offset(),
+			additionalClass = 'on_hand',
+			newCard = $('#'+deckId).clone().appendTo('body').attr('id', Math.random());
+
+		newCard.addClass('js_hand_card card '+additionalClass).removeClass('decks').css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
+		newCard.animate({
+			"left": parPos.left+'px',
+			"top": parPos.top+'px'
+		}, 'slow', function() {
+			newCard.attr('style', '').detach().appendTo(parent);
+		});
+		if (++i >= 5) {
+			i = 0;
+			if (++totalCards >= 4) {
+				clearInterval(timer);
+				if (typeof callback == 'function') callback();
+			}
+		}
+	}, 500);
+}
