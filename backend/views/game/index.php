@@ -3,14 +3,15 @@ namespace backend\controllers;
 
 use Yii;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\jui\Draggable;
 use yii\jui\Droppable;
 
-$this->title = "Игра на {$players} игроков";
+$this->title = "Игра на {$count} игроков";
 
 $blocks = [];
-foreach ($cards as $player => $val) {
-	$blocks[] = $this->render('userBlock', ['cards' => $val, 'player' => $player]);
+foreach ($players as $player => $val) {
+	$blocks[] = $this->render('userBlock', ['playerId' => $player, 'player' => $val]);
 }
 
 echo Html::tag('div', 
@@ -75,7 +76,7 @@ echo Html::tag('div',
 		['class' => 'col-md-2 playing_rows']
 	),
 	['class' => 'row', 'style' => 'margin: 0;']
-).Html::tag('div', '', ['id' => 'message_box']);
+).Html::input('hidden', 'ajax_url', Url::toRoute(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
 echo Draggable::widget().Droppable::widget();
 
 $this->registerJsFile('/js/game.js', ['depends' => [\yii\web\JqueryAsset::className()]]);

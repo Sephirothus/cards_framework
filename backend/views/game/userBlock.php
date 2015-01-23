@@ -31,10 +31,10 @@ echo Html::tag('div',
 			'', 
 			['class' => 'col-md-12 js_second_row']
 		).Html::tag('div', 
-			'', 
+			Html::tag('span', $player['name'].' '.Html::tag('span', '1 lvl', ['id' => 'lvl']).' '.Html::tag('span', '('.$player['sex'].')', ['id' => 'sex']), ['class' => 'label label-primary']), 
 			['class' => 'col-md-12 text-left']
 		), 
 		['class' => 'row']
 	), 
-	['class' => 'col-md-6 text-center', 'id' => $player]
+	['class' => 'col-md-6 text-center', 'id' => $playerId]
 );
