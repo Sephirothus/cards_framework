@@ -28,13 +28,10 @@ class GameController extends Controller {
     }*/
 
     public function actionIndex($count=3) {
-        $players = [
-            rand(11111, 99999) => ['name' => 'Petya', 'sex' => 'male'],
-            rand(11111, 99999) => ['name' => 'Vasya', 'sex' => 'male'],
-            rand(11111, 99999) => ['name' => 'Nadya', 'sex' => 'female'],
-            rand(11111, 99999) => ['name' => 'Yana', 'sex' => 'female'],
-            rand(11111, 99999) => ['name' => 'Kostya', 'sex' => 'male'],
-        ];
+        $players = [];
+        for ($i=0; $i<$count; $i++) {
+            $players[rand(11111, 99999)] = ['name' => 'Petya', 'sex' => 'male'];
+        }
         return $this->render('index', [
             'players' => $players,
             'count' => $count
@@ -53,7 +50,7 @@ class GameController extends Controller {
             case 'deal_cards':
                 $obj = new Cards();
                 $obj->getCards()->shuffleCards();
-                $data = $obj->dealCards(['doors' => 4, 'treasures' => 4], $players);
+                $data = $obj->dealCards(['doors' => 4, 'treasures' => 4], $post['players']);
                 break;
         }
         return json_encode(['results' => $data]);

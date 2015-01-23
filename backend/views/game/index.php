@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\jui\Draggable;
 use yii\jui\Droppable;
+use yii\jui\Sortable;
 
 $this->title = "Игра на {$count} игроков";
 
@@ -76,7 +77,7 @@ echo Html::tag('div',
 		['class' => 'col-md-2 playing_rows']
 	),
 	['class' => 'row', 'style' => 'margin: 0;']
-).Html::input('hidden', 'ajax_url', Url::toRoute(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
-echo Draggable::widget().Droppable::widget();
+).Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
+echo Draggable::widget().Droppable::widget().Sortable::widget();
 
 $this->registerJsFile('/js/game.js', ['depends' => [\yii\web\JqueryAsset::className()]]);

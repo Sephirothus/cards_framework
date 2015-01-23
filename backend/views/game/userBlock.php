@@ -36,5 +36,5 @@ echo Html::tag('div',
 		), 
 		['class' => 'row']
 	), 
-	['class' => 'col-md-6 text-center', 'id' => $playerId]
+	['class' => 'col-md-6 text-center js_players', 'id' => $playerId]
 );

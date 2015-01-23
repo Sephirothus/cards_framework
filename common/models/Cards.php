@@ -112,19 +112,20 @@ class Cards extends Model {
 	/**
 	 * Раздаем карты
 	 *
-	 * @param data ['название колоды' => 'сколько карт на руки из данной колоды'] 
+	 * @param data ['название колоды' => 'сколько карт на руки из данной колоды']
+	 * @param players массив с ID игроков
 	 * @author 
 	 **/
-	public function dealCards($data, $player_counts=1) {
+	public function dealCards($data, $players) {
 		$cards = [];
-		for ($i=1; $i<=$player_counts; $i++) {
+		foreach ($players as $player) {
 			$cur = [];
 			foreach ($this->_decks as $key => $val) {
 				if (isset($data[$key]) && intval($data[$key]) > 0) {
 					$cur[$key] = array_splice($this->_decks[$key], 0, $data[$key]);
 				}
 			}
-			$cards[] = $cur;
+			$cards[$player] = $cur;
 		}
 		$this->saveCurDecks();
 		return $cards;

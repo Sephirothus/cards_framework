@@ -92,8 +92,7 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-
-
+/*Default cards styles*/
 .decks {
     height: 100px;
     width: 64px;
@@ -128,4 +127,42 @@ a.desc:after {
 }
 .discards {
     position: absolute;
+}
+
+/*Turn cards effects*/
+.flip-container {
+    perspective: 1000;
+}
+.flip-container .flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+.flip-container .front, .flip-container .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.flip-container .front {
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+}
+.flip-container .back {
+    transform: rotateY(180deg);
+}
+
+.turn_card {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+.turn_card_effect {
+    -webkit-transition: all 1.0s linear;
+    -moz-transition: all 1.0s linear;
+    -ms-transition: all 1.0s linear;
+    transform-style: preserve-3d;
+    transition: all 1.0s linear;
 }
