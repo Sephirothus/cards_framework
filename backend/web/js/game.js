@@ -8,37 +8,14 @@ $(function() {
 		dealCards('doors', resp.results);
 		dealCards('treasures', resp.results, function() {
 			setTimeout(function() {
-				//alert('Пусть победит истинный Манчкин!');
-				turnCards();
-
-				$('.js_hand_card').draggable({
-					connectToSortable: ".js_first_row",
-					containment: '#player',
-					stack: '.js_hand_cards',
-					//axis: "x",
-					cursor: 'move',
-					revert: true,
-					//zIndex: 99999,
-					stop: function(event, ui) {
-						$(this).attr('style', 'position: relative;');
-					}
-			    });
-
-			    $('.js_first_row').droppable({
-					accept: '.js_hand_card',
-					drop: function(event, ui) {
-						ui.draggable.detach().appendTo($(this));
-						//ui.draggable.addClass('correct');
-					    ui.draggable.draggable('disable');
-					    //$(this).droppable('disable');
-					    ui.draggable.draggable('option', 'revert', false);
-					    ui.draggable.attr('style', '');
-					    ui.draggable.removeClass('on_hand js_hand_card');
-					    $('.js_first_row').sortable({
-					    	revert: true
-					    });
-					}
-			    });
+				$('<input/>', {
+					type: 'button',
+					class: 'btn btn-success',
+					value: 'Начнем!'
+				}).on('click', function() {
+					moveStart(players[0]);
+					$(this).remove();
+				}).appendTo('#main_field');
 			}, 1000);
 		});
 	});
@@ -57,7 +34,42 @@ $(function() {
 			$('.js_temp_pic').remove();
 		}
 	}, '.js_enlarge_card');
+
+	$(document).on('click', 'input[name="turn_cards"]', function() {
+		turnCards($(this).parents('.js_players'));
+	});
 });
+
+function moveStart(userId) {
+	var block = $('#'+userId);
+	turnCards(block.find('.js_hand_cards'), function() {
+		block.find('.js_hand_card').draggable({
+			containment: '#'+userId,
+			stack: '#'+userId+' .js_hand_cards',
+			//axis: "x",
+			cursor: 'move',
+			revert: true,
+			stop: function(event, ui) {
+				$(this).attr('style', 'position: relative;');
+			}
+	    });
+
+		block.find('.js_first_row').droppable({
+			accept: '#'+userId+' .js_hand_card',
+			drop: function(event, ui) {
+				ui.draggable.detach().appendTo($(this));
+			    ui.draggable.draggable('disable');
+			    ui.draggable.draggable('option', 'revert', false);
+			    ui.draggable.attr('style', '');
+			    ui.draggable.removeClass('on_hand js_hand_card');
+
+			    block.find('.js_first_row').sortable({
+			    	revert: true
+			    });
+			}
+	    });
+	});
+}
 
 function dealCards(deckId, players, callback) {
 	var totalCards = 0,
@@ -91,28 +103,21 @@ function dealCards(deckId, players, callback) {
 	}, 50);
 }
 
-function turnCards() {
-	$('.js_hand_cards').first().find('.js_hand_card').each(function() {
+function turnCards(block, callback) {
+	var count = block.find('.js_hand_card').length;
+	block.find('.js_hand_card').each(function() {
 		var id = $(this).attr('id');
-
-		var block = '<div id="'+id+'" class="flip-container">\
-			<div class="flipper">\
-				<div class="front">\
-					<img class="js_hand_card card on_hand ui-draggable ui-draggable-handle" src="'+$(this).attr('src')+'">\
-				</div>\
-				<div class="back">\
-					<img class="js_hand_card card on_hand ui-draggable ui-draggable-handle" src="/imgs/cards/'+id+'.jpg">\
-				</div>\
-			</div>\
-		</div>';
-		$(this).before(block);
-		$(this).remove();
-		//$(this).addClass('turn_card_effect');
-		$('.flip-container').toggleClass('turn_card');
-		throw 111;
+		$(this).addClass('turn_card_effect');
+		$(this).toggleClass('turn_card_down').delay(1000).queue(function() {
+			$(this).attr('src', '/imgs/cards/'+id+'.jpg').removeClass('turn_card_down');
+			$(this).toggleClass('turn_card_up').delay(1000).queue(function() {
+				$(this).removeClass('turn_card_effect turn_card_up').addClass('js_enlarge_card');
+				if (!--count && typeof callback == 'function') callback();
+				$(this).dequeue();
+			});
+			$(this).dequeue();
+		});
 	});
-
-	//$('.js_hand_cards').first().find('.js_hand_card').removeClass('turn_card_effect');
 }
 
 function ajaxRequest(url, data, successFunc, beforeSendFunc, errorFunc) {

@@ -21,7 +21,7 @@ echo Html::tag('div',
 			(count($blocks) > 3) ? current($blocks).next($blocks) : current($blocks), 
 			['class' => 'row playing_rows', 'id' => 'first_row']
 		).Html::tag('div', 
-			(count($blocks) > 2) ? next($blocks).Html::tag('div', '', ['class' => 'col-md-6 text-center']) : Html::tag('div', '', ['class' => 'col-md-12 text-center']),
+			(count($blocks) > 2) ? next($blocks).Html::tag('div', '', ['class' => 'col-md-6 text-center', 'id' => 'main_field']) : Html::tag('div', '', ['class' => 'col-md-12 text-center', 'id' => 'main_field']),
 			['class' => 'row playing_rows', 'id' => 'second_row']
 		), 
 		['class' => 'col-md-10']

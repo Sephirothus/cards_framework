@@ -31,7 +31,7 @@ echo Html::tag('div',
 			'', 
 			['class' => 'col-md-12 js_second_row']
 		).Html::tag('div', 
-			Html::tag('span', $player['name'].' '.Html::tag('span', '1 lvl', ['id' => 'lvl']).' '.Html::tag('span', '('.$player['sex'].')', ['id' => 'sex']), ['class' => 'label label-primary']), 
+			Html::tag('span', $player['name'].' '.Html::tag('span', '1 lvl', ['id' => 'lvl']).' '.Html::tag('span', '('.$player['sex'].')', ['id' => 'sex']), ['class' => 'label label-primary']).Html::input('button', 'turn_cards', 'Перевернуть', ['class' => 'btn btn-warning']), 
 			['class' => 'col-md-12 text-left']
 		), 
 		['class' => 'row']
