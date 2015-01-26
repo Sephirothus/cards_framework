@@ -46,11 +46,15 @@ class GameController extends Controller {
      **/
     public function actionAjaxAction() {
         $post = Yii::$app->request->post();
+        $obj = new Cards();
+        $obj->gameType = 'online';
         switch ($post['type']) {
             case 'deal_cards':
-                $obj = new Cards();
                 $obj->getCards()->shuffleCards();
                 $data = $obj->dealCards(['doors' => 4, 'treasures' => 4], $post['players']);
+                break;
+            case 'get_cards':
+                $data = $obj->getCardsByIds($post['cards']);
                 break;
         }
         return json_encode(['results' => $data]);

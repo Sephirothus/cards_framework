@@ -1,10 +1,13 @@
+var ajaxUrl = $('input[name="ajax_url"]').val(),
+	gameType = 'online';
+
 $(function() {
 	var players = [];
 
 	$('.js_players').each(function() {
 		players.push($(this).attr('id'));
 	});
-	ajaxRequest($('input[name="ajax_url"]').val(), {'type': 'deal_cards', 'players': players}, function(resp) {
+	ajaxRequest(ajaxUrl, {'type': 'deal_cards', 'players': players}, function(resp) {
 		dealCards('doors', resp.results);
 		dealCards('treasures', resp.results, function() {
 			setTimeout(function() {
@@ -44,7 +47,7 @@ function moveStart(userId) {
 	var block = $('#'+userId);
 	turnCards(block.find('.js_hand_cards'), function() {
 		block.find('.js_hand_card').draggable({
-			containment: '#'+userId,
+			//containment: '#'+userId,
 			stack: '#'+userId+' .js_hand_cards',
 			//axis: "x",
 			cursor: 'move',
@@ -90,7 +93,7 @@ function dealCards(deckId, players, callback) {
 			parent = $('#'+userId).find('.js_hand_cards'),
 			parPos = parent.offset(),
 			cardId = objShift(players[userId][deckId]),
-			newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId);
+			newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId).attr('type', deckId);
 
 		newCard.addClass('js_hand_card card on_hand').removeClass('decks').css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
 		newCard.animate({
@@ -104,19 +107,45 @@ function dealCards(deckId, players, callback) {
 }
 
 function turnCards(block, callback) {
-	var count = block.find('.js_hand_card').length;
-	block.find('.js_hand_card').each(function() {
-		var id = $(this).attr('id');
-		$(this).addClass('turn_card_effect');
-		$(this).toggleClass('turn_card_down').delay(1000).queue(function() {
-			$(this).attr('src', '/imgs/cards/'+id+'.jpg').removeClass('turn_card_down');
-			$(this).toggleClass('turn_card_up').delay(1000).queue(function() {
-				$(this).removeClass('turn_card_effect turn_card_up').addClass('js_enlarge_card');
-				if (!--count && typeof callback == 'function') callback();
-				$(this).dequeue();
+	switch (gameType) {
+		case 'local':
+			var count = block.find('.js_hand_card').length;
+			block.find('.js_hand_card').each(function() {
+				var id = $(this).attr('id'),
+					url = '/imgs/'+($(this).attr('src').indexOf('cards')+1 > 0 ? $(this).attr('type') : 'cards/'+id)+'.jpg';
+
+				turnOneCard($(this), url, --count, callback);
 			});
+			break;
+		case 'online':
+			var cards = [];
+			block.find('.js_hand_card').each(function() {
+				if (!$(this).attr('card_src')) cards.push($(this).attr('id'));
+			});
+
+			ajaxRequest(ajaxUrl, {cards: cards, type: 'get_cards'}, function(resp) {
+				var count = count(resp.results);
+				for (var el in resp.results) {
+					var card = $('#'+resp.results[el]['_id']),
+						url = '/imgs/'+(card.attr('src').indexOf('cards')+1 > 0 ? card.attr('type') : 'cards/'+resp.results[el]['_id'])+'.jpg';
+
+					turnOneCard(card, url, --count, callback);
+				}
+			});
+			break;
+	}
+}
+
+function turnOneCard(card, url, count, callback) {
+	card.addClass('turn_card_effect');
+	card.toggleClass('turn_card_down').delay(1000).queue(function() {
+		$(this).attr('src', url).removeClass('turn_card_down');
+		$(this).toggleClass('turn_card_up').delay(1000).queue(function() {
+			$(this).removeClass('turn_card_effect turn_card_up').addClass('js_enlarge_card');
+			if (!count && typeof callback == 'function') callback();
 			$(this).dequeue();
 		});
+		$(this).dequeue();
 	});
 }
 

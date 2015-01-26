@@ -4,15 +4,15 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 {
     public function up()
     {
-    	$this->createCollection('cards');
-    	$this->insert('cards', [
+    	$doors = [
     		'_id' => 'doors',
     		'children' => [
     			[
     				'_id' => 'races',
     				'children' => [
     					[
-    						'_id' => 'dwarf',
+    						'_id' => new \MongoId(),
+    						'id' => 'dwarf',
     						'cards_count' => 3,
 							'name' => 'Дварф',
 							'bonus' => [
@@ -21,7 +21,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
     					],
     					[
-    						'_id' => 'elf',
+    						'_id' => new \MongoId(),
+    						'id' => 'elf',
     						'cards_count' => 3,
 							'name' => 'Эльф',
 							'get_away' => 1,
@@ -32,7 +33,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
     					],
 	    				[
-	    					'_id' => 'halfling',
+	    					'_id' => new \MongoId(),
+	    					'id' => 'halfling',
 							'cards_count' => 3,
 							'name' => 'Халфлинг',
 							'bonuses' => [
@@ -56,7 +58,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'classes',
     				'children' => [
 						[
-							'_id' => 'cleric',
+							'_id' => new \MongoId(),
+							'id' => 'cleric',
 							'cards_count' => 3,
 							'name' => 'Клирик',
 							'spells' => [
@@ -76,7 +79,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'thief',
+							'_id' => new \MongoId(),
+							'id' => 'thief',
 							'cards_count' => 3,
 							'name' => 'Вор',
 							'spells' => [
@@ -105,7 +109,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'warrior',
+							'_id' => new \MongoId(),
+							'id' => 'warrior',
 							'cards_count' => 3,
 							'name' => 'Воин',
 							'bonuses' => [
@@ -122,7 +127,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'wizard',
+							'_id' => new \MongoId(),
+							'id' => 'wizard',
 							'cards_count' => 3,
 							'name' => 'Волшебник',
 							'spells' => [
@@ -150,8 +156,9 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 				[
     				'_id' => 'curses',
     				'children' => [
-						[	
-							'_id' => 'change_class',
+						[
+							'_id' => new \MongoId(),
+							'id' => 'change_class',
 							'name' => 'Смена класса',
 							'discard' => [
 								'classes' => 'all'
@@ -162,7 +169,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'change_race',
+							'_id' => new \MongoId(),
+							'id' => 'change_race',
 							'name' => 'Смена расы',
 							'discard' => [
 								'races' => 'all'
@@ -173,12 +181,14 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'change_sex',
+							'_id' => new \MongoId(),
+							'id' => 'change_sex',
 							'name' => 'Смена пола',
 							//TODO
 						],
 						[
-							'_id' => 'lose_class',
+							'_id' => new \MongoId(),
+							'id' => 'lose_class',
 							'name' => 'Теряешь класс',
 							'discard' => [
 								'classes' => 1
@@ -190,14 +200,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'lose_race',
+							'_id' => new \MongoId(),
+							'id' => 'lose_race',
 							'name' => 'Теряешь расу',
 							'discard' => [
 								'races' => 'all'
 							]
 						],
 						[
-							'_id' => 'lose_1_big_item',
+							'_id' => new \MongoId(),
+							'id' => 'lose_1_big_item',
 							'name' => 'Большая потеря',
 							'discard' => [
 								'card_opt' => [
@@ -207,7 +219,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'lose_1_small_item',
+							'_id' => new \MongoId(),
+							'id' => 'lose_1_small_item',
 							'cards_count' => 2,
 							'name' => 'Невелика потеря',
 							'discard' => [
@@ -218,35 +231,45 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'lose_1_lvl',
+							'_id' => new \MongoId(),
+							'id' => 'lose_1_lvl',
 							'cards_count' => 2,
 						],
 						[
-							'_id' => 'lose_wear_armor'
+							'_id' => new \MongoId(),
+							'id' => 'lose_wear_armor'
 						],
 						[
-							'_id' => 'lose_wear_foot'
+							'_id' => new \MongoId(),
+							'id' => 'lose_wear_foot'
 						],
 						[
-							'_id' => 'lose_wear_head'
+							'_id' => new \MongoId(),
+							'id' => 'lose_wear_head'
 						],
 						[
-							'_id' => 'lose_2_cards'
+							'_id' => new \MongoId(),
+							'id' => 'lose_2_cards'
 						],
 						[
-							'_id' => 'chicken_on_head'
+							'_id' => new \MongoId(),
+							'id' => 'chicken_on_head'
 						],
 						[
-							'_id' => 'doom_duck'
+							'_id' => new \MongoId(),
+							'id' => 'doom_duck'
 						],
 						[
-							'_id' => 'tax'
+							'_id' => new \MongoId(),
+							'id' => 'tax'
 						],
 						[
-							'_id' => 'malign_mirror'
+							'_id' => new \MongoId(),
+							'id' => 'malign_mirror'
 						],
 						[
-							'_id' => 'obnoxious_curse'
+							'_id' => new \MongoId(),
+							'id' => 'obnoxious_curse'
 						]
 					]
 				],
@@ -254,187 +277,224 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'monsters',
     				'children' => [
     					[
-    						'_id' => 'crabs',
+    						'_id' => new \MongoId(),
+    						'id' => 'crabs',
 							'lvl' => 1,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'drool_slime',
+							'_id' => new \MongoId(),
+							'id' => 'drool_slime',
 							'lvl' => 1,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'lame_goblin',
+							'_id' => new \MongoId(),
+							'id' => 'lame_goblin',
 							'lvl' => 1,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'maul_rat',
+							'_id' => new \MongoId(),
+							'id' => 'maul_rat',
 							'lvl' => 1,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'potted_plant',
+							'_id' => new \MongoId(),
+							'id' => 'potted_plant',
 							'lvl' => 1,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'mr_bones',
+							'_id' => new \MongoId(),
+							'id' => 'mr_bones',
 							'lvl' => 2,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'large_angry_chick',
+							'_id' => new \MongoId(),
+							'id' => 'large_angry_chick',
 							'lvl' => 2,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'fly_frogs',
+							'_id' => new \MongoId(),
+							'id' => 'fly_frogs',
 							'lvl' => 2,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'gelatine_octahedron',
+							'_id' => new \MongoId(),
+							'id' => 'gelatine_octahedron',
 							'lvl' => 2,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'pit_bull',
+							'_id' => new \MongoId(),
+							'id' => 'pit_bull',
 							'lvl' => 2,
 							'treasures' => 1,
 						],
 						[
-							'_id' => 'leperchaun',
+							'_id' => new \MongoId(),
+							'id' => 'leperchaun',
 							'lvl' => 4,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'harpies',
+							'_id' => new \MongoId(),
+							'id' => 'harpies',
 							'lvl' => 4,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'speed_snails',
+							'_id' => new \MongoId(),
+							'id' => 'speed_snails',
 							'lvl' => 4,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'undead_horse',
+							'_id' => new \MongoId(),
+							'id' => 'undead_horse',
 							'lvl' => 4,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'pukachu',
+							'_id' => new \MongoId(),
+							'id' => 'pukachu',
 							'lvl' => 6,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'shriek_geek',
+							'_id' => new \MongoId(),
+							'id' => 'shriek_geek',
 							'lvl' => 6,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'lawyers',
+							'_id' => new \MongoId(),
+							'id' => 'lawyers',
 							'lvl' => 6,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'platycore',
+							'_id' => new \MongoId(),
+							'id' => 'platycore',
 							'lvl' => 6,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'ghoulfiends',
+							'_id' => new \MongoId(),
+							'id' => 'ghoulfiends',
 							'lvl' => 8,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'gazebo',
+							'_id' => new \MongoId(),
+							'id' => 'gazebo',
 							'lvl' => 8,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'amazon',
+							'_id' => new \MongoId(),
+							'id' => 'amazon',
 							'lvl' => 8,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'face_sucker',
+							'_id' => new \MongoId(),
+							'id' => 'face_sucker',
 							'lvl' => 8,
 							'treasures' => 2,
 						],
 						[
-							'_id' => 'float_nose',
+							'_id' => new \MongoId(),
+							'id' => 'float_nose',
 							'lvl' => 10,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'orcs_3872',
+							'_id' => new \MongoId(),
+							'id' => 'orcs_3872',
 							'lvl' => 10,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'net_troll',
+							'_id' => new \MongoId(),
+							'id' => 'net_troll',
 							'lvl' => 10,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'bigfoot',
+							'_id' => new \MongoId(),
+							'id' => 'bigfoot',
 							'lvl' => 12,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'tongue_demon',
+							'_id' => new \MongoId(),
+							'id' => 'tongue_demon',
 							'lvl' => 12,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'wannabe_vampire',
+							'_id' => new \MongoId(),
+							'id' => 'wannabe_vampire',
 							'lvl' => 12,
 							'treasures' => 3,
 						],
 						[
-							'_id' => 'unspeak_indescrib_horror',
+							'_id' => new \MongoId(),
+							'id' => 'unspeak_indescrib_horror',
 							'lvl' => 14,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'stoned_golem',
+							'_id' => new \MongoId(),
+							'id' => 'stoned_golem',
 							'lvl' => 14,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'insurance_salesman',
+							'_id' => new \MongoId(),
+							'id' => 'insurance_salesman',
 							'lvl' => 14,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'king_tut',
+							'_id' => new \MongoId(),
+							'id' => 'king_tut',
 							'lvl' => 16,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'hippogriff',
+							'_id' => new \MongoId(),
+							'id' => 'hippogriff',
 							'lvl' => 16,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'wight_brothers',
+							'_id' => new \MongoId(),
+							'id' => 'wight_brothers',
 							'lvl' => 16,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'squidzilla',
+							'_id' => new \MongoId(),
+							'id' => 'squidzilla',
 							'lvl' => 18,
 							'treasures' => 4,
 						],
 						[
-							'_id' => 'bullrog',
+							'_id' => new \MongoId(),
+							'id' => 'bullrog',
 							'lvl' => 18,
 							'treasures' => 5,
 						],
 						[
-							'_id' => 'plutonium_dragon',
+							'_id' => new \MongoId(),
+							'id' => 'plutonium_dragon',
 							'lvl' => 20,
 							'treasures' => 5,
 						],
@@ -444,16 +504,20 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'in_battle',
     				'children' => [
     					[
-							'_id' => 'help_me',
+    						'_id' => new \MongoId(),
+							'id' => 'help_me',
 						],
 						[
-							'_id' => 'illusion',
+							'_id' => new \MongoId(),
+							'id' => 'illusion',
 						],
 						[
-							'_id' => 'mate',
+							'_id' => new \MongoId(),
+							'id' => 'mate',
 						],
 						[
-							'_id' => 'out_lunch',
+							'_id' => new \MongoId(),
+							'id' => 'out_lunch',
 						],
     				]
     			],
@@ -461,27 +525,32 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'in_battle_monster_bonuses',
     				'children' => [
     					[
-							'_id' => 'ancient',
+    						'_id' => new \MongoId(),
+							'id' => 'ancient',
 							'monster' => 10,
 							'treasures' => 2
 						],
 						[
-							'_id' => 'baby',
+							'_id' => new \MongoId(),
+							'id' => 'baby',
 							'monster' => -5,
 							'treasures' => -1	
 						],
 						[
-							'_id' => 'enraged',
+							'_id' => new \MongoId(),
+							'id' => 'enraged',
 							'monster' => 5,
 							'treasures' => 1
 						],
 						[
-							'_id' => 'humongous',
+							'_id' => new \MongoId(),
+							'id' => 'humongous',
 							'monster' => 10,	
 							'treasures' => 2
 						],
 						[
-							'_id' => 'intelligent',
+							'_id' => new \MongoId(),
+							'id' => 'intelligent',
 							'monster' => 5,
 							'treasures' => 1
 						],
@@ -491,60 +560,69 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     				'_id' => 'other_doors',
     				'children' => [
     					[
-    						'_id' => 'cheat',
+    						'_id' => new \MongoId(),
+    						'id' => 'cheat',
 							'condition' => [
 								'place_card' => ['head','armor','foot','arms','items']
 							]
 						],
 						[
-							'_id' => 'divine_intervent',
+							'_id' => new \MongoId(),
+							'id' => 'divine_intervent',
 							'instant' => true
 						],
 						[
-							'_id' => 'half_breed',
+							'_id' => new \MongoId(),
+							'id' => 'half_breed',
 							'cards_count' => 2,
 						],
 						[
-							'_id' => 'super_munchkin',
+							'_id' => new \MongoId(),
+							'id' => 'super_munchkin',
 							'cards_count' => 2,
 						],
 						[
-							'_id' => 'wander_monster',
+							'_id' => new \MongoId(),
+							'id' => 'wander_monster',
 							'cards_count' => 3,
 						],
 					]
 				]
     		]
-    	]);
+    	];
 
-		$this->insert('cards', [
+    	$treasures = [
     		'_id' => 'treasures',
     		'children' => [
     			[
     				'_id' => 'head',
     				'children' => [
 						[
-							'_id' => 'bad_ass_bandanna',
+							'_id' => new \MongoId(),
+							'id' => 'bad_ass_bandanna',
 							'price' => 400,
 							'bonus' => 3,
 							'name' => 'Сорвиголовная Бандана',
 							'race_type' => 'human',
 						],
 						[
-							'_id' => 'courage_helm',
+							'_id' => new \MongoId(),
+							'id' => 'courage_helm',
 							'price' => 200,
 							'bonus' => 1,
 							'name' => 'Шлем Бесстрашия',
 						],
 						[
-							'_id' => 'horny_helmet',
+							'_id' => new \MongoId(),
+							'id' => 'horny_helmet',
 							'price' => 600,
 							'bonus' => 1,
 							'name' => 'Шлем-Рогач',
 							'special_bonus' => [3, 'elf']
 						],
 						[
-							'_id' => 'power_pointy_hat',
+							'_id' => new \MongoId(),
+							'id' => 'power_pointy_hat',
 							'price' => 400,
 							'bonus' => 3,
 							'name' => 'Остроконечная Шляпа Могущества',
@@ -556,19 +634,22 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'armor',
     				'children' => [
 						[
-							'_id' => 'flaming_armor',
+							'_id' => new \MongoId(),
+							'id' => 'flaming_armor',
 							'price' => 400,
 							'bonus' => 2,
 							'name' => 'Палёные Доспехи',
 						],
 						[
-							'_id' => 'leather_armor',
+							'_id' => new \MongoId(),
+							'id' => 'leather_armor',
 							'price' => 200,
 							'bonus' => 1,
 							'name' => 'Кожаный Прикид',
 						],
 						[
-							'_id' => 'mithril_armor',
+							'_id' => new \MongoId(),
+							'id' => 'mithril_armor',
 							'price' => 600,
 							'bonus' => 3,
 							'name' => 'Мифрильный Доспех',
@@ -576,14 +657,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'size' => 'big'
 						],
 						[
-							'_id' => 'short_wide_armor',
+							'_id' => new \MongoId(),
+							'id' => 'short_wide_armor',
 							'price' => 400,
 							'bonus' => 3,
 							'name' => 'Доспехи Поперёк-Себя-Шире',
 							'race_type' => 'dwarf'
 						],
 						[
-							'_id' => 'slimy_armor',
+							'_id' => new \MongoId(),
+							'id' => 'slimy_armor',
 							'price' => 200,
 							'bonus' => 1,
 							'name' => 'Слизистая Оболочка',
@@ -594,7 +677,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'foot',
     				'children' => [
 						[
-							'_id' => 'protect_sandals',
+							'_id' => new \MongoId(),
+							'id' => 'protect_sandals',
 							'price' => 700,
 							'name' => 'Сандалеты-Протекторы',
 							'condition' => [
@@ -602,13 +686,15 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'butt_kick_boots',
+							'_id' => new \MongoId(),
+							'id' => 'butt_kick_boots',
 							'price' => 400,
 							'bonus' => 2,
 							'name' => 'Башмаки Могучего Пенделя',
 						],
 						[
-							'_id' => 'run_fast_boots',
+							'_id' => new \MongoId(),
+							'id' => 'run_fast_boots',
 							'price' => 400,
 							'name' => 'Башмаки Реально Быстрого Бега',
 							'get_away' => 2
@@ -619,7 +705,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'arms',
     				'children' => [
 						[
-							'_id' => 'charm_tuba',
+							'_id' => new \MongoId(),
+							'id' => 'charm_tuba',
 							'price' => 300,
 							'size' => 'big',
 							'type' => 'one_hand',
@@ -633,7 +720,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'bow_ribbons',
+							'_id' => new \MongoId(),
+							'id' => 'bow_ribbons',
 							'price' => 800,
 							'race_type' => 'elf',
 							'bonus' => 4,
@@ -641,7 +729,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Лук с Ленточками'
 						],
 						[
-							'_id' => 'broad_sword',
+							'_id' => new \MongoId(),
+							'id' => 'broad_sword',
 							'price' => 400,
 							'sex_type' => 'Баба',
 							'bonus' => 3,
@@ -649,14 +738,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Меч Широты Взглядов'
 						],
 						[
-							'_id' => 'swash_buckler',
+							'_id' => new \MongoId(),
+							'id' => 'swash_buckler',
 							'price' => 400,
 							'bonus' => 2,
 							'type' => 'one_hand',
 							'name' => 'Пафосный Баклер'
 						],
 						[
-							'_id' => 'chainsaw_blood_dismember',
+							'_id' => new \MongoId(),
+							'id' => 'chainsaw_blood_dismember',
 							'price' => 600,
 							'size' => 'big',
 							'bonus' => 3,
@@ -664,7 +755,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Бензопила Кровавого Расчленения'
 						],
 						[
-							'_id' => 'peace_cheese_grater',
+							'_id' => new \MongoId(),
+							'id' => 'peace_cheese_grater',
 							'price' => 400,
 							'bonus' => 3,
 							'class_type' => 'cleric',
@@ -672,7 +764,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Тёрка Умиротворения'
 						],
 						[
-							'_id' => 'treachery_dagger',
+							'_id' => new \MongoId(),
+							'id' => 'treachery_dagger',
 							'price' => 400,
 							'bonus' => 3,
 							'class_type' => 'thief',
@@ -680,14 +773,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Кинжал Измены'
 						],
 						[
-							'_id' => 'eleven_foot_pole',
+							'_id' => new \MongoId(),
+							'id' => 'eleven_foot_pole',
 							'price' => 200,
 							'bonus' => 1,
 							'type' => 'two_hand',
 							'name' => 'Одиннадцатифутовый Кий'
 						],
 						[
-							'_id' => 'gentleman_club',
+							'_id' => new \MongoId(),
+							'id' => 'gentleman_club',
 							'price' => 400,
 							'bonus' => 3,
 							'sex_type' => 'Мужик',
@@ -695,7 +790,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Дуб Джентельменов'
 						],
 						[
-							'_id' => 'kneecap_hammer',
+							'_id' => new \MongoId(),
+							'id' => 'kneecap_hammer',
 							'price' => 600,
 							'bonus' => 4,
 							'race_type' => 'dwarf',
@@ -703,7 +799,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Коленеотбойный Молоточек'
 						],
 						[
-							'_id' => 'huge_rock',
+							'_id' => new \MongoId(),
+							'id' => 'huge_rock',
 							'price' => 0,
 							'bonus' => 3,
 							'size' => 'big',
@@ -711,7 +808,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Огромная Каменюга'
 						],
 						[
-							'_id' => 'sharp_mace',
+							'_id' => new \MongoId(),
+							'id' => 'sharp_mace',
 							'price' => 600,
 							'bonus' => 4,
 							'class_type' => 'cleric',
@@ -719,7 +817,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Булава Остроконечности'
 						],
 						[
-							'_id' => 'unfair_rapier',
+							'_id' => new \MongoId(),
+							'id' => 'unfair_rapier',
 							'price' => 600,
 							'bonus' => 3,
 							'race_type' => 'elf',
@@ -727,7 +826,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Рапира Такнечестности'
 						],
 						[
-							'_id' => 'stick_rat',
+							'_id' => new \MongoId(),
+							'id' => 'stick_rat',
 							'price' => 0,
 							'bonus' => 1,
 							'type' => 'one_hand',
@@ -738,7 +838,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'ubiquity_shield',
+							'_id' => new \MongoId(),
+							'id' => 'ubiquity_shield',
 							'price' => 600,
 							'bonus' => 4,
 							'class_type' => 'warrior',
@@ -747,14 +848,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Совсехсторонний Щит'
 						],
 						[
-							'_id' => 'sneaky_bastard_sword',
+							'_id' => new \MongoId(),
+							'id' => 'sneaky_bastard_sword',
 							'price' => 400,
 							'bonus' => 2,
 							'type' => 'one_hand',
 							'name' => 'Меч Коварного Бастарда'
 						],
 						[
-							'_id' => 'napalm_staff',
+							'_id' => new \MongoId(),
+							'id' => 'napalm_staff',
 							'price' => 800,
 							'bonus' => 5,
 							'class_type' => 'wizard',
@@ -762,7 +865,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'name' => 'Посох Напалма'
 						],
 						[
-							'_id' => 'swiss_army_polearm',
+							'_id' => new \MongoId(),
+							'id' => 'swiss_army_polearm',
 							'price' => 600,
 							'bonus' => 4,
 							'race_type' => 'human',
@@ -776,46 +880,53 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'items',
     				'children' => [
 						[
-							'_id' => 'obscurity_cloak',
+							'_id' => new \MongoId(),
+							'id' => 'obscurity_cloak',
 							'price' => 600,
 							'bonus' => 4,
 							'name' => 'Плащ Замутнения',
 							'class_type' => 'thief'
 						],
 						[
-							'_id' => 'limburger_and_anchovy_sandwich',
+							'_id' => new \MongoId(),
+							'id' => 'limburger_and_anchovy_sandwich',
 							'price' => 400,
 							'bonus' => 3,
 							'name' => 'Сэндвич Запоздалого Прозрения С Сыром и Селедкой',
 							'race_type' => 'halfling'
 						],
 						[
-							'_id' => 'giant_strength_pantyhose',
+							'_id' => new \MongoId(),
+							'id' => 'giant_strength_pantyhose',
 							'price' => 600,
 							'bonus' => 3,
 							'name' => 'Колготки Великанской Силы',
 							'class_type_not' => 'warrior'
 						],
 						[
-							'_id' => 'impressive_title',
+							'_id' => new \MongoId(),
+							'id' => 'impressive_title',
 							'bonus' => 3,
 							'name' => 'Реально Конкретный Титул',
 						],
 						[
-							'_id' => 'singing_dancing_sword',
+							'_id' => new \MongoId(),
+							'id' => 'singing_dancing_sword',
 							'price' => 600,
 							'bonus' => 2,
 							'name' => 'Меч Песни и Пляски',
 							'class_type_not' => 'thief'
 						],
 						[
-							'_id' => 'spiky_knees',
+							'_id' => new \MongoId(),
+							'id' => 'spiky_knees',
 							'price' => 200,
 							'bonus' => 1,
 							'name' => 'Острые Коленки'
 						],
 						[
-							'_id' => 'stepladder',
+							'_id' => new \MongoId(),
+							'id' => 'stepladder',
 							'price' => 400,
 							'bonus' => 3,
 							'size' => 'big',
@@ -823,7 +934,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'race_type' => 'halfling'
 						],
 						[
-							'_id' => 'allure_kneepads',
+							'_id' => new \MongoId(),
+							'id' => 'allure_kneepads',
 							'price' => 600,
 							'name' => 'Наколенники Развода',
 							'class_type_not' => 'cleric',
@@ -836,46 +948,56 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'get_level',
     				'children' => [
 						[
-							'_id' => 'go_up_lvl',
+							'_id' => new \MongoId(),
+							'id' => 'go_up_lvl',
 							'name' => 'Получи Уровень'
 						],
 						[
-							'_id' => 'thousand_gold_pieces',
+							'_id' => new \MongoId(),
+							'id' => 'thousand_gold_pieces',
 							'name' => '1000 голдов'
 						],
 						[
-							'_id' => 'anthill_boil',
+							'_id' => new \MongoId(),
+							'id' => 'anthill_boil',
 							'name' => 'Кипяток В Муравейнике'
 						],
 						[
-							'_id' => 'food_bribe_gm',
+							'_id' => new \MongoId(),
+							'id' => 'food_bribe_gm',
 							'name' => 'Прикорми Мастера'
 						],
 						[
-							'_id' => 'convenient_addition_error',
+							'_id' => new \MongoId(),
+							'id' => 'convenient_addition_error',
 							'name' => 'Выгодная Ошибка При Сложении'
 						],
 						[
-							'_id' => 'invoke_obscure_rules',
+							'_id' => new \MongoId(),
+							'id' => 'invoke_obscure_rules',
 							'name' => 'Используй Непонятное Правило'
 						],
 						[
-							'_id' => 'kill_hireling',
+							'_id' => new \MongoId(),
+							'id' => 'kill_hireling',
 							'name' => 'Рассчитайся С Наёмником',
 							'condition' => 'if_hireling_in_game',
 							'action' => 'hireling_discard'
 						],
 						[
-							'_id' => 'mutilate_bodies',
+							'_id' => new \MongoId(),
+							'id' => 'mutilate_bodies',
 							'name' => 'Поглумись Над Телами Врагов',
 							'use_type' => 'after_any_battle'
 						],
 						[
-							'_id' => 'general_studliness_potion',
+							'_id' => new \MongoId(),
+							'id' => 'general_studliness_potion',
 							'name' => 'Зелье Крутизны'
 						],
 						[
-							'_id' => 'gm_whine',
+							'_id' => new \MongoId(),
+							'id' => 'gm_whine',
 							'name' => 'Разжалоби Мастера',
 							'condition' => 'not_highest_lvl'
 						],
@@ -885,7 +1007,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'disposables',
     				'children' => [
 						[
-							'_id' => 'yuppie_water',
+							'_id' => new \MongoId(),
+							'id' => 'yuppie_water',
 							'price' => 100,
 							'name' => 'Яппиток',
 							'use_type' => 'any_battle',
@@ -896,7 +1019,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							]
 						],
 						[
-							'_id' => 'ponfusion_cotion',
+							'_id' => new \MongoId(),
+							'id' => 'ponfusion_cotion',
 							'price' => 100,
 							'bonus' => 3,
 							'name' => 'Пелье Зутаницы',
@@ -904,7 +1028,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'electric_radioactive_acid_potion',
+							'_id' => new \MongoId(),
+							'id' => 'electric_radioactive_acid_potion',
 							'price' => 200,
 							'bonus' => 5,
 							'name' => 'Радиоактивно-Электрокислотное Зелье',
@@ -912,7 +1037,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'flaming_poison_potion',
+							'_id' => new \MongoId(),
+							'id' => 'flaming_poison_potion',
 							'price' => 100,
 							'bonus' => 3,
 							'name' => 'Зелье Пламенной Отравы',
@@ -920,7 +1046,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'freeze_explosive_potion',
+							'_id' => new \MongoId(),
+							'id' => 'freeze_explosive_potion',
 							'price' => 100,
 							'bonus' => 3,
 							'name' => 'Замораживающее Взрывное Зелье',
@@ -928,7 +1055,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'magic_missile',
+							'_id' => new \MongoId(),
+							'id' => 'magic_missile',
 							'price' => 300,
 							'bonus' => 5,
 							'name' => 'Магическая Ракета',
@@ -936,7 +1064,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'nasty_taste_sport_drink',
+							'_id' => new \MongoId(),
+							'id' => 'nasty_taste_sport_drink',
 							'price' => 200,
 							'bonus' => 2,
 							'name' => 'Питьё Противно-Спортивное',
@@ -944,7 +1073,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'halitos_potion',
+							'_id' => new \MongoId(),
+							'id' => 'halitos_potion',
 							'price' => 100,
 							'bonus' => ['bonus' => 2, 'kill' => 'float_nose'],
 							'name' => 'Зелье Ротовой Вони',
@@ -952,7 +1082,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'idiot_brave_potion',
+							'_id' => new \MongoId(),
+							'id' => 'idiot_brave_potion',
 							'price' => 100,
 							'bonus' => 2,
 							'name' => 'Зелье Идиотской Храбрости',
@@ -960,7 +1091,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'pretty_balloons',
+							'_id' => new \MongoId(),
+							'id' => 'pretty_balloons',
 							'price' => 0,
 							'bonus' => 5,
 							'name' => 'Клёвые Шарики',
@@ -968,7 +1100,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'sleep_potion',
+							'_id' => new \MongoId(),
+							'id' => 'sleep_potion',
 							'price' => 100,
 							'bonus' => 2,
 							'name' => 'Снотворное Зелье',
@@ -976,7 +1109,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'any'
 						],
 						[
-							'_id' => 'doppleganger',
+							'_id' => new \MongoId(),
+							'id' => 'doppleganger',
 							'price' => 300,
 							'bonus' => '*2',
 							'name' => 'Дупельгангер',
@@ -984,14 +1118,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'which_side' => 'self'
 						],
 						[
-							'_id' => 'glue_flask',
+							'_id' => new \MongoId(),
+							'id' => 'glue_flask',
 							'price' => 100,
 							'name' => 'Тюбик Клея',
 							'use_type' => 'after_true_get_away',
 							'action' => 'another_die_roll'
 						],
 						[
-							'_id' => 'friendship_potion',
+							'_id' => new \MongoId(),
+							'id' => 'friendship_potion',
 							'price' => 200,
 							'name' => 'Зелье Дружбы',
 							'use_type' => 'any_battle',
@@ -1000,7 +1136,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'cur_player_action' => 'looting'
 						],
 						[
-							'_id' => 'instant_wall',
+							'_id' => new \MongoId(),
+							'id' => 'instant_wall',
 							'price' => 300,
 							'name' => 'Стенка-Встанька',
 							'use_type' => 'after_any_battle',
@@ -1008,7 +1145,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'action_count' => 2
 						],
 						[
-							'_id' => 'invisibility_potion',
+							'_id' => new \MongoId(),
+							'id' => 'invisibility_potion',
 							'price' => 200,
 							'name' => 'Зелье Невидимости',
 							'use_type' => 'after_false_get_away',
@@ -1016,14 +1154,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'action_count' => 1
 						],
 						[
-							'_id' => 'loaded_die',
+							'_id' => new \MongoId(),
+							'id' => 'loaded_die',
 							'price' => 300,
 							'name' => 'Читерский Кубик',
 							'use_type' => 'after_die_roll',
 							'action' => 'select_die_number'
 						],
 						[
-							'_id' => 'magic_lamp',
+							'_id' => new \MongoId(),
+							'id' => 'magic_lamp',
 							'price' => 500,
 							'name' => 'Волшебная Лампа',
 							'use_type' => 'on_self_move',
@@ -1031,14 +1171,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'condition' => 'if_one_monster_then_get_treasures_but_no_lvl'
 						],
 						[
-							'_id' => 'pollymorph_potion',
+							'_id' => new \MongoId(),
+							'id' => 'pollymorph_potion',
 							'price' => 1300,
 							'name' => 'Зелье Попуморфа',
 							'use_type' => 'any_battle',
 							'action' => 'one_monster_discard'
 						],
 						[
-							'_id' => 'transferral_potion',
+							'_id' => new \MongoId(),
+							'id' => 'transferral_potion',
 							'price' => 300,
 							'name' => 'Зелье Стрелочника',
 							'use_type' => 'any_battle',
@@ -1046,14 +1188,16 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'after_action' => 'cur_player_can_loot'
 						],
 						[
-							'_id' => 'dowsing_wand',
+							'_id' => new \MongoId(),
+							'id' => 'dowsing_wand',
 							'price' => 1100,
 							'name' => 'Штырь Лозоходца',
 							'use_type' => 'on_move',
 							'action' => 'choose_one_card_from_discard'
 						],
 						[
-							'_id' => 'wishing_ring',
+							'_id' => new \MongoId(),
+							'id' => 'wishing_ring',
 							'cards_count' => 2,
 							'price' => 500,
 							'name' => 'Хотельное Кольцо',
@@ -1070,7 +1214,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'hirelings',
     				'children' => [
 						[
-							'_id' => 'hireling',
+							'_id' => new \MongoId(),
+							'id' => 'hireling',
 							'cards_count' => 1,
 							'bonus' => 1,
 							'name' => 'Наёмничек',
@@ -1083,17 +1228,20 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					'_id' => 'other_treasures',
     				'children' => [
 						[
-							'_id' => 'steal_lvl',
+							'_id' => new \MongoId(),
+							'id' => 'steal_lvl',
 							'action' => 'choose_player_and_steal_lvl',
 							'name' => 'Укради Уровень'
 						],
 						[
-							'_id' => 'q_dice',
+							'_id' => new \MongoId(),
+							'id' => 'q_dice',
 							'name' => 'Q-Кубик',
 							'price' => 1000
 						],
 						[
-							'_id' => 'hoard',
+							'_id' => new \MongoId(),
+							'id' => 'hoard',
 							'name' => 'Ура, Клад!',
 							'treasures' => 3,
 							'instant' => true,
@@ -1102,11 +1250,64 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 					]
 				]
     		]
-		]);
+		];
+
+		$cards = [];
+    	$this->_multipleCards($doors['children'], $cards);
+    	$this->_multipleCards($treasures['children'], $cards);
+
+		$this->createCollection('cards');
+		foreach ($cards as $card) {
+			$this->insert('cards', $card);
+		}
+		$this->insert('cards', ['_id' => 'doors', 'children' => $this->_getIds($doors['children'])]);
+		$this->insert('cards', ['_id' => 'treasures', 'children' => $this->_getIds($treasures['children'])]);
     }
 
     public function down()
     {
         $this->dropCollection('cards');
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    private function _multipleCards($cards, &$newData) {
+    	foreach ($cards as &$card) {
+    		if (isset($card['children'])) {
+	    		$this->_multipleCards($card['children'], $newData);
+	    		$card['children'] = $this->_getIds($card['children']);
+	    	} else {
+	    		if (isset($card['cards_count'])) {
+	    			for ($i=2; $i<=$card['cards_count']; $i++) {
+		    			$temp = $card;
+		    			$temp['_id'] = new \MongoId();
+		    			$temp['id'] = $temp['id'].'-'.$i;
+		    			unset($temp['cards_count']);
+		    			$cards[] = $temp;
+		    		}
+		    		$card['id'] = $card['id'].'-1';
+		    		unset($card['cards_count']);
+	    		}
+	    	}
+	    	$newData[] = $card;
+    	}
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    private function _getIds($arr) {
+    	$ids = [];
+    	foreach ($arr as $val) {
+    		$ids[] = $val['_id'];
+    	}
+    	return $ids;
     }
 }

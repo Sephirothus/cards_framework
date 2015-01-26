@@ -11,6 +11,7 @@ use yii\mongodb\Query;
  */
 class Cards extends Model {
 
+	public $gameType;
 	private $_cards = [];
 	private $_decks = [];
 
@@ -31,7 +32,7 @@ class Cards extends Model {
 	 **/
 	public function getCards() {
 		$sorted = [];
-		$this->_sortCardsArr((new Query)->from(self::tableName())->all(), $sorted);
+		$this->_sortCardsArr((new Query)->from(self::tableName())->where(['_id' => 'doors'])->all(), $sorted);
 		$sorted = $this->_reduceCardsLvls($sorted);
 		$this->_decks = $this->_cards = $sorted;
 		return $this;
@@ -68,9 +69,11 @@ class Cards extends Model {
 	 **/
 	private function _sortCardsArr($data, &$new) {
 		foreach ($data as $row) {
+			$row['_id'] = is_object($row['_id']) ? (string)$row['_id'] : $row['_id'];
 			if (isset($row['children'])) {
 				$this->_sortCardsArr($row['children'], $new[$row['_id']]);
 			} else {
+				if ($this->gameType == 'local') $row['_id'] = $row['id'];
 				if (isset($row['cards_count'])) {
 					for ($i=1; $i<=$row['cards_count']; $i++) {
 						$new[$row['_id'].'-'.$i] = $row;	
@@ -132,13 +135,27 @@ class Cards extends Model {
 	}
 
 	/**
+	 * Получаем карты по ID
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getCardsByIds($cards) {
+		$data = [];
+		foreach ($cards as $card) {
+			$data[$card] = $this->getCardInfo($card);
+		}
+		return $data;
+	}
+
+	/**
 	 * Получаем инфо о карте
 	 *
 	 * @return void
 	 * @author 
 	 **/
 	public function getCardInfo($cardID) {
-		return (new Query)->from(self::tableName())->where(['_id' => $cardID])->one();
+		return (new Collection)->from(self::tableName())->where(['_id' => $cardID])->one();
 	}
 
 	/**
