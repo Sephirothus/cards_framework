@@ -15,6 +15,23 @@ foreach ($players as $player => $val) {
 	$blocks[] = $this->render('userBlock', ['playerId' => $player, 'player' => $val]);
 }
 
+$decks = '';
+foreach ($decksTypes as $type) {
+	$decks .= Html::tag('div', 
+		Html::tag('div', 
+			Html::img(Yii::getAlias('@web').'/imgs/'.$type.'.jpg', ['class' => "decks", 'id' => $type]),
+			['class' => 'col-md-12 text-center']	
+		),
+		['class' => 'row']
+	).Html::tag('div', 
+		Html::tag('div', 
+			'',
+			['class' => 'col-md-12 text-center']	
+		),
+		['class' => 'row', 'id' => $type.'_discard']
+	);
+}
+
 echo Html::tag('div', 
 	Html::tag('div', 
 		Html::tag('div', 
@@ -26,7 +43,7 @@ echo Html::tag('div',
 		), 
 		['class' => 'col-md-10']
 	).Html::tag('div', 
-		Html::tag('div', 
+		/*Html::tag('div', 
 			Html::tag('div', 
 				Html::tag('span', '', ['class' => "glyphicon glyphicon-play js_action_buttons", 'action' => "play", 'style' => "color:red;"]).
 				Html::tag('span', '', ['class' => "glyphicon glyphicon-euro js_action_buttons", 'action' => "sell"]).
@@ -37,31 +54,7 @@ echo Html::tag('div',
 				['class' => 'col-md-12 text-center action_buttons_field']
 			), 
 			['class' => 'row']
-		).Html::tag('div', 
-			Html::tag('div', 
-				Html::img(Yii::getAlias('@web').'/imgs/doors.jpg', ['class' => "decks", 'id' => 'doors']),
-				['class' => 'col-md-12 text-center']	
-			),
-			['class' => 'row']
-		).Html::tag('div', 
-			Html::tag('div', 
-				'',
-				['class' => 'col-md-12 text-center']	
-			),
-			['class' => 'row', 'id' => 'doors_discard']
-		).Html::tag('div', 
-			Html::tag('div', 
-				Html::img(Yii::getAlias('@web').'/imgs/treasures.jpg', ['class' => "decks", 'id' => 'treasures']),
-				['class' => 'col-md-12 text-center']	
-			),
-			['class' => 'row']
-		).Html::tag('div', 
-			Html::tag('div', 
-				'',
-				['class' => 'col-md-12 text-center']	
-			),
-			['class' => 'row', 'id' => 'treasures_discard']
-		), 
+		).*/$decks, 
 		['class' => 'col-md-2 decks_col']
 	), 
 	['class' => 'row', 'style' => 'margin: 0;']
@@ -78,6 +71,6 @@ echo Html::tag('div',
 	),
 	['class' => 'row', 'style' => 'margin: 0;']
 ).Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
-echo Draggable::widget().Droppable::widget().Sortable::widget();
 
+echo Draggable::widget().Droppable::widget().Sortable::widget();
 $this->registerJsFile('/js/game.js', ['depends' => [\yii\web\JqueryAsset::className()]]);

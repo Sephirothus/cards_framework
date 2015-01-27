@@ -1,5 +1,4 @@
-var ajaxUrl = $('input[name="ajax_url"]').val(),
-	gameType = 'online';
+var ajaxUrl = $('input[name="ajax_url"]').val();
 
 $(function() {
 	var players = [];
@@ -7,28 +6,34 @@ $(function() {
 	$('.js_players').each(function() {
 		players.push($(this).attr('id'));
 	});
-	ajaxRequest(ajaxUrl, {'type': 'deal_cards', 'players': players}, function(resp) {
-		dealCards('doors', resp.results);
-		dealCards('treasures', resp.results, function() {
-			setTimeout(function() {
-				$('<input/>', {
-					type: 'button',
-					class: 'btn btn-success',
-					value: 'Начнем!'
-				}).on('click', function() {
-					moveStart(players[0]);
-					$(this).remove();
-				}).appendTo('#main_field');
-			}, 1000);
+
+	if (players.length > 0) {
+		ajaxRequest(ajaxUrl, {'type': 'deal_cards', 'players': players}, function(resp) {
+			var count = resp.results.decks.length,
+				func = function() {
+					setTimeout(function() {
+						$('<input/>', {
+							type: 'button',
+							class: 'btn btn-success',
+							value: 'Начнем!'
+						}).on('click', function() {
+							moveStart(players[0]);
+							$(this).remove();
+						}).appendTo('#main_field');
+					}, 1000);
+				};
+			for (var el in resp.results.decks) {
+				dealCards(resp.results.decks[el], resp.results.cards, !--count ? func : false);
+			}
 		});
-	});
+	}
 
     $(document).on({
 		mouseenter: function(e) {
         	if (e.pageX > ($(window).width()/2)) var pos = 'left:0';
         	else var pos = 'right:0';
 			$('body').prepend($('<img>', {
-				src: '/imgs/cards/'+$(this).attr('id')+'.jpg', 
+				src: Params.cardPath($(this).attr('id')), 
 				class: 'js_temp_pic', 
 				style: 'z-index:9999;position:fixed;top:0;'+pos+';height:500px;'
 			}));
@@ -37,10 +42,6 @@ $(function() {
 			$('.js_temp_pic').remove();
 		}
 	}, '.js_enlarge_card');
-
-	$(document).on('click', 'input[name="turn_cards"]', function() {
-		turnCards($(this).parents('.js_players'));
-	});
 });
 
 function moveStart(userId) {
@@ -107,33 +108,21 @@ function dealCards(deckId, players, callback) {
 }
 
 function turnCards(block, callback) {
-	switch (gameType) {
-		case 'local':
-			var count = block.find('.js_hand_card').length;
-			block.find('.js_hand_card').each(function() {
-				var id = $(this).attr('id'),
-					url = '/imgs/'+($(this).attr('src').indexOf('cards')+1 > 0 ? $(this).attr('type') : 'cards/'+id)+'.jpg';
+	var cards = [];
+	block.find('.js_hand_card').each(function() {
+		cards.push($(this).attr('id'));
+	});
 
-				turnOneCard($(this), url, --count, callback);
-			});
-			break;
-		case 'online':
-			var cards = [];
-			block.find('.js_hand_card').each(function() {
-				if (!$(this).attr('card_src')) cards.push($(this).attr('id'));
-			});
+	ajaxRequest(ajaxUrl, {cards: cards, type: 'get_cards'}, function(resp) {
+		var count = resp.results.length;
+		for (var el in resp.results) {
+			var card = $('#'+resp.results[el]['_id']),
+				url = Params.cardPath(resp.results[el]['id'], true);
 
-			ajaxRequest(ajaxUrl, {cards: cards, type: 'get_cards'}, function(resp) {
-				var count = count(resp.results);
-				for (var el in resp.results) {
-					var card = $('#'+resp.results[el]['_id']),
-						url = '/imgs/'+(card.attr('src').indexOf('cards')+1 > 0 ? card.attr('type') : 'cards/'+resp.results[el]['_id'])+'.jpg';
-
-					turnOneCard(card, url, --count, callback);
-				}
-			});
-			break;
-	}
+			card.attr('id', resp.results[el]['id']);
+			turnOneCard(card, url, --count, callback);
+		}
+	});
 }
 
 function turnOneCard(card, url, count, callback) {
@@ -178,9 +167,10 @@ function firstKey(obj) {
 }
 
 function objShift(obj) {
-	var el = firstKey(obj);
+	var el = firstKey(obj),
+		val = obj[el];
 	delete obj[el];
-	return el;
+	return val;
 }
 
 function count(obj) {

@@ -39,7 +39,7 @@ return [
         ],
         'request' => [
             'enableCookieValidation' => true,
-            'enableCsrfValidation'   => true,
+            'enableCsrfValidation'   => false,
             'cookieValidationKey'    => 'cookieValidationKey',
         ],
     ],

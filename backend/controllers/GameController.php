@@ -34,7 +34,8 @@ class GameController extends Controller {
         }
         return $this->render('index', [
             'players' => $players,
-            'count' => $count
+            'count' => $count,
+            'decksTypes' => Cards::$deckTypes
         ]);
     }
 
@@ -47,11 +48,11 @@ class GameController extends Controller {
     public function actionAjaxAction() {
         $post = Yii::$app->request->post();
         $obj = new Cards();
-        $obj->gameType = 'online';
         switch ($post['type']) {
             case 'deal_cards':
                 $obj->getCards()->shuffleCards();
-                $data = $obj->dealCards(['doors' => 4, 'treasures' => 4], $post['players']);
+                $data['cards'] = $obj->dealCards(['doors' => 4, 'treasures' => 4], $post['players']);
+                $data['decks'] = Cards::$deckTypes;
                 break;
             case 'get_cards':
                 $data = $obj->getCardsByIds($post['cards']);

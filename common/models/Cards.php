@@ -11,7 +11,7 @@ use yii\mongodb\Query;
  */
 class Cards extends Model {
 
-	public $gameType;
+	public static $deckTypes = ['doors', 'treasures'];
 	private $_cards = [];
 	private $_decks = [];
 
@@ -31,56 +31,20 @@ class Cards extends Model {
 	 * @author 
 	 **/
 	public function getCards() {
-		$sorted = [];
-		$this->_sortCardsArr((new Query)->from(self::tableName())->where(['_id' => 'doors'])->all(), $sorted);
-		$sorted = $this->_reduceCardsLvls($sorted);
-		$this->_decks = $this->_cards = $sorted;
-		return $this;
-	}
-
-	/**
-	 * Убираем лишние уровни вложенности
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	public function _reduceCardsLvls($cards) {
-		$new = [];
-		foreach ($cards as $type => $val) {
-			foreach ($val as $subtype => $cards) {
-				foreach ($cards as $key => $card) {
-					$card['card_info'] = [
-						'type' => $type,
-						'subtype' => $subtype,
-						'id' => $key
-					];
-					$new[$type][$key] = $card;
+		$obj = new Query();
+		$data = [];
+		foreach (self::$deckTypes as $type) {
+			if (!isset($data[$type])) $data[$type] = [];
+			foreach ($obj->from(self::tableName())->where(['_id' => $type])->one()['children'] as $row) {
+				$temp = [];
+				foreach ($obj->from(self::tableName())->where(['_id' => $row])->one()['children'] as $child) {
+					$temp[] = (string)$child;
 				}
+				$data[$type] = array_merge($data[$type], $temp);
 			}
 		}
-		return $new;
-	}
-
-	/**
-	 * Сортируем данные из базы
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	private function _sortCardsArr($data, &$new) {
-		foreach ($data as $row) {
-			$row['_id'] = is_object($row['_id']) ? (string)$row['_id'] : $row['_id'];
-			if (isset($row['children'])) {
-				$this->_sortCardsArr($row['children'], $new[$row['_id']]);
-			} else {
-				if ($this->gameType == 'local') $row['_id'] = $row['id'];
-				if (isset($row['cards_count'])) {
-					for ($i=1; $i<=$row['cards_count']; $i++) {
-						$new[$row['_id'].'-'.$i] = $row;	
-					}
-				} else $new[$row['_id']] = $row;
-			}
-		}
+		$this->_decks = $this->_cards = $data;
+		return $this;
 	}
 
 	/**
@@ -95,19 +59,9 @@ class Cards extends Model {
 			$flag = true;
 			$deck = $this->_decks;
 		}
-		$new = [];
 		foreach ($deck as $type => $val) {
-			foreach ($val as $ind => $card) {
-				if (is_array($card)) {
-					$keys = array_keys($val);
-			        shuffle($keys);
-			        foreach($keys as $key) {
-			            $new[$type][$key] = $deck[$type][$key];
-			        }
-			    }
-		    }
+			shuffle($deck[$type]);
 	    }
-	    $deck = $new;
 	    if ($flag) $this->_decks = $deck;
         return $deck;
 	}
@@ -155,7 +109,9 @@ class Cards extends Model {
 	 * @author 
 	 **/
 	public function getCardInfo($cardID) {
-		return (new Collection)->from(self::tableName())->where(['_id' => $cardID])->one();
+		$info = (new Query)->from(self::tableName())->where(['_id' => $cardID])->one();
+		$info['_id'] = (string)$info['_id'];
+		return $info;
 	}
 
 	/**
