@@ -24,5 +24,5 @@ echo Html::tag('div',
 		), 
 		['class' => 'row']
 	), 
-	['class' => 'col-md-6 text-center js_players', 'id' => $playerId]
+	['class' => 'col-md-'.$width.' text-center js_players', 'id' => $playerId]
 );
