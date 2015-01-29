@@ -1,4 +1,12 @@
-var ajaxUrl = $('input[name="ajax_url"]').val();
+var ajaxUrl = $('input[name="ajax_url"]').val()
+	conn = new WebSocket('ws://localhost:8080');
+
+conn.onopen = function(e) {
+    console.log("Connection established!");
+};
+conn.onmessage = function(e) {
+    console.log(e.data);
+};
 
 $(function() {
 	var players = [];
@@ -66,6 +74,10 @@ function moveStart(userId) {
 			    ui.draggable.draggable('option', 'revert', false);
 			    ui.draggable.attr('style', '');
 			    ui.draggable.removeClass('on_hand js_hand_card');
+			    conn.send({'data': {
+			    	card_id: ui.draggable.attr('id'),
+			    	coords: $('#'+ui.draggable.attr('id')).offset()
+			    }});
 
 			    block.find('.js_first_row').sortable({
 			    	revert: true

@@ -9,7 +9,7 @@ use yii\mongodb\Query;
 /**
  * Cards model
  */
-class Cards extends Model {
+class CardsModel extends Model {
 
 	public static $deckTypes = ['doors', 'treasures'];
 	private $_cards = [];
