@@ -13,5 +13,8 @@ return [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest'],
         ],
+        'libs' => [
+            'class' => 'common\libs',
+        ],
     ],
 ];

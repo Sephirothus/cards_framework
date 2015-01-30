@@ -4,7 +4,9 @@ namespace backend\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\helpers\Json;
 use common\models\CardsModel;
+use common\libs\zmqWraper;
 
 /**
  * Site controller
@@ -57,7 +59,10 @@ class GameController extends Controller {
             case 'get_cards':
                 $data = $obj->getCardsByIds($post['cards']);
                 break;
+            case 'ping_pong':
+                (new zmqWraper)->push($post);
+                break;
         }
-        return json_encode(['results' => $data]);
+        return Json::encode(['results' => $data]);
     }
 }

@@ -20,7 +20,7 @@ class CardsModel extends Model {
      *
      * @return string название таблицы
      */
-    public static function tableName() {
+    public static function collectionName() {
         return 'cards';
     }
 
@@ -35,9 +35,9 @@ class CardsModel extends Model {
 		$data = [];
 		foreach (self::$deckTypes as $type) {
 			if (!isset($data[$type])) $data[$type] = [];
-			foreach ($obj->from(self::tableName())->where(['_id' => $type])->one()['children'] as $row) {
+			foreach ($obj->from(self::collectionName())->where(['_id' => $type])->one()['children'] as $row) {
 				$temp = [];
-				foreach ($obj->from(self::tableName())->where(['_id' => $row])->one()['children'] as $child) {
+				foreach ($obj->from(self::collectionName())->where(['_id' => $row])->one()['children'] as $child) {
 					$temp[] = (string)$child;
 				}
 				$data[$type] = array_merge($data[$type], $temp);
@@ -109,7 +109,7 @@ class CardsModel extends Model {
 	 * @author 
 	 **/
 	public function getCardInfo($cardID) {
-		$info = (new Query)->from(self::tableName())->where(['_id' => $cardID])->one();
+		$info = (new Query)->from(self::collectionName())->where(['_id' => $cardID])->one();
 		$info['_id'] = (string)$info['_id'];
 		return $info;
 	}

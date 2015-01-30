@@ -1,14 +1,17 @@
 var ajaxUrl = $('input[name="ajax_url"]').val()
-	conn = new WebSocket('ws://localhost:8080');
-
-conn.onopen = function(e) {
-    console.log("Connection established!");
-};
-conn.onmessage = function(e) {
-    var data = JSON.parse(e.data);
-    console.log(e.data)
-    data['func']();
-};
+	conn = new ab.Session('ws://localhost:8080',
+        function() {
+            conn.subscribe('1', function(topic, data) {
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('New article published to category "' + topic + '" : ');
+                console.log(data)
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
 
 $(function() {
 	var players = [];
@@ -76,8 +79,10 @@ function moveStart(userId) {
 			    ui.draggable.draggable('option', 'revert', false);
 			    ui.draggable.attr('style', '');
 			    ui.draggable.removeClass('on_hand js_hand_card');
-			    conn.send(JSON.stringify({
-				    'func': function() {
+			    conn.publish('1', {
+			    	type: 'ping_pong',
+			    	data: {card_id: ui.draggable.attr('id'), coords: $('#'+ui.draggable.attr('id')).offset(), user_id: userId}
+				    /*'func': function() {
 				    	var coords = $('#'+ui.draggable.attr('id')).offset();
 				    	$('#'+ui.draggable.attr('id')).animate({
 							"left": coords.left+'px',
@@ -85,8 +90,8 @@ function moveStart(userId) {
 						}, 'slow', function() {
 							
 						});
-				    }
-				}));
+				    }*/
+				});
 
 			    block.find('.js_first_row').sortable({
 			    	revert: true

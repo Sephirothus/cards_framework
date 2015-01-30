@@ -22,10 +22,15 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/mainParams.js',
+        'http://autobahn.s3.amazonaws.com/js/autobahn.min.js',
         //'js/objExtend.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapAsset'
+    ];
+
+    public $jsOptions = [ 
+        'position' => \yii\web\View::POS_HEAD 
     ];
 }

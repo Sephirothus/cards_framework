@@ -70,7 +70,7 @@ echo Html::tag('div',
 Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
 
 echo Draggable::widget().Droppable::widget().Sortable::widget();
-$this->registerJsFile('/js/game.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/js/game.js', ['depends' => [\backend\assets\AppAsset::className()]]);
 
 function userBlock(&$data, $width) {
 	reset($data);
