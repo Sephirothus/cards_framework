@@ -144,7 +144,7 @@ class InputWidget extends \yii\widgets\InputWidget
         if ($this->hasModel()) {
             $this->name = empty($this->options['name']) ? Html::getInputName($this->model,
                 $this->attribute) : $this->options['name'];
-            $this->value = $this->model[Html::getAttributeName($this->attribute)];
+            $this->value = Html::getAttributeValue($this->model, $this->attribute);
         }
         $this->initDisability($this->options);
         $view = $this->getView();
@@ -228,12 +228,12 @@ class InputWidget extends \yii\widgets\InputWidget
         if ($assetPath === null) {
             $assetPath = "{$pwd}{$s}assets{$s}";
         } elseif (substr($assetPath, -1) != $s) {
-            $assetPath = substr($assetPath, 0, -1);
+            $assetPath .= $s;
         }
         if ($filePath === null) {
             $filePath = "js{$s}locales{$s}";
         } elseif (substr($filePath, -1) != $s) {
-            $filePath = substr($filePath, 0, -1);
+            $filePath .= $s;
         }
         $full = $filePath . $prefix . $this->language . $suffix;
         $fullLower = $filePath . $prefix . strtolower($this->language) . $suffix;
@@ -250,6 +250,7 @@ class InputWidget extends \yii\widgets\InputWidget
         } else {
             $this->_langFile = '';
         }
+        $this->_langFile = str_replace($s, '/', $this->_langFile);
     }
 
     /**

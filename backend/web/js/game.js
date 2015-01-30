@@ -5,7 +5,9 @@ conn.onopen = function(e) {
     console.log("Connection established!");
 };
 conn.onmessage = function(e) {
-    console.log(e.data);
+    var data = JSON.parse(e.data);
+    console.log(e.data)
+    data['func']();
 };
 
 $(function() {
@@ -74,10 +76,17 @@ function moveStart(userId) {
 			    ui.draggable.draggable('option', 'revert', false);
 			    ui.draggable.attr('style', '');
 			    ui.draggable.removeClass('on_hand js_hand_card');
-			    conn.send({'data': {
-			    	card_id: ui.draggable.attr('id'),
-			    	coords: $('#'+ui.draggable.attr('id')).offset()
-			    }});
+			    conn.send(JSON.stringify({
+				    'func': function() {
+				    	var coords = $('#'+ui.draggable.attr('id')).offset();
+				    	$('#'+ui.draggable.attr('id')).animate({
+							"left": coords.left+'px',
+							"top": coords.top+'px'
+						}, 'slow', function() {
+							
+						});
+				    }
+				}));
 
 			    block.find('.js_first_row').sortable({
 			    	revert: true
