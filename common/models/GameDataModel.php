@@ -13,7 +13,7 @@ use common\models\CardsModel;
 class GameDataModel extends ActiveRecord {
 
 	public function attributes() {
-        return ['_id', 'decks', 'hand_cards', 'play_cards', 'discards', 'field_cards'];
+        return ['_id', 'games_id', 'decks', 'hand_cards', 'play_cards', 'discards', 'field_cards'];
     }
 
 	/**
@@ -42,6 +42,7 @@ class GameDataModel extends ActiveRecord {
         }
         $model->deal_cards = array_merge($model->decks, $obj->dealCards(['doors' => 4, 'treasures' => 4], $users));
         $model->decks = $obj->getDecks();
+        $model->games_id = $id;
         $model->save();
     }
 }
