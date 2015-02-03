@@ -1,5 +1,5 @@
 <?php
-namespace backend\controllers;
+namespace backend\views;
 
 use Yii;
 use yii\helpers\Html;
@@ -52,7 +52,7 @@ echo Html::tag('div',
 		).*/$decks, 
 		['class' => 'col-md-2 decks_col']
 	), 
-	['class' => 'row', 'style' => 'margin: 0;']
+	['class' => 'row']
 ).Html::tag('div', 
 	Html::tag('div', 
 		Html::tag('div', 
@@ -64,13 +64,16 @@ echo Html::tag('div',
 		'',
 		['class' => 'col-md-2 playing_rows']
 	),
-	['class' => 'row', 'style' => 'margin: 0;']
+	['class' => 'row']
 ).
 (!empty($players) ? moreBlocks($players, $this) : '').
-Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action'])).Html::tag('div', '', ['id' => 'message_box']);
+Html::input('hidden', 'game_id', $gameId).
+Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action', 'id' => $gameId])).
+Html::tag('div', '', ['id' => 'message_box']);
 
 echo Draggable::widget().Droppable::widget().Sortable::widget();
-$this->registerJsFile('/js/game.js', ['depends' => [\backend\assets\AppAsset::className()]]);
+$this->registerJsFile('/js/websocketsWraper.js');
+$this->registerJsFile('/js/game.js');
 
 function userBlock(&$data, $width) {
 	reset($data);

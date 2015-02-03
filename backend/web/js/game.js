@@ -1,28 +1,8 @@
 var ajaxUrl = $('input[name="ajax_url"]').val()
-	conn = new ab.Session('ws://localhost:8080',
-        function() {
-            conn.subscribe('1', function(topic, data) {
-                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                console.log('New article published to category "' + topic + '" : ');
-                console.log(data)
-            });
-        },
-        function() {
-            console.warn('WebSocket connection closed');
-        },
-        {'skipSubprotocolCheck': true}
-    );
-
-$(function() {
-	var players = [];
-
-	$('.js_players').each(function() {
-		players.push($(this).attr('id'));
-	});
-
-	if (players.length > 0) {
-		ajaxRequest(ajaxUrl, {'type': 'deal_cards', 'players': players}, function(resp) {
-			var count = resp.results.decks.length,
+	conn = WS.setParams({
+		'topic': $('input[name="game_id"]').val(), 
+		'startGameFunc': function(resp) {
+			var count = resp.decks.length,
 				func = function() {
 					setTimeout(function() {
 						$('<input/>', {
@@ -30,17 +10,18 @@ $(function() {
 							class: 'btn btn-success',
 							value: 'Начнем!'
 						}).on('click', function() {
-							moveStart(players[0]);
+							moveStart(resp.first_move);
 							$(this).remove();
 						}).appendTo('#main_field');
 					}, 1000);
 				};
-			for (var el in resp.results.decks) {
-				dealCards(resp.results.decks[el], resp.results.cards, !--count ? func : false);
+			for (var el in resp.decks) {
+				dealCards(resp.decks[el], resp.cards, !--count ? func : false);
 			}
-		});
-	}
+		}
+	}).init().getConn();
 
+$(function() {
     $(document).on({
 		mouseenter: function(e) {
         	if (e.pageX > ($(window).width()/2)) var pos = 'left:0';
@@ -79,7 +60,7 @@ function moveStart(userId) {
 			    ui.draggable.draggable('option', 'revert', false);
 			    ui.draggable.attr('style', '');
 			    ui.draggable.removeClass('on_hand js_hand_card');
-			    conn.publish('1', {
+			    conn.publish({
 			    	type: 'ping_pong',
 			    	data: {card_id: ui.draggable.attr('id'), coords: $('#'+ui.draggable.attr('id')).offset(), user_id: userId}
 				    /*'func': function() {

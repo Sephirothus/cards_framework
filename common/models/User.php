@@ -32,7 +32,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function collectionName()
     {
         return 'users';
     }
@@ -61,12 +61,16 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributes() {
+        return ['_id', 'username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'gender', 'created_at', 'updated_at', 'status'];
+    }
+
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['_id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -85,10 +89,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        //echo '<pre>';
-        print_r((new Query)->from('users')->where(['username' => $username, 'status' => self::STATUS_ACTIVE])->one());
-        //echo '</pre>';
-        die;
         return self::find()->where(['username' => $username, 'status' => self::STATUS_ACTIVE])->one();
     }
 
@@ -194,5 +194,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function getUsers($ids) {
+        $users = [];
+        foreach ($ids as $user) {
+            $user = self::findOne(['_id' => (string)$user]);
+            $users[(string)$user['_id']] = ['name' => $user['username'], 'sex' => $user['gender']];
+        }
+        return $users;
     }
 }

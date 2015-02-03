@@ -14,6 +14,9 @@ use React\Socket\Server;
 use Yii;
 use \yii\console\Controller;
 use common\models\GameLogsModel;
+use common\models\GamesModel;
+use common\models\CardsModel;
+use common\models\User;
 
 require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
@@ -43,27 +46,12 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
-        // In this application if clients send data it's because the user hacked around in console
-        //$conn->close();
-        /*if (!array_key_exists($entryData['category'], $this->subscribedTopics)) {
-            return;
-        }*/
-        /*foreach ($event as $key => $ev) {
-        	switch ($key) {
-        		case 'game_id':
-        		case 'user_id':
-        		case 'card_id':
-        		case 'card_coords':
-
-        			break;
-        		default:
-        			unset($event['$key']);
-        			break;
-        	}
-        }*/
-        $attributes = $event['data'];
-        $attributes['game_id'] = 1;
-        var_dump(GameLogsModel::add($attributes));
+        $game = GamesModel::findOne(['_id' => $topic]);
+        if ($game['status'] == GamesModel::$status['in_progress']) {
+            $attributes = $event['data'];
+            $attributes['game_id'] = $topic;
+            GameLogsModel::add($attributes);
+        }
         $topic->broadcast($event);
     }
 
@@ -72,23 +60,17 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onSubscribe(ConnectionInterface $conn, $topic) {
+        $event = [];
         $this->subscribedTopics[$topic->getId()] = $topic;
-    }
-
-    /**
-     * @param string JSON'ified string we'll receive from ZeroMQ
-     */
-    /*public function onBlogEntry($entry) {
-        $entryData = json_decode($entry, true);
-
-        // If the lookup topic object isn't set there is no one to publish to
-        if (!array_key_exists($entryData['category'], $this->subscribedTopics)) {
-            return;
+        $game = GamesModel::findOne(['_id' => $topic]);
+        if ($game['status'] == GamesModel::$status['new']) {
+            if ($game['count_users'] == count($game['users'])) {
+                $event['cards'] = $game['game_data']['deal_cards'];
+                $event['decks'] = CardsModel::$deckTypes;
+                $event['type'] = 'start_game';
+                $event['first_move'] = $game['users'][0];
+            } else $event['count'] = intval($game['count_users'])-count($game['users']);
         }
-
-        $topic = $this->subscribedTopics[$entryData['category']];
-
-        // re-send the data to all the clients subscribed to that category
-        $topic->broadcast($entryData);
-    }*/
+        $topic->broadcast($event);
+    }
 }

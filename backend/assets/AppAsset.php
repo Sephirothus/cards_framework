@@ -22,7 +22,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/mainParams.js',
-        'http://autobahn.s3.amazonaws.com/js/autobahn.min.js',
+        'js/libs/autobahn.min.js',
         //'js/objExtend.js'
     ];
     public $depends = [

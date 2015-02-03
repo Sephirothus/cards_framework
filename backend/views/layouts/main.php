@@ -22,7 +22,7 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div class="wrap">
+    <div class="wrap container-fluid">
         <?php
             /*NavBar::begin([
                 'brandLabel' => 'My Company',

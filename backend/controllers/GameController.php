@@ -5,8 +5,10 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use common\models\CardsModel;
-use common\libs\zmqWraper;
+use common\models\GamesModel;
+use common\models\User;
 
 /**
  * Site controller
@@ -15,29 +17,31 @@ class GameController extends Controller {
     /**
      * @inheritdoc
      */
-    /*public function behaviors() {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['index', 'create', 'ajax-action'],
                         'allow' => true,
+                        'roles' => ['@']
                     ]
                 ],
             ],
         ];
-    }*/
+    }
 
-    public function actionIndex($count=3) {
-        $players = [];
-        for ($i=0; $i<$count; $i++) {
-            $players[rand(11111, 99999)] = ['name' => 'Petya', 'sex' => 'male'];
-        }
+    public function actionIndex($id) {
+        $userId = Yii::$app->user->identity->_id;
+        $game = GamesModel::findOne(['users' => $userId, '_id' => $id]);
+        if (!$game) return $this->redirect(Url::toRoute(['/site']));
+
         return $this->render('index', [
-            'players' => $players,
-            'count' => $count,
-            'decksTypes' => CardsModel::$deckTypes
+            'players' => (new User)->getUsers($game['users']),
+            'count' => $game['count_users'],
+            'decksTypes' => CardsModel::$deckTypes,
+            'gameId' => $id
         ]);
     }
 
@@ -47,7 +51,29 @@ class GameController extends Controller {
      * @return void
      * @author 
      **/
-    public function actionAjaxAction() {
+    public function actionCreate() {
+        $model = new GamesModel;
+        if ($post = Yii::$app->request->post()) {
+            $model->count_users = $post['GamesModel']['count_users'];
+            $id = $model->create($model);
+            if ($id) $url = Url::toRoute(['/game/index', 'id' => $id]);
+            else $url = Url::toRoute(['/site']);
+
+            return $this->redirect($url);
+        } else {
+            return $this->render('create', [
+                'model' => $model
+            ]);
+        }
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function actionAjaxAction($id) {
         $post = Yii::$app->request->post();
         $obj = new CardsModel();
         switch ($post['type']) {
@@ -58,9 +84,6 @@ class GameController extends Controller {
                 break;
             case 'get_cards':
                 $data = $obj->getCardsByIds($post['cards']);
-                break;
-            case 'ping_pong':
-                (new zmqWraper)->push($post);
                 break;
         }
         return Json::encode(['results' => $data]);

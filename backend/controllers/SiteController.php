@@ -3,10 +3,12 @@ namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
-use common\models\LoginForm;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\helpers\Url;
 use common\models\Cards;
+use common\models\LoginForm;
+use common\models\GamesModel;
 
 /**
  * Site controller
@@ -53,10 +55,13 @@ class SiteController extends Controller {
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex() {
+        if ($inGame = GamesModel::findOne(['users' => Yii::$app->user->identity->_id, 'status' => GamesModel::$status['new']])) 
+            return $this->redirect(Url::to(['/game/index', 'id' => (string)$inGame['_id']]));
 
-        return $this->render('index');
+        return $this->render('index', [
+            'games' => GamesModel::findAll(['status' => GamesModel::$status['new']])
+        ]);
     }
 
     public function actionLogin()

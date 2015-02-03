@@ -3,16 +3,14 @@ namespace common\models;
 
 use Yii;
 use yii\mongodb\ActiveRecord;
-use yii\base\Model;
 use yii\mongodb\Query;
 
 /**
  * Cards model
  */
-class CardsModel extends Model {
+class CardsModel extends ActiveRecord {
 
 	public static $deckTypes = ['doors', 'treasures'];
-	private $_cards = [];
 	private $_decks = [];
 
 	/**
@@ -43,7 +41,7 @@ class CardsModel extends Model {
 				$data[$type] = array_merge($data[$type], $temp);
 			}
 		}
-		$this->_decks = $this->_cards = $data;
+		$this->_decks = $data;
 		return $this;
 	}
 
@@ -84,7 +82,7 @@ class CardsModel extends Model {
 			}
 			$cards[$player] = $cur;
 		}
-		$this->saveCurDecks();
+		$this->saveCurCards($cards);
 		return $cards;
 	}
 
@@ -115,12 +113,33 @@ class CardsModel extends Model {
 	}
 
 	/**
-	 * Сохраняем текущее состояние колод
+	 * undocumented function
 	 *
 	 * @return void
 	 * @author 
 	 **/
-	public function saveCurDecks() {
+	public function setDecks($decks) {
+		$this->_decks = $decks;
+		return $this;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getDecks() {
+		return $this->_decks;
+	}
+
+	/**
+	 * Сохраняем текущее состояние карт
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function saveCurCards($cards) {
 
 	}
 }
