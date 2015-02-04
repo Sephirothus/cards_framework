@@ -11,12 +11,11 @@ use React\EventLoop\Factory;
 use React\ZMQ\Context;
 use React\Socket\Server;
 
-use Yii;
 use \yii\console\Controller;
 use common\models\GameLogsModel;
 use common\models\GamesModel;
 use common\models\CardsModel;
-use common\models\User;
+use common\models\GameDataModel;
 
 require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
@@ -63,13 +62,19 @@ class PusherController extends Controller implements WampServerInterface {
         $event = [];
         $this->subscribedTopics[$topic->getId()] = $topic;
         $game = GamesModel::findOne(['_id' => $topic]);
+        $gameData = GameDataModel::findOne(['games_id' => new \MongoId((string)$topic)]);
         if ($game['status'] == GamesModel::$status['new']) {
             if ($game['count_users'] == count($game['users'])) {
-                $event['cards'] = $game['game_data']['deal_cards'];
+                $game->status = GamesModel::$status['in_progress'];
+                $game->save();
+                $event['cards'] = $gameData['hand_cards'];
                 $event['decks'] = CardsModel::$deckTypes;
                 $event['type'] = 'start_game';
                 $event['first_move'] = $game['users'][0];
-            } else $event['count'] = intval($game['count_users'])-count($game['users']);
+            } else {
+                $event['type'] = 'not_all_users';
+                $event['count'] = intval($game['count_users'])-count($game['users']);
+            }
         }
         $topic->broadcast($event);
     }

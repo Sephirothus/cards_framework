@@ -45,8 +45,36 @@ class GamesModel extends ActiveRecord {
         $model->status = self::$status['new'];
         if ($model->insert()) {
         	$id = (string)$model->_id;
-        	(new GameDataModel)->update($id, $model->users);
+        	(new GameDataModel)->refresh($model->_id, $model->users);
         	return $id;
         } else return false;
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function addUser($id) {
+    	$userId = Yii::$app->user->identity->_id;
+    	$model = self::findOne(['_id' => $id]);
+    	$model->users = array_merge($model->users, [$userId]);
+    	//if (count($model->users) == $model->count_users) $model->status = self::$status['in_progress'];
+    	if ($model->save()) (new GameDataModel)->refresh($id, [$userId]);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public static function usersToArr($users) {
+    	$new = [];
+    	foreach ($users as $user) {
+    		$new[] = (string)$user;
+    	}
+    	return $new;
     }
 }

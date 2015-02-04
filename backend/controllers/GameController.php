@@ -34,8 +34,13 @@ class GameController extends Controller {
 
     public function actionIndex($id) {
         $userId = Yii::$app->user->identity->_id;
-        $game = GamesModel::findOne(['users' => $userId, '_id' => $id]);
+        $game = GamesModel::findOne(['_id' => $id]);
         if (!$game) return $this->redirect(Url::toRoute(['/site']));
+        $isIn = in_array($userId, GamesModel::usersToArr($game['users']));
+        if ($game['status'] == GamesModel::$status['new'] && !$isIn) {
+            (new GamesModel)->addUser($id);
+        } elseif (!$isIn) 
+            return $this->redirect(Url::toRoute(['/site'])); 
 
         return $this->render('index', [
             'players' => (new User)->getUsers($game['users']),
@@ -77,11 +82,6 @@ class GameController extends Controller {
         $post = Yii::$app->request->post();
         $obj = new CardsModel();
         switch ($post['type']) {
-            case 'deal_cards':
-                $obj->getCards()->shuffleCards();
-                $data['cards'] = $obj->dealCards(['doors' => 4, 'treasures' => 4], $post['players']);
-                $data['decks'] = CardsModel::$deckTypes;
-                break;
             case 'get_cards':
                 $data = $obj->getCardsByIds($post['cards']);
                 break;

@@ -2,32 +2,19 @@ var WS = {
 	conn: false,
 	url: 'ws://localhost:8080',
 	topic: false,
-	startGameFunc: false,
 	setParams: function(params) {
 		for (var i in params) {
-			switch (typeof params[i]) {
-				case 'function':
-					var part = params[i];
-					break;
-				default:
-					var part = '"'+params[i]+'"';
-					break;
-			}
-			eval('this.'+i+' = '+part);
+			eval('this.'+i+' = "'+params[i]+'"');
 		}
 		return this;
 	},
-	init: function() {
+	init: function(func) {
 		if (!this.topic) return console.warn('Topic not set!');
 		if (!this.conn) {
 			var $this = this;
 			$this.conn = new ab.Session(this.url,
-		        function() {
-		            $this.conn.subscribe($this.topic, function(topic, data) {
-		            	if ($this.startGameFunc && data['type'] == 'start_game') {
-		            		$this.startGameFunc(data);
-		            	} else if (typeof data['func'] == 'function') data['func'](data['data']);
-		            });
+				function() {
+		        	$this.onSubscribe(func);
 		        },
 		        function() {
 		            console.warn('WebSocket connection closed');
@@ -36,6 +23,11 @@ var WS = {
 		    );
 		}
 		return this;
+	},
+	onSubscribe: function(func) {
+		this.conn.subscribe(this.topic, function(topic, data) {
+        	if (typeof func == 'function') func(data);
+        });
 	},
 	publish: function(data) {
 		this.conn.publish(this.topic, data);

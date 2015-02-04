@@ -31,18 +31,19 @@ class GameDataModel extends ActiveRecord {
      * @return void
      * @author 
      **/
-    public function update($id, $users) {
+    public function refresh($id, $users) {
         $obj = new CardsModel();
-        $model = self::find()->where(['_id' => $id]);
-        if (!$model->decks) {
+        $model = self::findOne(['games_id' => new \MongoId((string)$id)]);
+        if (!$model) {
+            $model = new static;
             $obj->getCards()->shuffleCards();
-            //$users = array_keys((new User)->getUsers($users));
+            $model->hand_cards = [];
+            $model->games_id = $id;
         } else {
             $obj->setDecks($model->decks);
         }
-        $model->deal_cards = array_merge($model->decks, $obj->dealCards(['doors' => 4, 'treasures' => 4], $users));
+        $model->hand_cards = array_merge($model->hand_cards, $obj->dealCards(['doors' => 4, 'treasures' => 4], $users));
         $model->decks = $obj->getDecks();
-        $model->games_id = $id;
         $model->save();
     }
 }

@@ -1,7 +1,11 @@
 var ajaxUrl = $('input[name="ajax_url"]').val()
 	conn = WS.setParams({
-		'topic': $('input[name="game_id"]').val(), 
-		'startGameFunc': function(resp) {
+		'topic': $('input[name="game_id"]').val()
+	}).init(function(resp) {
+		if (resp.type == 'not_all_users') {
+			alert('Осталось '+resp.count+' игрок(ов)');
+			return false;
+		} else if (resp.type == 'start_game') {
 			var count = resp.decks.length,
 				func = function() {
 					setTimeout(function() {
@@ -18,8 +22,10 @@ var ajaxUrl = $('input[name="ajax_url"]').val()
 			for (var el in resp.decks) {
 				dealCards(resp.decks[el], resp.cards, !--count ? func : false);
 			}
+		} else {
+			console.log('game in progress');
 		}
-	}).init().getConn();
+	}).getConn();
 
 $(function() {
     $(document).on({
@@ -62,16 +68,11 @@ function moveStart(userId) {
 			    ui.draggable.removeClass('on_hand js_hand_card');
 			    conn.publish({
 			    	type: 'ping_pong',
-			    	data: {card_id: ui.draggable.attr('id'), coords: $('#'+ui.draggable.attr('id')).offset(), user_id: userId}
-				    /*'func': function() {
-				    	var coords = $('#'+ui.draggable.attr('id')).offset();
-				    	$('#'+ui.draggable.attr('id')).animate({
-							"left": coords.left+'px',
-							"top": coords.top+'px'
-						}, 'slow', function() {
-							
-						});
-				    }*/
+			    	data: {
+			    		card_id: ui.draggable.attr('id'), 
+			    		coords: $('#'+ui.draggable.attr('id')).offset(), 
+			    		user_id: userId
+			    	}
 				});
 
 			    block.find('.js_first_row').sortable({

@@ -80,9 +80,8 @@ class CardsModel extends ActiveRecord {
 					$cur[$key] = array_splice($this->_decks[$key], 0, $data[$key]);
 				}
 			}
-			$cards[$player] = $cur;
+			$cards[(string)$player] = $cur;
 		}
-		$this->saveCurCards($cards);
 		return $cards;
 	}
 
@@ -131,15 +130,5 @@ class CardsModel extends ActiveRecord {
 	 **/
 	public function getDecks() {
 		return $this->_decks;
-	}
-
-	/**
-	 * Сохраняем текущее состояние карт
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	public function saveCurCards($cards) {
-
 	}
 }
