@@ -60,7 +60,6 @@ class GamesModel extends ActiveRecord {
     	$userId = Yii::$app->user->identity->_id;
     	$model = self::findOne(['_id' => $id]);
     	$model->users = array_merge($model->users, [$userId]);
-    	//if (count($model->users) == $model->count_users) $model->status = self::$status['in_progress'];
     	if ($model->save()) (new GameDataModel)->refresh($id, [$userId]);
     }
 

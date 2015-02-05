@@ -70,7 +70,7 @@ class PusherController extends Controller implements WampServerInterface {
                 $event['cards'] = $gameData['hand_cards'];
                 $event['decks'] = CardsModel::$deckTypes;
                 $event['type'] = 'start_game';
-                $event['first_move'] = $game['users'][0];
+                $event['first_move'] = (string)$game['users'][0];
             } else {
                 $event['type'] = 'not_all_users';
                 $event['count'] = intval($game['count_users'])-count($game['users']);

@@ -1,4 +1,5 @@
-var ajaxUrl = $('input[name="ajax_url"]').val()
+var ajaxUrl = $('input[name="ajax_url"]').val(),
+	gameId = $('input[name="game_id"]').val(),
 	conn = WS.setParams({
 		'topic': $('input[name="game_id"]').val()
 	}).init(function(resp) {
@@ -83,6 +84,12 @@ function moveStart(userId) {
 	});
 }
 
+function restoreGame() {
+	ajaxRequest(ajaxUrl, {type: 'restore_game'}, function(resp) {
+
+	});
+}
+
 function dealCards(deckId, players, callback) {
 	var totalCards = 0,
 		i = 0,
@@ -147,6 +154,7 @@ function turnOneCard(card, url, count, callback) {
 }
 
 function ajaxRequest(url, data, successFunc, beforeSendFunc, errorFunc) {
+	data['game_id'] = gameId;
     $.ajax({
         url: url,
         type: 'POST',
