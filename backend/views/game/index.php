@@ -68,6 +68,7 @@ echo Html::tag('div',
 ).
 (!empty($players) ? moreBlocks($players, $this) : '').
 Html::input('hidden', 'game_id', $gameId).
+Html::input('hidden', 'user_id', Yii::$app->user->identity->_id).
 Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action', 'id' => $gameId])).
 Html::tag('div', '', ['id' => 'message_box']);
 

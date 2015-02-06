@@ -8,6 +8,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use common\models\CardsModel;
 use common\models\GamesModel;
+use common\models\GameDataModel;
 use common\models\User;
 
 /**
@@ -81,13 +82,18 @@ class GameController extends Controller {
      **/
     public function actionAjaxAction($id) {
         $post = Yii::$app->request->post();
+        $userId = (string)Yii::$app->user->identity->_id;
         $obj = new CardsModel();
         switch ($post['type']) {
             case 'get_cards':
                 $data = $obj->getCardsByIds($post['cards']);
                 break;
             case 'restore_game':
-                
+                $data = GameDataModel::findOne(['games_id' => new \MongoId((string)$post['game_id'])]);
+                $data = $data->getAttributes();
+                foreach ($data['hand_cards'][$userId] as $key => $val) {
+                    $data['hand_cards'][$userId][$key] = $obj->getCardsByIds($data['hand_cards'][$userId][$key]);
+                }
                 break;
         }
         return Json::encode(['results' => $data]);

@@ -94,7 +94,7 @@ class CardsModel extends ActiveRecord {
 	public function getCardsByIds($cards) {
 		$data = [];
 		foreach ($cards as $card) {
-			$data[$card] = $this->getCardInfo($card);
+			$data[$card] = $this->getCardInfo($card, ['id']);
 		}
 		return $data;
 	}
@@ -105,8 +105,10 @@ class CardsModel extends ActiveRecord {
 	 * @return void
 	 * @author 
 	 **/
-	public function getCardInfo($cardID) {
-		$info = (new Query)->from(self::collectionName())->where(['_id' => $cardID])->one();
+	public function getCardInfo($cardID, $select='*') {
+		$query = new Query;
+		if ($select != '*') $query->select($select);
+		$info = $query->from(self::collectionName())->where(['_id' => $cardID])->one();
 		$info['_id'] = (string)$info['_id'];
 		return $info;
 	}

@@ -45,11 +45,12 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
-        $game = GamesModel::findOne(['_id' => $topic]);
+        $gameId = new \MongoId((string)$topic->getId());
+        $game = GamesModel::findOne(['_id' => $gameId]);
         if ($game['status'] == GamesModel::$status['in_progress']) {
-            $attributes = $event['data'];
-            $attributes['game_id'] = $topic;
-            GameLogsModel::add($attributes);
+            $data = $event;
+            $data['games_id'] = $gameId;
+            GameLogsModel::add($data);
         }
         $topic->broadcast($event);
     }
@@ -60,9 +61,10 @@ class PusherController extends Controller implements WampServerInterface {
 
     public function onSubscribe(ConnectionInterface $conn, $topic) {
         $event = [];
+        $gameId = new \MongoId((string)$topic->getId());
         $this->subscribedTopics[$topic->getId()] = $topic;
-        $game = GamesModel::findOne(['_id' => $topic]);
-        $gameData = GameDataModel::findOne(['games_id' => new \MongoId((string)$topic)]);
+        $game = GamesModel::findOne(['_id' => $gameId]);
+        $gameData = GameDataModel::findOne(['games_id' => $gameId]);
         if ($game['status'] == GamesModel::$status['new']) {
             if ($game['count_users'] == count($game['users'])) {
                 $game->status = GamesModel::$status['in_progress'];

@@ -2,14 +2,13 @@
 namespace common\models;
 
 use Yii;
-use yii\mongodb\Collection;
-//use yii\base\Model;
+use yii\mongodb\ActiveRecord;
 use yii\mongodb\Query;
 
 /**
  * Cards model
  */
-class GameLogsModel extends Collection {
+class GameLogsModel extends ActiveRecord {
 
 	/**
      * Определение имени таблицы
@@ -21,7 +20,7 @@ class GameLogsModel extends Collection {
     }
 
 	public function attributes() {
-        return ['_id', 'game_id', 'user_id', 'card_id', 'card_coords'];
+        return ['_id', 'games_id', 'user_id', 'card_id', 'card_coords'];
     }
 
     /**
@@ -31,7 +30,12 @@ class GameLogsModel extends Collection {
      * @author 
      **/
     public static function add($data) {
-    	$import = Yii::$app->mongodb->getCollection(self::collectionName());
-    	return $import->insert($data);
+    	$model = new static;
+        foreach ($data as $key => $val) {
+            $model->$key = $val;
+        }
+        $save = $model->insert();
+    	if ($save) return (string)$model->_id;
+        else return false;
     }
 }
