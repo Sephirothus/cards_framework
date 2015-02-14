@@ -3,7 +3,7 @@ var ajaxUrl = $('input[name="ajax_url"]').val(),
 	userId = $('input[name="user_id"]').val();
 
 WS.setParams({
-	'topic': $('input[name="game_id"]').val()
+	'topic': gameId
 }).init(function(resp) {
 	if (resp.type == 'not_all_users') {
 		alert('Осталось '+resp.count+' игрок(ов)');
@@ -121,22 +121,22 @@ function restoreGame() {
 function dealCards(deckId, players, callback) {
 	var totalCards = 0,
 		i = 0,
-		curUserId = firstKey(players);
+		curUserId = players.firstKey();
 
 	var timer = setInterval(function() {
-		if (++i > count(players)) {
+		if (++i > players.count()) {
 			i = 1;
 			if (++totalCards >= 4) {
 				clearInterval(timer);
 				if (typeof callback == 'function') callback();
 				return true;
 			}
-			curUserId = firstKey(players);
+			curUserId = players.firstKey();
 		}
 		var deck = $('#'+deckId).offset(),
 			parent = $('#'+curUserId).find('.js_hand_cards'),
 			parPos = parent.offset(),
-			cardId = objShift(players[curUserId][deckId]),
+			cardId = players[curUserId][deckId].objShift(),
 			newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId).attr('type', deckId);
 
 		newCard.addClass('js_hand_card card on_hand').removeClass('decks').css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
@@ -146,7 +146,7 @@ function dealCards(deckId, players, callback) {
 		}, 'slow', function() {
 			newCard.attr('style', '').detach().appendTo(parent);
 		});
-		curUserId = nextKey(players, curUserId);
+		curUserId = players.nextKey(curUserId);
 	}, 50);
 }
 
@@ -218,25 +218,4 @@ function ajaxRequest(url, data, successFunc, beforeSendFunc, errorFunc) {
             if (typeof errorFunc == 'function') errorFunc();
         }
     });
-}
-
-function nextKey(obj, key) {
-	var keys = Object.keys(obj),
-		i = keys.indexOf(key);
-	return i !== -1 && keys[i + 1];
-}
-
-function firstKey(obj) {
-	return Object.keys(obj)[0];
-}
-
-function objShift(obj) {
-	var el = firstKey(obj),
-		val = obj[el];
-	delete obj[el];
-	return val;
-}
-
-function count(obj) {
-	return Object.keys(obj).length;
 }
