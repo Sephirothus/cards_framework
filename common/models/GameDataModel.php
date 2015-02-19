@@ -6,6 +6,7 @@ use yii\mongodb\ActiveRecord;
 use yii\mongodb\Query;
 
 use common\models\CardsModel;
+use common\helpers\IdHelper;
 
 /**
  * Cards model
@@ -33,7 +34,7 @@ class GameDataModel extends ActiveRecord {
      **/
     public function refresh($id, $users) {
         $obj = new CardsModel();
-        $model = self::findOne(['games_id' => new \MongoId((string)$id)]);
+        $model = self::findOne(['games_id' => IdHelper::toId($id)]);
         if (!$model) {
             $model = new static;
             $obj->getCards()->shuffleCards();

@@ -16,6 +16,7 @@ use common\models\GameLogsModel;
 use common\models\GamesModel;
 use common\models\CardsModel;
 use common\models\GameDataModel;
+use common\helpers\IdHelper;
 
 require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
@@ -45,10 +46,14 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
-        $gameId = new \MongoId((string)$topic->getId());
+        $gameId = IdHelper::toId($topic->getId());
         $game = GamesModel::findOne(['_id' => $gameId]);
         if ($game['status'] == GamesModel::$status['in_progress']) {
             $data = $event;
+            if (isset($data['card_id'])) {
+                $event['pic_id'] = $event['card_id'];
+                $data['card_id'] = $event['card_id'] = (string)CardsModel::findOne(['id' => $event['card_id']])['_id'];
+            }
             $data['games_id'] = $gameId;
             GameLogsModel::add($data);
         }
@@ -61,7 +66,7 @@ class PusherController extends Controller implements WampServerInterface {
 
     public function onSubscribe(ConnectionInterface $conn, $topic) {
         $event = [];
-        $gameId = new \MongoId((string)$topic->getId());
+        $gameId = IdHelper::toId($topic->getId());
         $this->subscribedTopics[$topic->getId()] = $topic;
         $game = GamesModel::findOne(['_id' => $gameId]);
         $gameData = GameDataModel::findOne(['games_id' => $gameId]);

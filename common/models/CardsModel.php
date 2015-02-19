@@ -22,6 +22,10 @@ class CardsModel extends ActiveRecord {
         return 'cards';
     }
 
+    public function attributes() {
+        return ['_id', 'id'];
+    }
+
 	/**
 	 * Получаем все карты
 	 *

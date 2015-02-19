@@ -20,7 +20,7 @@ class GameLogsModel extends ActiveRecord {
     }
 
 	public function attributes() {
-        return ['_id', 'games_id', 'user_id', 'card_id', 'card_coords'];
+        return ['_id', 'games_id', 'user_id', 'card_id', 'card_coords', 'date'];
     }
 
     /**
@@ -32,9 +32,11 @@ class GameLogsModel extends ActiveRecord {
     public static function add($data) {
     	$model = new static;
         foreach ($data as $key => $val) {
-            $model->$key = $val;
+            if (in_array($key, self::attributes())) $model->$key = $val;
         }
-        $save = $model->insert();
+        $model->date = date('Y-m-d H:i:s');
+
+        $save = $model->save();
     	if ($save) return (string)$model->_id;
         else return false;
     }

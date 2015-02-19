@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use common\helpers\IdHelper;
 use common\models\CardsModel;
 use common\models\GamesModel;
 use common\models\GameDataModel;
@@ -89,7 +90,7 @@ class GameController extends Controller {
                 $data = $obj->getCardsByIds($post['cards']);
                 break;
             case 'restore_game':
-                $data = GameDataModel::findOne(['games_id' => new \MongoId((string)$post['game_id'])]);
+                $data = GameDataModel::findOne(['games_id' => IdHelper::toId($post['game_id'])]);
                 $data = $data->getAttributes();
                 foreach ($data['hand_cards'][$userId] as $key => $val) {
                     $data['hand_cards'][$userId][$key] = $obj->getCardsByIds($data['hand_cards'][$userId][$key]);
