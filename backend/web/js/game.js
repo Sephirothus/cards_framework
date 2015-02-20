@@ -1,8 +1,8 @@
 var ajaxUrl = $('input[name="ajax_url"]').val(),
 	gameId = $('input[name="game_id"]').val(),
-	userId = $('input[name="user_id"]').val();
+	userId = $('input[name="user_id"]').val(),
+	flag = false;
 
-restoreGame();
 WS.setParams({
 	'topic': gameId
 }).init(function(resp) {
@@ -31,7 +31,9 @@ WS.setParams({
 			dealCards(resp.decks[el], resp.cards, !--count ? func : false);
 		}
 	} else {
+		if (!flag) restoreGame();
 		setSubscribe();
+		flag = true;
 	}
 });
 
@@ -68,8 +70,8 @@ function cardActions(resp) {
 			var card = $('#'+resp.card_id);
 			card.css({'position':'absolute'});
 			card.animate({
-				"left": resp.card_coords.left+'px',
-				"top": resp.card_coords.top+'px'
+				"left": resp.card_coords.left - (resp.card_coords.left*0.3),
+				"top": resp.card_coords.top - (resp.card_coords.top*0.3)
 			}, 'slow', function() {
 				turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
 					card.attr('class', 'card js_enlarge_card');
@@ -177,7 +179,6 @@ function turnCards(block, callback) {
 			var card = $('#'+resp.results[el]['_id']),
 				url = Params.cardPath(resp.results[el]['id'], true);
 
-			//card.attr('pic_id', resp.results[el]['id']);
 			turnOneCard(card, url, --count, callback);
 		}
 	});
