@@ -25,9 +25,16 @@ var WS = {
 		return this;
 	},
 	onSubscribe: function(func) {
+		this.unSubscribe();
 		this.conn.subscribe(this.topic, function(topic, data) {
         	if (typeof func == 'function') func(data);
         });
+	},
+	unSubscribe: function() {
+		if (this.checkIsSubscribed(this.topic)) this.conn.unsubscribe(this.topic);
+	},
+	checkIsSubscribed: function(topic) {
+		return topic in this.conn._subscriptions ? true : false;
 	},
 	publish: function(data) {
 		this.conn.publish(this.topic, data);

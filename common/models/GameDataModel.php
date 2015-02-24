@@ -39,6 +39,9 @@ class GameDataModel extends ActiveRecord {
             $model = new static;
             $obj->getCards()->shuffleCards();
             $model->hand_cards = [];
+            $model->play_cards = $users;
+            $model->field_cards = [];
+            $model->discards = [];
             $model->games_id = $id;
         } else {
             $obj->setDecks($model->decks);
@@ -46,5 +49,22 @@ class GameDataModel extends ActiveRecord {
         $model->hand_cards = array_merge($model->hand_cards, $obj->dealCards(['doors' => 4, 'treasures' => 4], $users));
         $model->decks = $obj->getDecks();
         $model->save();
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public static function findValKey($arr, $find) {
+        foreach ($arr as $key => $val) {
+            if (is_array($val)) {
+                return self::findKeyVal($val, $find);
+            } else {
+                if ($val == $find) return $key;
+            }
+        }
+        return false;
     }
 }

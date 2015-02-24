@@ -12,7 +12,7 @@ use React\Socket\Server;
 use Yii;
 use console\controllers\PusherController;
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+//require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
 $loop = Factory::create();
 $pusher = new PusherController('id', Yii::$app);

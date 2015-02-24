@@ -67,15 +67,17 @@ function setSubscribe() {
 function cardActions(resp) {
 	switch (resp.action) {
 		case 'from_hand_to_play':
-			var card = $('#'+resp.card_id);
-			card.css({'position':'absolute'});
+			var card = $('#'+resp.card_id),
+				target = $('#'+resp.user_id+' .js_first_row'),
+				offset = target.position();
+			card.css({'position':'absolute', 'z-index': 9999});
 			card.animate({
-				"left": resp.card_coords.left - (resp.card_coords.left*0.3),
-				"top": resp.card_coords.top - (resp.card_coords.top*0.3)
+				"left": (offset.left+target.width()/2),
+				"top": offset.top
 			}, 'slow', function() {
 				turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
 					card.attr('class', 'card js_enlarge_card');
-					card.attr('style', '').detach().appendTo($(resp.parent));
+					card.attr('style', '').detach().appendTo(target);
 				});
 			});
 			break;
@@ -100,11 +102,12 @@ function eventsOn(block) {
 		    ui.draggable.draggable('option', 'revert', false);
 		    ui.draggable.attr('style', '');
 		    ui.draggable.removeClass('on_hand js_hand_card');
+		    var el = $('#'+ui.draggable.attr('id')),
+		    	offset = getPercentOffset(el);
 		    WS.publish({
 	    		card_id: ui.draggable.attr('id'), 
-	    		card_coords: $('#'+ui.draggable.attr('id')).offset(), 
+	    		card_coords: offset, 
 	    		user_id: userId,
-	    		parent: '#'+userId+' .js_first_row',
 	    		action: 'from_hand_to_play'
 			});
 
@@ -113,6 +116,13 @@ function eventsOn(block) {
 		    });
 		}
     });
+}
+
+function getPercentOffset(el) {
+	return {
+    	'top': el.offset().top / $(document).height() * 100,
+    	'left': el.offset().left / $(document).width() * 100,
+    };
 }
 
 function restoreGame() {

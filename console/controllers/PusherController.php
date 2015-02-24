@@ -51,11 +51,27 @@ class PusherController extends Controller implements WampServerInterface {
         if ($game['status'] == GamesModel::$status['in_progress']) {
             $data = $event;
             if (isset($data['card_id'])) {
+                $card = CardsModel::findOne(['id' => $event['card_id']]);
                 $event['pic_id'] = $event['card_id'];
-                $data['card_id'] = $event['card_id'] = (string)CardsModel::findOne(['id' => $event['card_id']])['_id'];
+                $data['card_id'] = $event['card_id'] = (string)$card['_id'];
             }
             $data['games_id'] = $gameId;
             GameLogsModel::add($data);
+            
+            $gameData = GameDataModel::findOne(['games_id' => $gameId]);
+            switch ($event['action']) {
+                case 'from_hand_to_play':
+                    /*$type = GameDataModel::findValKey($gameData->hand_cards[$event['user_id']], $event['card_id']);
+                    $gameData->hand_cards[$event['user_id']][$type] = 
+                    $gameData->play_cards[$event['user_id']][$type][] = $event['card_id'];*/
+                    break;
+                case 'from_play_to_field':
+                    //$gameData->
+                    break;
+                case 'from_hand_to_field':
+                    //$gameData->
+                    break;
+            }
         }
         $topic->broadcast($event);
     }

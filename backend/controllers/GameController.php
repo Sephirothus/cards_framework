@@ -93,7 +93,7 @@ class GameController extends Controller {
                 $data = GameDataModel::findOne(['games_id' => IdHelper::toId($post['game_id'])]);
                 $data = $data->getAttributes();
                 foreach ($data['hand_cards'][$userId] as $key => $val) {
-                    $data['hand_cards'][$userId][$key] = $obj->getCardsByIds($data['hand_cards'][$userId][$key]);
+                    $data['hand_cards'][$userId][$key] = $obj->getCardsByIds($val);
                 }
                 break;
         }
