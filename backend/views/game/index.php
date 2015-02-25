@@ -33,7 +33,7 @@ echo Html::tag('div',
 			(count($players) > 3) ? userBlock($players, 6).userBlock($players, 6) : userBlock($players, 12),
 			['class' => 'row playing_rows', 'id' => 'first_row']
 		).Html::tag('div', 
-			(count($players) > 1) ? userBlock($players, 6).Html::tag('div', '', ['class' => 'col-md-6 text-center', 'id' => 'main_field']) : Html::tag('div', '', ['class' => 'col-md-12 text-center', 'id' => 'main_field']),
+			(count($players) > 1) ? userBlock($players, 6).Html::tag('div', '', ['class' => 'col-md-6 text-center playing_rows', 'id' => 'main_field']) : Html::tag('div', '', ['class' => 'col-md-12 text-center playing_rows', 'id' => 'main_field']),
 			['class' => 'row playing_rows', 'id' => 'second_row']
 		), 
 		['class' => 'col-md-10']

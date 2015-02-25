@@ -54,34 +54,75 @@ $(function() {
 			$('.js_temp_pic').remove();
 		}
 	}, '.js_enlarge_card');
+
+	$('#main_field').droppable({
+		accept: '.js_hand_card, .js_play_card',
+		drop: function(event, ui) {
+			var action = ui.draggable.hasClass('js_hand_card') ? 'from_hand_to_field' : 'from_play_to_field';
+			console.log(action)
+			ui.draggable.detach().appendTo($(this));
+		    ui.draggable.draggable('disable');
+		    ui.draggable.draggable('option', 'revert', false);
+		    ui.draggable.attr('style', '');
+		    ui.draggable.removeClass('on_hand js_hand_card js_play_card');
+		    var el = $('#'+ui.draggable.attr('id')),
+		    	offset = getPercentOffset(el);
+		    WS.publish({
+	    		card_id: ui.draggable.attr('id'), 
+	    		card_coords: offset, 
+	    		user_id: userId,
+	    		action: action
+			});
+		}
+	});
 });
 
 function setSubscribe() {
 	WS.onSubscribe(function(resp) {
 		console.log(resp)
 		if (resp.user_id == userId) return false;
-		cardActions(resp);
+		if (resp.count() > 0) cardActions(resp);
 	});
 }
 
 function cardActions(resp) {
+	var card = $('#'+resp.card_id);
 	switch (resp.action) {
 		case 'from_hand_to_play':
-			var card = $('#'+resp.card_id),
-				target = $('#'+resp.user_id+' .js_first_row'),
-				offset = target.position();
-			card.css({'position':'absolute', 'z-index': 9999});
-			card.animate({
-				"left": (offset.left+target.width()/2),
-				"top": offset.top
-			}, 'slow', function() {
-				turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
+			var target = $('#'+resp.user_id+' .js_first_row'),
+				callback = function() {
+					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
+						card.attr('class', 'card js_enlarge_card');
+						card.attr('style', '').detach().appendTo(target);
+					});
+				};
+			break;
+		case 'from_hand_to_field':
+			var target = $('#main_field'),
+				callback = function() {
+					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
+						card.attr('class', 'card js_enlarge_card');
+						card.attr('style', '').detach().appendTo(target);
+					});
+				};
+			break;
+		case 'from_play_to_field':
+			var target = $('#main_field'),
+				callback = function() {
 					card.attr('class', 'card js_enlarge_card');
 					card.attr('style', '').detach().appendTo(target);
-				});
-			});
+				};
 			break;
 	}
+	var pos = target.position();
+	console.log(pos)
+	card.css({'position':'absolute', 'z-index': 9999});
+	card.animate({
+		"left": pos.left+target.width()/2,
+		"top": pos.top
+	}, 'slow', function() {
+		callback();
+	});
 }
 
 function eventsOn(block) {
@@ -98,8 +139,8 @@ function eventsOn(block) {
 		accept: '#'+userId+' .js_hand_card',
 		drop: function(event, ui) {
 			ui.draggable.detach().appendTo($(this));
-		    ui.draggable.draggable('disable');
-		    ui.draggable.draggable('option', 'revert', false);
+		    //ui.draggable.draggable('disable');
+		    //ui.draggable.draggable('option', 'revert', false);
 		    ui.draggable.attr('style', '');
 		    ui.draggable.removeClass('on_hand js_hand_card');
 		    var el = $('#'+ui.draggable.attr('id')),
@@ -110,11 +151,11 @@ function eventsOn(block) {
 	    		user_id: userId,
 	    		action: 'from_hand_to_play'
 			});
-
-		    block.find('.js_first_row').sortable({
-		    	revert: true
-		    });
 		}
+    });
+
+    block.find('.js_first_row').sortable({
+    	revert: true
     });
 }
 
@@ -128,19 +169,45 @@ function getPercentOffset(el) {
 function restoreGame() {
 	ajaxRequest(ajaxUrl, {type: 'restore_game'}, function(resp) {
 		resp = resp.results;
-		for (var user in resp.hand_cards) {
-			for (var type in resp.hand_cards[user]) {
-				for (var el in resp.hand_cards[user][type]) {
-					var info = resp.hand_cards[user][type][el];
+		for (var attr in resp) {
+			for (var user in resp[attr]) {
+				for (var type in resp[attr][user]) {
+					for (var el in resp[attr][user][type]) {
+						var info = resp[attr][user][type][el];
+						var data = {
+							id: info['id'] ? info['id'] : info,
+							type: type,
+							pic_id: info['id']
+						};
+						switch (attr) {
+							case 'hand_cards':
+								$('#'+user).find('.js_hand_cards').append(createCard(data, 'hand'));
+								break;
+							case 'play_cards':
+								$('#'+user).find('.js_first_row').append(createCard(data, 'play'));
+								break;
+						}
+					}
+				}
+				if (user == userId) eventsOn($('#'+user), userId);
+			}
+		}
+		for (var attr in resp) {
+			for (var type in resp[attr]) {
+				for (var el in resp[attr][type]) {
+					var info = resp[attr][type][el];
 					var data = {
 						id: info['id'] ? info['id'] : info,
 						type: type,
 						pic_id: info['id']
 					};
-					$('#'+user).find('.js_hand_cards').append(createCard(data, 'hand'));
+					switch (attr) {
+						case 'field_cards':
+							$('#main_field').append(createCard(data, 'field'));
+							break;
+					}
 				}
 			}
-			if (user == userId) eventsOn($('#'+user), userId);
 		}
 	});
 }
@@ -219,8 +286,12 @@ function createCard(data, where) {
 			if (data['pic_id']) img.addClass('js_enlarge_card');
 			break;
 		case 'field':
+			img.addClass('js_field_card card');
+			if (data['pic_id']) img.addClass('js_enlarge_card');
 			break;
 		case 'play':
+			img.addClass('js_play_card card');
+			if (data['pic_id']) img.addClass('js_enlarge_card');
 			break;
 		case 'discard':
 			break;

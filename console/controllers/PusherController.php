@@ -57,20 +57,35 @@ class PusherController extends Controller implements WampServerInterface {
             }
             $data['games_id'] = $gameId;
             GameLogsModel::add($data);
-            
+
+            $isSave = false;
             $gameData = GameDataModel::findOne(['games_id' => $gameId]);
+            $temp = $gameData->getAttributes();
             switch ($event['action']) {
                 case 'from_hand_to_play':
-                    /*$type = GameDataModel::findValKey($gameData->hand_cards[$event['user_id']], $event['card_id']);
-                    $gameData->hand_cards[$event['user_id']][$type] = 
-                    $gameData->play_cards[$event['user_id']][$type][] = $event['card_id'];*/
+                    $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
+                    unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
+                    $temp['play_cards'][$event['user_id']][$type['type']][] = $event['card_id'];
+                    $isSave = true;
                     break;
                 case 'from_play_to_field':
-                    //$gameData->
+                    $type = GameDataModel::findCardType($temp['play_cards'][$event['user_id']], $event['card_id']);
+                    unset($temp['play_cards'][$event['user_id']][$type['type']][$type['index']]);
+                    $temp['field_cards'][$type['type']][] = $event['card_id'];
+                    $isSave = true;
                     break;
                 case 'from_hand_to_field':
-                    //$gameData->
+                    $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
+                    unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
+                    $temp['field_cards'][$type['type']][] = $event['card_id'];
+                    $isSave = true;
                     break;
+            }
+            if ($isSave) {
+                foreach ($gameData->getAttributes() as $attr => $val) {
+                    $gameData->$attr = $temp[$attr];
+                }
+                $gameData->save();
             }
         }
         $topic->broadcast($event);

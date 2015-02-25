@@ -39,9 +39,6 @@ class GameDataModel extends ActiveRecord {
             $model = new static;
             $obj->getCards()->shuffleCards();
             $model->hand_cards = [];
-            $model->play_cards = $users;
-            $model->field_cards = [];
-            $model->discards = [];
             $model->games_id = $id;
         } else {
             $obj->setDecks($model->decks);
@@ -57,12 +54,51 @@ class GameDataModel extends ActiveRecord {
      * @return void
      * @author 
      **/
-    public static function findValKey($arr, $find) {
-        foreach ($arr as $key => $val) {
-            if (is_array($val)) {
-                return self::findKeyVal($val, $find);
-            } else {
-                if ($val == $find) return $key;
+    public static function formData($data, $attrs) {
+        $obj = new CardsModel();
+        $userId = (string)Yii::$app->user->identity->_id;
+        $new = [];
+        foreach ($attrs as $attr) {
+            $new[$attr] = $data[$attr];
+            switch ($attr) {
+                case 'hand_cards':
+                    if (isset($data[$attr][$userId])) {
+                        foreach ($data[$attr][$userId] as $key => $val) {
+                            $new[$attr][$userId][$key] = $obj->getCardsByIds($val);
+                        }
+                    }
+                    break;
+                case 'play_cards':
+                    if (isset($data[$attr])) {
+                        foreach ($data[$attr] as $user => $val) {
+                            foreach ($data[$attr][$user] as $key => $val) {
+                                $new[$attr][$user][$key] = $obj->getCardsByIds($val);
+                            }
+                        }
+                    }
+                    break;
+                case 'field_cards':
+                    if (isset($data[$attr])) {
+                        foreach ($data[$attr] as $key => $val) {
+                            $new[$attr][$key] = $obj->getCardsByIds($val);
+                        }
+                    }
+                    break;
+            }
+        }
+        return $new;
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public static function findCardType($arr, $find) {
+        foreach ($arr as $type => $cards) {
+            foreach ($cards as $key => $val) {
+                if ($val == $find) return ['type' => $type, 'index' => $key];
             }
         }
         return false;

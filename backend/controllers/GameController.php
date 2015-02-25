@@ -43,6 +43,7 @@ class GameController extends Controller {
             !$isIn &&
             count($game['users']) < $game['count_users']) {
                 (new GamesModel)->addUser($id);
+                $game = GamesModel::findOne(['_id' => $id]);
         } elseif (!$isIn) return $this->redirect(Url::toRoute(['/site'])); 
 
         return $this->render('index', [
@@ -91,10 +92,7 @@ class GameController extends Controller {
                 break;
             case 'restore_game':
                 $data = GameDataModel::findOne(['games_id' => IdHelper::toId($post['game_id'])]);
-                $data = $data->getAttributes();
-                foreach ($data['hand_cards'][$userId] as $key => $val) {
-                    $data['hand_cards'][$userId][$key] = $obj->getCardsByIds($val);
-                }
+                $data = GameDataModel::formData($data->getAttributes(), ['hand_cards', 'play_cards', 'field_cards']);
                 break;
         }
         return Json::encode(['results' => $data]);
