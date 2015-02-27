@@ -54,27 +54,6 @@ $(function() {
 			$('.js_temp_pic').remove();
 		}
 	}, '.js_enlarge_card');
-
-	$('#main_field').droppable({
-		accept: '.js_hand_card, .js_play_card',
-		drop: function(event, ui) {
-			var action = ui.draggable.hasClass('js_hand_card') ? 'from_hand_to_field' : 'from_play_to_field';
-			console.log(action)
-			ui.draggable.detach().appendTo($(this));
-		    ui.draggable.draggable('disable');
-		    ui.draggable.draggable('option', 'revert', false);
-		    ui.draggable.attr('style', '');
-		    ui.draggable.removeClass('on_hand js_hand_card js_play_card');
-		    var el = $('#'+ui.draggable.attr('id')),
-		    	offset = getPercentOffset(el);
-		    WS.publish({
-	    		card_id: ui.draggable.attr('id'), 
-	    		card_coords: offset, 
-	    		user_id: userId,
-	    		action: action
-			});
-		}
-	});
 });
 
 function setSubscribe() {
@@ -114,19 +93,19 @@ function cardActions(resp) {
 				};
 			break;
 	}
-	var pos = target.position();
-	console.log(pos)
+	var pos = target.offset(),
+		cardPos = card.offset();
 	card.css({'position':'absolute', 'z-index': 9999});
 	card.animate({
-		"left": pos.left+target.width()/2,
-		"top": pos.top
+		"left": (cardPos.left > pos.left ? cardPos.left-pos.left : pos.left-cardPos.left)+target.width()/2,
+		"top": pos.top-cardPos.top+target.height()/2
 	}, 'slow', function() {
 		callback();
 	});
 }
 
 function eventsOn(block) {
-	block.find('.js_hand_card').draggable({
+	block.find('.js_hand_card, .js_play_card').draggable({
 		stack: '#'+userId+' .js_hand_cards',
 		cursor: 'move',
 		revert: true,
@@ -155,8 +134,34 @@ function eventsOn(block) {
     });
 
     block.find('.js_first_row').sortable({
-    	revert: true
+    	//connectWith: '#'+userId+' .js_first_row, #main_field',
+    	update: function(event, ui) {
+    		console.log(event)
+    		console.log(ui)
+    	}
     });
+
+    $('#main_field').droppable({
+		accept: '.js_hand_card, .js_play_card',
+		drop: function(event, ui) {
+			var action = ui.draggable.hasClass('js_hand_card') ? 'from_hand_to_field' : 'from_play_to_field';
+			console.log(action)
+			ui.draggable.detach().appendTo($(this));
+			//if (ui.draggable.sortable()) ui.draggable.sortable('disable');
+		    ui.draggable.draggable('disable');
+		    ui.draggable.draggable('option', 'revert', false);
+		    ui.draggable.attr('style', '');
+		    ui.draggable.removeClass('on_hand js_hand_card js_play_card');
+		    var el = $('#'+ui.draggable.attr('id')),
+		    	offset = getPercentOffset(el);
+		    WS.publish({
+	    		card_id: ui.draggable.attr('id'), 
+	    		card_coords: offset, 
+	    		user_id: userId,
+	    		action: action
+			});
+		}
+	});
 }
 
 function getPercentOffset(el) {
@@ -189,7 +194,6 @@ function restoreGame() {
 						}
 					}
 				}
-				if (user == userId) eventsOn($('#'+user), userId);
 			}
 		}
 		for (var attr in resp) {
@@ -209,6 +213,7 @@ function restoreGame() {
 				}
 			}
 		}
+		eventsOn($('#'+userId), userId);
 	});
 }
 
