@@ -65,14 +65,14 @@ function setSubscribe() {
 }
 
 function cardActions(resp) {
-	var card = $('#'+resp.card_id);
+	var card = $('#'+resp.card_id).length ? $('#'+resp.card_id) : $('#'+resp.pic_id);
 	switch (resp.action) {
 		case 'from_hand_to_play':
 			var target = $('#'+resp.user_id+' .js_first_row'),
 				callback = function() {
 					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', 'card js_enlarge_card');
-						card.attr('style', '').detach().appendTo(target);
+						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
 			break;
@@ -81,7 +81,7 @@ function cardActions(resp) {
 				callback = function() {
 					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', 'card js_enlarge_card');
-						card.attr('style', '').detach().appendTo(target);
+						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
 			break;
@@ -89,7 +89,7 @@ function cardActions(resp) {
 			var target = $('#main_field'),
 				callback = function() {
 					card.attr('class', 'card js_enlarge_card');
-					card.attr('style', '').detach().appendTo(target);
+					card.removeAttr('style').detach().appendTo(target);
 				};
 			break;
 	}
@@ -97,7 +97,7 @@ function cardActions(resp) {
 		cardPos = card.offset();
 	card.css({'position':'absolute', 'z-index': 9999});
 	card.animate({
-		"left": (cardPos.left > pos.left ? cardPos.left-pos.left : pos.left-cardPos.left)+target.width()/2,
+		"left": cardPos.left > (pos.left+target.width()/2) ? cardPos.left-(pos.left+target.width()/2) : (pos.left+target.width()/2)-cardPos.left,
 		"top": pos.top-cardPos.top+target.height()/2
 	}, 'slow', function() {
 		callback();
@@ -106,7 +106,7 @@ function cardActions(resp) {
 
 function eventsOn(block) {
 	block.find('.js_hand_card, .js_play_card').draggable({
-		stack: '#'+userId+' .js_hand_cards',
+		//connectToSortable: '#'+userId+' .js_first_row',
 		cursor: 'move',
 		revert: true,
 		stop: function(event, ui) {
@@ -117,11 +117,10 @@ function eventsOn(block) {
 	block.find('.js_first_row').droppable({
 		accept: '#'+userId+' .js_hand_card',
 		drop: function(event, ui) {
-			ui.draggable.detach().appendTo($(this));
-		    //ui.draggable.draggable('disable');
-		    //ui.draggable.draggable('option', 'revert', false);
-		    ui.draggable.attr('style', '');
+		    ui.draggable.removeAttr('style');
 		    ui.draggable.removeClass('on_hand js_hand_card');
+		    ui.draggable.addClass('js_play_card');
+		    ui.draggable.detach().appendTo($(this));
 		    var el = $('#'+ui.draggable.attr('id')),
 		    	offset = getPercentOffset(el);
 		    WS.publish({
@@ -130,16 +129,11 @@ function eventsOn(block) {
 	    		user_id: userId,
 	    		action: 'from_hand_to_play'
 			});
+			block.find('.js_first_row').sortable();
 		}
     });
 
-    block.find('.js_first_row').sortable({
-    	//connectWith: '#'+userId+' .js_first_row, #main_field',
-    	update: function(event, ui) {
-    		console.log(event)
-    		console.log(ui)
-    	}
-    });
+	block.find('.js_first_row').sortable();
 
     $('#main_field').droppable({
 		accept: '.js_hand_card, .js_play_card',
@@ -147,10 +141,8 @@ function eventsOn(block) {
 			var action = ui.draggable.hasClass('js_hand_card') ? 'from_hand_to_field' : 'from_play_to_field';
 			console.log(action)
 			ui.draggable.detach().appendTo($(this));
-			//if (ui.draggable.sortable()) ui.draggable.sortable('disable');
-		    ui.draggable.draggable('disable');
-		    ui.draggable.draggable('option', 'revert', false);
-		    ui.draggable.attr('style', '');
+		    ui.draggable.draggable('destroy');
+		    ui.draggable.removeAttr('style');
 		    ui.draggable.removeClass('on_hand js_hand_card js_play_card');
 		    var el = $('#'+ui.draggable.attr('id')),
 		    	offset = getPercentOffset(el);
