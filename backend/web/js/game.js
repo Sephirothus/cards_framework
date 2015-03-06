@@ -1,13 +1,16 @@
 var ajaxUrl = $('input[name="ajax_url"]').val(),
 	gameId = $('input[name="game_id"]').val(),
 	userId = $('input[name="user_id"]').val(),
-	flag = false;
+	restoreGameFlag = false;
 
 WS.setParams({
 	'topic': gameId
 }).init(function(resp) {
 	if (resp.type == 'not_all_users') {
 		alert('Осталось '+resp.count+' игрок(ов)');
+		if ($('.js_players').length > resp.count) {
+
+		}
 		return false;
 	} else if (resp.type == 'start_game') {
 		var count = resp.decks.length,
@@ -31,9 +34,9 @@ WS.setParams({
 			dealCards(resp.decks[el], resp.cards, !--count ? func : false);
 		}
 	} else {
-		if (!flag) restoreGame();
+		if (!restoreGameFlag) restoreGame();
 		setSubscribe();
-		flag = true;
+		restoreGameFlag = true;
 	}
 });
 
@@ -54,12 +57,28 @@ $(function() {
 			$('.js_temp_pic').remove();
 		}
 	}, '.js_enlarge_card');
+
+	/*$(document).on('mousedown', '#'+userId+' img', function(e) {
+		if (e.button == 2) { 
+			e.preventDefault();
+			document.oncontextmenu = function() {return false;};
+			console.log('right click')
+		}
+	});*/
+
+	$(document).on('click', '#doors, #treasures', function() {
+		WS.publish({
+    		card_type: $(this).attr('id'),
+    		user_id: userId,
+    		action: 'get_'+$(this).attr('id')+'_card'
+		});
+	});
 });
 
 function setSubscribe() {
 	WS.onSubscribe(function(resp) {
 		console.log(resp)
-		if (resp.user_id == userId) return false;
+		if (resp.user_id == userId && !resp.to_all) return false;
 		if (resp.count() > 0) cardActions(resp);
 	});
 }
@@ -70,7 +89,7 @@ function cardActions(resp) {
 		case 'from_hand_to_play':
 			var target = $('#'+resp.user_id+' .js_first_row'),
 				callback = function() {
-					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
+					turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', 'card js_enlarge_card');
 						card.removeAttr('style').detach().appendTo(target);
 					});
@@ -79,7 +98,7 @@ function cardActions(resp) {
 		case 'from_hand_to_field':
 			var target = $('#main_field'),
 				callback = function() {
-					turnOneCard($('#'+resp.card_id), Params.cardPath(resp.pic_id, true), false, function() {
+					turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', 'card js_enlarge_card');
 						card.removeAttr('style').detach().appendTo(target);
 					});
@@ -91,6 +110,24 @@ function cardActions(resp) {
 					card.attr('class', 'card js_enlarge_card');
 					card.removeAttr('style').detach().appendTo(target);
 				};
+			break;
+		case 'get_doors_card':
+		case 'get_treasures_card':
+			if (resp.user_id == userId) {
+				var cardId = resp.pic_id,
+					callback = function(newCard) {
+						newCard.css({'z-index': 99999});
+						turnOneCard(newCard, Params.cardPath(resp.pic_id, true), false, function() {
+							newCard.attr('class', 'card js_enlarge_card js_hand_card on_hand');
+							newCard.removeAttr('style');
+							newCard.css({'position': 'relative'});
+						});
+					}
+			} else {
+				var callback, cardId = resp.card_id;
+			}
+			getOneCard(cardId, resp.card_type, $('#'+resp.user_id).find('.js_hand_cards'), callback);
+			return false;
 			break;
 	}
 	var pos = target.offset(),
@@ -224,21 +261,23 @@ function dealCards(deckId, players, callback) {
 			}
 			curUserId = players.firstKey();
 		}
-		var deck = $('#'+deckId).offset(),
-			parent = $('#'+curUserId).find('.js_hand_cards'),
-			parPos = parent.offset(),
-			cardId = players[curUserId][deckId].objShift(),
-			newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId).attr('type', deckId);
-
-		newCard.addClass('js_hand_card card on_hand').removeClass('decks').css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
-		newCard.animate({
-			"left": parPos.left+'px',
-			"top": parPos.top+'px'
-		}, 'slow', function() {
-			newCard.attr('style', '').detach().appendTo(parent);
-		});
+		getOneCard(players[curUserId][deckId].objShift(), deckId, $('#'+curUserId).find('.js_hand_cards'))
 		curUserId = players.nextKey(curUserId);
 	}, 50);
+}
+
+function getOneCard(cardId, deckId, parent, callback) {
+	var deck = $('#'+deckId).offset(),
+		parPos = parent.offset(),
+		newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId).attr('type', deckId);
+	newCard.addClass('js_hand_card card on_hand').removeClass('decks').css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
+	newCard.animate({
+		"left": (parPos.left+parent.width()/2)+'px',
+		"top": parPos.top+'px'
+	}, 'slow', function() {
+		newCard.removeAttr('style').detach().appendTo(parent);
+		if (typeof callback == 'function') callback(newCard); 
+	});
 }
 
 function turnCards(block, callback) {

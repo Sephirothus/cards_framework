@@ -48,6 +48,7 @@ class PusherController extends Controller implements WampServerInterface {
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         $gameId = IdHelper::toId($topic->getId());
         $game = GamesModel::findOne(['_id' => $gameId]);
+        try {
         if ($game['status'] == GamesModel::$status['in_progress']) {
             $data = $event;
             if (isset($data['card_id'])) {
@@ -56,7 +57,6 @@ class PusherController extends Controller implements WampServerInterface {
                 $data['card_id'] = $event['card_id'] = (string)$card['_id'];
             }
             $data['games_id'] = $gameId;
-            GameLogsModel::add($data);
 
             $isSave = false;
             $gameData = GameDataModel::findOne(['games_id' => $gameId]);
@@ -80,6 +80,12 @@ class PusherController extends Controller implements WampServerInterface {
                     $temp['field_cards'][$type['type']][] = $event['card_id'];
                     $isSave = true;
                     break;
+                case 'get_doors_card':
+                case 'get_treasures_card':
+                    $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id']);
+                    $event['pic_id'] = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])])['id'];
+                    $event['to_all'] = true;
+                    break;
             }
             if ($isSave) {
                 foreach ($gameData->getAttributes() as $attr => $val) {
@@ -87,6 +93,10 @@ class PusherController extends Controller implements WampServerInterface {
                 }
                 $gameData->save();
             }
+            GameLogsModel::add($data);
+        }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
         $topic->broadcast($event);
     }
@@ -112,6 +122,7 @@ class PusherController extends Controller implements WampServerInterface {
             } else {
                 $event['type'] = 'not_all_users';
                 $event['count'] = intval($game['count_users'])-count($game['users']);
+                $event['users'] = $game['users'];
             }
         }
         $topic->broadcast($event);

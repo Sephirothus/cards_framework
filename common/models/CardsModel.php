@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\mongodb\ActiveRecord;
 use yii\mongodb\Query;
+use common\models\GameDataModel;
 
 /**
  * Cards model
@@ -115,6 +116,24 @@ class CardsModel extends ActiveRecord {
 		$info = $query->from(self::collectionName())->where(['_id' => $cardID])->one();
 		$info['_id'] = (string)$info['_id'];
 		return $info;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function dealOneByType($gameId, $type, $userId) {
+		$game = GameDataModel::findOne(['games_id' => $gameId]);
+		$decks = $game->decks;
+		$handCards = $game->hand_cards;
+		$card = array_shift($decks[$type]);
+		$handCards[$userId][$type][] = $card;
+		$game->decks = $decks;
+		$game->hand_cards = $handCards;
+		$game->save();
+		return $card;
 	}
 
 	/**
