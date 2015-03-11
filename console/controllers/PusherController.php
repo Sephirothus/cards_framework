@@ -46,15 +46,13 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
+        try {
         $gameId = IdHelper::toId($topic->getId());
         $game = GamesModel::findOne(['_id' => $gameId]);
-        try {
         if ($game['status'] == GamesModel::$status['in_progress']) {
             $data = $event;
             if (isset($data['card_id'])) {
-                $card = CardsModel::findOne(['id' => $event['card_id']]);
-                $event['pic_id'] = $event['card_id'];
-                $data['card_id'] = $event['card_id'] = (string)$card['_id'];
+                $event['pic_id'] = CardsModel::findOne(['_id' => $event['card_id']])['id'];
             }
             $data['games_id'] = $gameId;
 
@@ -95,10 +93,10 @@ class PusherController extends Controller implements WampServerInterface {
             }
             GameLogsModel::add($data);
         }
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
         $topic->broadcast($event);
+        } catch (\Exception $e) {
+            echo $e->getMessage().' '.$e->getFile().' '.$e->getLine();
+        }
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
@@ -119,11 +117,12 @@ class PusherController extends Controller implements WampServerInterface {
                 $event['decks'] = CardsModel::$deckTypes;
                 $event['type'] = 'start_game';
                 $event['first_move'] = (string)$game['users'][0];
+                $event['count'] = 1;
             } else {
                 $event['type'] = 'not_all_users';
                 $event['count'] = intval($game['count_users'])-count($game['users']);
-                $event['users'] = $game['users'];
             }
+            $event['users'] = (new \common\models\User)->getUsers($game['users']);
         }
         $topic->broadcast($event);
     }

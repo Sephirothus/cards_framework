@@ -6,13 +6,14 @@ var ajaxUrl = $('input[name="ajax_url"]').val(),
 WS.setParams({
 	'topic': gameId
 }).init(function(resp) {
+	if (resp.count) {
+		placeUserBlocks(resp.users);
+	}
 	if (resp.type == 'not_all_users') {
 		alert('Осталось '+resp.count+' игрок(ов)');
-		if ($('.js_players').length > resp.count) {
-
-		}
 		return false;
 	} else if (resp.type == 'start_game') {
+		setSubscribe();
 		var count = resp.decks.length,
 			func = function() {
 				setTimeout(function() {
@@ -22,7 +23,6 @@ WS.setParams({
 						value: 'Начнем!'
 					}).on('click', function() {
 						var block = $('#'+userId);
-						setSubscribe();
 						turnCards(block.find('.js_hand_cards'), function() {
 							eventsOn(block, userId);
 						});
@@ -58,13 +58,23 @@ $(function() {
 		}
 	}, '.js_enlarge_card');
 
-	/*$(document).on('mousedown', '#'+userId+' img', function(e) {
-		if (e.button == 2) { 
-			e.preventDefault();
-			document.oncontextmenu = function() {return false;};
-			console.log('right click')
-		}
-	});*/
+	$(document).on('dblclick', '#'+userId+' img', function(e) {
+		var action;
+		if ($(this).hasClass('js_hand_card')) action = 'from_hand_to_play';
+		else if ($(this).hasClass('js_play_card')) action = 'from_play_to_field';
+		
+		WS.publish({
+    		card_id: $(this).attr('id'), 
+    		card_coords: getPercentOffset($(this)), 
+    		user_id: userId,
+    		action: action,
+    		to_all: true
+		});
+		/*'<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">В игру</a></li>
+    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">В поле</a></li>
+  		</ul>'*/;
+	});
 
 	$(document).on('click', '#doors, #treasures', function() {
 		WS.publish({
@@ -90,7 +100,7 @@ function cardActions(resp) {
 			var target = $('#'+resp.user_id+' .js_first_row'),
 				callback = function() {
 					turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
-						card.attr('class', 'card js_enlarge_card');
+						card.attr('class', 'card js_enlarge_card js_play_card');
 						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
@@ -99,7 +109,7 @@ function cardActions(resp) {
 			var target = $('#main_field'),
 				callback = function() {
 					turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
-						card.attr('class', 'card js_enlarge_card');
+						card.attr('class', 'card js_enlarge_card js_field_card');
 						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
@@ -107,7 +117,7 @@ function cardActions(resp) {
 		case 'from_play_to_field':
 			var target = $('#main_field'),
 				callback = function() {
-					card.attr('class', 'card js_enlarge_card');
+					card.attr('class', 'card js_enlarge_card js_field_card');
 					card.removeAttr('style').detach().appendTo(target);
 				};
 			break;
@@ -209,7 +219,7 @@ function restoreGame() {
 					for (var el in resp[attr][user][type]) {
 						var info = resp[attr][user][type][el];
 						var data = {
-							id: info['id'] ? info['id'] : info,
+							id: info['_id'] ? info['_id'] : info,
 							type: type,
 							pic_id: info['id']
 						};
@@ -333,6 +343,48 @@ function createCard(data, where) {
 			break;
 	}
 	return img;
+}
+
+function createUserBlock(user, width) {
+	return '<div id="'+user.id+'" class="col-md-'+width+' text-center js_players">\
+		<div class="row">\
+			<div class="col-md-4 js_hand_cards"></div>\
+			<div class="col-md-8 js_first_row" style="height:100px;"></div>\
+		</div>\
+		<div class="row">\
+			<div class="col-md-12 js_second_row"></div>\
+			<div class="col-md-12 text-left">\
+				<span class="label label-primary">\
+					'+user.name+'\
+					<span id="lvl">1 lvl</span>\
+					<span id="sex">('+user.sex+')</span>\
+				</span>\
+			</div>\
+		</div>\
+	</div>';
+}
+
+function placeUserBlocks(users) {
+	for (var el in users) {
+		users[el]['id'] = el;
+		var curUser = users[el];
+		delete users[el];
+		if (!$('#'+el).length) {
+			$('.js_player_place').each(function() {
+				if ($(this).find('.js_players').length < 2) {
+					if ($(this).find('.js_players').length > 0) $(this).find('.js_players').removeClass('col-md-12').addClass('col-md-6');
+					if ($(this).find('#main_field').length > 0) $(this).find('#main_field').removeClass('col-md-12').addClass('col-md-6');
+					var width = $(this).find('.js_players').length > 0 || $(this).find('#main_field').length > 0 ? 6 : 12;
+					if ($(this).attr('id') == 'second_row') $(this).prepend(createUserBlock(curUser, width));
+					else $(this).append(createUserBlock(curUser, width));
+					return false;
+				}
+			})
+		}
+	}
+	if (users && users.count() > 0) {
+
+	}
 }
 
 function ajaxRequest(url, data, successFunc, beforeSendFunc, errorFunc) {
