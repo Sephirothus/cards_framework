@@ -131,6 +131,7 @@ function cardActions(resp) {
 							newCard.attr('class', 'card js_enlarge_card js_hand_card on_hand');
 							newCard.removeAttr('style');
 							newCard.css({'position': 'relative'});
+							if (userId = resp.user_id) eventsOn($('#'+userId));
 						});
 					}
 			} else {
