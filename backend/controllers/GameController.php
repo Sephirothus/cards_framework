@@ -38,6 +38,7 @@ class GameController extends Controller {
         $userId = Yii::$app->user->identity->_id;
         $game = GamesModel::findOne(['_id' => $id]);
         if (!$game) return $this->redirect(Url::toRoute(['/site']));
+        
         $isIn = in_array($userId, GamesModel::usersToArr($game['users']));
         if ($game['status'] == GamesModel::$status['new'] && 
             !$isIn &&

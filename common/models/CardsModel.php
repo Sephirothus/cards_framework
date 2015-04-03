@@ -36,15 +36,15 @@ class CardsModel extends ActiveRecord {
 	public function getCards() {
 		$obj = new Query();
 		$data = [];
-		foreach (self::$deckTypes as $type) {
-			if (!isset($data[$type])) $data[$type] = [];
-			foreach ($obj->from(self::collectionName())->where(['_id' => $type])->one()['children'] as $row) {
-				$temp = [];
-				foreach ($obj->from(self::collectionName())->where(['_id' => $row])->one()['children'] as $child) {
-					$temp[] = (string)$child;
-				}
-				$data[$type] = array_merge($data[$type], $temp);
+		foreach ($obj->from(self::collectionName())->where(['_id' => ['$in' => self::$deckTypes]])->all() as $row) {
+			$temp = [];
+			if (!isset($data[$row['_id']])) $data[$row['_id']] = [];
+			foreach ($obj->from(self::collectionName())->where(['_id' => ['$in' => $row['children']]])->all() as $child) {
+				$temp = array_merge($temp, array_map(function($param) {
+					return (string)$param;
+				}, $child['children']));
 			}
+			$data[$row['_id']] = array_merge($data[$row['_id']], $temp);
 		}
 		$this->_decks = $data;
 		return $this;
