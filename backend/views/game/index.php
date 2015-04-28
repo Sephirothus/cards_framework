@@ -30,10 +30,10 @@ foreach ($decksTypes as $type) {
 echo Html::tag('div', 
 	Html::tag('div', 
 		Html::tag('div', 
-			(count($players) > 3) ? userBlock($players, 6).userBlock($players, 6) : userBlock($players, 12),
+			'',//(count($players) > 3) ? userBlock($players, 6).userBlock($players, 6) : userBlock($players, 12),
 			['class' => 'row playing_rows js_player_place', 'id' => 'first_row']
 		).Html::tag('div', 
-			(count($players) > 1) ? userBlock($players, 6).Html::tag('div', '', ['class' => 'col-md-6 text-center playing_rows', 'id' => 'main_field']) : Html::tag('div', '', ['class' => 'col-md-12 text-center playing_rows', 'id' => 'main_field']),
+			/*(count($players) > 1) ? userBlock($players, 6).Html::tag('div', '', ['class' => 'col-md-6 text-center playing_rows', 'id' => 'main_field']) : */Html::tag('div', '', ['class' => 'col-md-12 text-center playing_rows', 'id' => 'main_field']),
 			['class' => 'row playing_rows js_player_place', 'id' => 'second_row']
 		), 
 		['class' => 'col-md-10']
@@ -56,7 +56,7 @@ echo Html::tag('div',
 ).Html::tag('div', 
 	Html::tag('div', 
 		Html::tag('div', 
-			(count($players) > 1) ? userBlock($players, 6).userBlock($players, 6) : (!empty($players) ? userBlock($players, 12) : ''),
+			'',//(count($players) > 1) ? userBlock($players, 6).userBlock($players, 6) : (!empty($players) ? userBlock($players, 12) : ''),
 			['class' => 'row playing_rows js_player_place', 'id' => 'third_row']
 		),
 		['class' => 'col-md-10']
@@ -64,16 +64,17 @@ echo Html::tag('div',
 		'',
 		['class' => 'col-md-2 playing_rows']
 	),
-	['class' => 'row']
+	['class' => 'row', 'id' => 'example']
 ).
-(!empty($players) ? moreBlocks($players, $this) : '').
+//(!empty($players) ? moreBlocks($players, $this) : '').
 Html::input('hidden', 'game_id', $gameId).
 Html::input('hidden', 'user_id', Yii::$app->user->identity->_id).
-Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action', 'id' => $gameId])).
-Html::tag('div', '', ['id' => 'message_box']);
+Html::input('hidden', 'ajax_url', Url::to(['/game/ajax-action', 'id' => $gameId]));
+//Html::tag('div', '', ['id' => 'message_box']);
 
 echo Draggable::widget().Droppable::widget().Sortable::widget();
 $this->registerJsFile('/js/websocketsWraper.js');
+$this->registerJsFile('/js/CardActions.js');
 $this->registerJsFile('/js/game.js');
 
 function userBlock(&$data, $width) {

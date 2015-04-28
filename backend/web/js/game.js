@@ -1,9 +1,12 @@
 var ajaxUrl = $('input[name="ajax_url"]').val(),
 	gameId = $('input[name="game_id"]').val(),
-	userId = $('input[name="user_id"]').val(),
-	restoreGameFlag = false;
+	userId = $('input[name="user_id"]').val();
+	//restoreGameFlag = false;
 
-WS.setParams({
+var obj = new CardActions({'gameId': gameId, 'userId': userId, 'ajaxUrl': ajaxUrl});
+obj.init();
+
+/*WS.setParams({
 	'topic': gameId
 }).init(function(resp) {
 	if (resp.count) {
@@ -43,6 +46,17 @@ WS.setParams({
 $(function() {
     $(document).on({
 		mouseenter: function(e) {
+			var offset = getPercentOffset($(this)), width = $(this).width();
+			$(this).css({'z-index': 99999});
+			$(this).after($('<div>', {
+				css: $.extend({'z-index': 999999, 'position': 'absolute', 'width': width+'px'}, offset),
+				id: 'card_actions',
+				html: '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\
+					<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>\
+					<span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>'
+			}));
+			console.log(offset)
+
         	if (e.pageX > ($(window).width()/2)) var pos = 'left:0';
         	else var pos = 'right:0';
         	var img = $(this).attr('src').substr($(this).attr('src').lastIndexOf('/')+1);
@@ -54,14 +68,19 @@ $(function() {
 			}));
 		},
 		mouseleave: function() {
+			$('#card_actions').remove();
+			$(this).css({'z-index': 'auto'});
 			$('.js_temp_pic').remove();
 		}
-	}, '.js_enlarge_card');
+	}, '.js_enlarge_card, #card_actions');
 
-	$(document).on('dblclick', '#'+userId+' img', function(e) {
+	$(document).on('click', '#'+userId+' img', function(e) {
 		var action;
-		if ($(this).hasClass('js_hand_card')) action = 'from_hand_to_play';
-		else if ($(this).hasClass('js_play_card')) action = 'from_play_to_field';
+		if ($(this).hasClass('js_hand_card')) {
+
+		} else if ($(this).hasClass('js_play_card')) {
+
+		}
 		
 		WS.publish({
     		card_id: $(this).attr('id'), 
@@ -70,10 +89,7 @@ $(function() {
     		action: action,
     		to_all: true
 		});
-		/*'<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">В игру</a></li>
-    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">В поле</a></li>
-  		</ul>'*/;
+		
 	});
 
 	$(document).on('click', '#doors, #treasures', function() {
@@ -206,8 +222,8 @@ function eventsOn(block) {
 
 function getPercentOffset(el) {
 	return {
-    	'top': el.offset().top / $(document).height() * 100,
-    	'left': el.offset().left / $(document).width() * 100,
+    	'top': el.offset().top / $(document).height() * 100 + '%',
+    	'left': el.offset().left / $(document).width() * 100 + '%',
     };
 }
 
@@ -405,4 +421,4 @@ function ajaxRequest(url, data, successFunc, beforeSendFunc, errorFunc) {
             if (typeof errorFunc == 'function') errorFunc();
         }
     });
-}
+}*/

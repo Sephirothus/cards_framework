@@ -47,53 +47,53 @@ class PusherController extends Controller implements WampServerInterface {
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         try {
-        $gameId = IdHelper::toId($topic->getId());
-        $game = GamesModel::findOne(['_id' => $gameId]);
-        if ($game['status'] == GamesModel::$status['in_progress']) {
-            $data = $event;
-            if (isset($data['card_id'])) {
-                $event['pic_id'] = CardsModel::findOne(['_id' => $event['card_id']])['id'];
-            }
-            $data['games_id'] = $gameId;
-
-            $isSave = false;
-            $gameData = GameDataModel::findOne(['games_id' => $gameId]);
-            $temp = $gameData->getAttributes();
-            switch ($event['action']) {
-                case 'from_hand_to_play':
-                    $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
-                    unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
-                    $temp['play_cards'][$event['user_id']][$type['type']][] = $event['card_id'];
-                    $isSave = true;
-                    break;
-                case 'from_play_to_field':
-                    $type = GameDataModel::findCardType($temp['play_cards'][$event['user_id']], $event['card_id']);
-                    unset($temp['play_cards'][$event['user_id']][$type['type']][$type['index']]);
-                    $temp['field_cards'][$type['type']][] = $event['card_id'];
-                    $isSave = true;
-                    break;
-                case 'from_hand_to_field':
-                    $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
-                    unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
-                    $temp['field_cards'][$type['type']][] = $event['card_id'];
-                    $isSave = true;
-                    break;
-                case 'get_doors_card':
-                case 'get_treasures_card':
-                    $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id']);
-                    $event['pic_id'] = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])])['id'];
-                    $event['to_all'] = true;
-                    break;
-            }
-            if ($isSave) {
-                foreach ($gameData->getAttributes() as $attr => $val) {
-                    $gameData->$attr = $temp[$attr];
+            $gameId = IdHelper::toId($topic->getId());
+            $game = GamesModel::findOne(['_id' => $gameId]);
+            if ($game['status'] == GamesModel::$status['in_progress']) {
+                $data = $event;
+                if (isset($data['card_id'])) {
+                    $event['pic_id'] = CardsModel::findOne(['_id' => $event['card_id']])['id'];
                 }
-                $gameData->save();
+                $data['games_id'] = $gameId;
+
+                $isSave = false;
+                $gameData = GameDataModel::findOne(['games_id' => $gameId]);
+                $temp = $gameData->getAttributes();
+                switch ($event['action']) {
+                    case 'from_hand_to_play':
+                        $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
+                        unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
+                        $temp['play_cards'][$event['user_id']][$type['type']][] = $event['card_id'];
+                        $isSave = true;
+                        break;
+                    case 'from_play_to_field':
+                        $type = GameDataModel::findCardType($temp['play_cards'][$event['user_id']], $event['card_id']);
+                        unset($temp['play_cards'][$event['user_id']][$type['type']][$type['index']]);
+                        $temp['field_cards'][$type['type']][] = $event['card_id'];
+                        $isSave = true;
+                        break;
+                    case 'from_hand_to_field':
+                        $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
+                        unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
+                        $temp['field_cards'][$type['type']][] = $event['card_id'];
+                        $isSave = true;
+                        break;
+                    case 'get_doors_card':
+                    case 'get_treasures_card':
+                        $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id']);
+                        $event['pic_id'] = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])])['id'];
+                        $event['to_all'] = true;
+                        break;
+                }
+                if ($isSave) {
+                    foreach ($gameData->getAttributes() as $attr => $val) {
+                        $gameData->$attr = $temp[$attr];
+                    }
+                    $gameData->save();
+                }
+                GameLogsModel::add($data);
             }
-            GameLogsModel::add($data);
-        }
-        $topic->broadcast($event);
+            $topic->broadcast($event);
         } catch (\Exception $e) {
             echo $e->getMessage().' '.$e->getFile().' '.$e->getLine();
         }
@@ -122,8 +122,8 @@ class PusherController extends Controller implements WampServerInterface {
                 $event['type'] = 'not_all_users';
                 $event['count'] = intval($game['count_users'])-count($game['users']);
             }
-            $event['users'] = (new \common\models\User)->getUsers($game['users']);
         }
+        $event['users'] = (new \common\models\User)->getUsers($game['users']);
         $topic->broadcast($event);
     }
 }
