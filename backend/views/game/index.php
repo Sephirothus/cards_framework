@@ -38,18 +38,7 @@ echo Html::tag('div',
 		), 
 		['class' => 'col-md-10']
 	).Html::tag('div', 
-		/*Html::tag('div', 
-			Html::tag('div', 
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-play js_action_buttons", 'action' => "play", 'style' => "color:red;"]).
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-euro js_action_buttons", 'action' => "sell"]).
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-hand-down js_action_buttons", 'action' => "turn_card_down"]).
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-hand-up js_action_buttons", 'action' => "turn_card_up"]).
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-refresh js_action_buttons", 'action' => "trade"]).
-				Html::tag('span', '', ['class' => "glyphicon glyphicon-remove js_action_buttons", 'action' => "discard"]), 
-				['class' => 'col-md-12 text-center action_buttons_field']
-			), 
-			['class' => 'row']
-		).*/$decks, 
+		$decks, 
 		['class' => 'col-md-2 decks_col']
 	), 
 	['class' => 'row']

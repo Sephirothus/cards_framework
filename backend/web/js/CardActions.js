@@ -76,17 +76,6 @@ CardActions.prototype.init = function() {
 	$(function() {
 	    $(document).on({
 			mouseenter: function(e) {
-				var offset = self.getPercentOffset($(this)), width = $(this).width();
-				$(this).css({'z-index': 99999});
-				$(this).after($('<div>', {
-					css: $.extend({'z-index': 999999, 'position': 'absolute', 'width': width+'px'}, offset),
-					id: 'card_actions',
-					html: '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\
-						<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>\
-						<span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>'
-				}));
-				console.log(offset)
-
 	        	if (e.pageX > ($(window).width()/2)) var pos = 'left:0';
 	        	else var pos = 'right:0';
 	        	var img = $(this).attr('src').substr($(this).attr('src').lastIndexOf('/')+1);
@@ -96,30 +85,46 @@ CardActions.prototype.init = function() {
 					class: 'js_temp_pic', 
 					style: 'z-index:9999;position:fixed;top:0;'+pos+';height:500px;'
 				}));
+				$(this).css({'position': 'relative', 'z-index': 999});
 			},
-			mouseleave: function() {
-				$('#card_actions').remove();
-				$(this).css({'z-index': 'auto'});
+			mouseleave: function(e) {
+				if ($('#card_actions').length == 0) $(this).css({'position': '', 'z-index': ''});
 				$('.js_temp_pic').remove();
 			}
-		}, '.js_enlarge_card, #card_actions');
+		}, '.js_enlarge_card');
 
-		$(document).on('click', '#'+self.userId+' img', function(e) {
-			var action;
-			if ($(this).hasClass('js_hand_card')) {
+		$(document).on('click', '#'+self.userId+' img', function() {
+			var nextId = $(this).next().attr('id');
 
-			} else if ($(this).hasClass('js_play_card')) {
+			self.onOffActions($(this));
+			if (nextId == 'card_actions') return false;
+			self.onOffActions($(this), 'on');
+		});
 
+		$(document).on('click', '#card_actions span', function() {
+			switch($(this).attr('action')) {
+				case 'discard':
+					var card = $('#'+$(this).parent().attr('card_id'));
+					self.moveCard(card, $('#'+card.attr('type')+'_discard div'), function() {
+						card.attr('class', 'decks');
+						self.onOffActions(card);
+					});
+					break;
+				case 'sell':
+					
+					break;
 			}
-			
-			WS.publish({
+			/*WS.publish({
 	    		card_id: $(this).attr('id'), 
 	    		card_coords: self.getPercentOffset($(this)), 
 	    		user_id: self.userId,
 	    		action: action,
 	    		to_all: true
-			});
-			
+			});*/
+		});
+
+		$(document).on('click', '.js_card_new_place', function() {
+
 		});
 
 		$(document).on('click', '#doors, #treasures', function() {
@@ -130,6 +135,32 @@ CardActions.prototype.init = function() {
 			});
 		});
 	});
+}
+
+CardActions.prototype.onOffActions = function(elem, action) {
+	var play_block = $('#'+this.userId+'.'+this.classes.player_block+' .'+this.classes.play_block),
+		field_block = $('#'+this.fieldId);
+
+	if (action == 'on') {
+		var pos = this.getPosition(elem), height = elem.height();
+		elem.after($('<div>', {
+			css: $.extend({'z-index': 999, 'position': 'absolute'}, pos),
+			id: 'card_actions',
+			card_id: elem.attr('id'),
+			html: '<span class="glyphicon glyphicon-remove" action="discard" aria-hidden="true"></span>\
+				<span class="glyphicon glyphicon-usd" action="sell" aria-hidden="true"></span>\
+				<span class="glyphicon glyphicon-refresh" action="change" aria-hidden="true"></span>\
+				<span class="glyphicon glyphicon-retweet" action="turn" aria-hidden="true"></span>'
+		}));
+		play_block.addClass('js_card_new_place').css({'border': '1px solid red'});
+		field_block.addClass('js_card_new_place').css({'border': '1px solid red'});
+		elem.css({'position': 'relative', 'z-index': 999});
+	} else {
+		$('#card_actions').remove();
+		elem.css({'position': '', 'z-index': ''});
+		play_block.removeClass('js_card_new_place').css({'border': ''});
+		field_block.removeClass('js_card_new_place').css({'border': ''});
+	}
 }
 
 CardActions.prototype.restoreGame = function() {
@@ -148,10 +179,10 @@ CardActions.prototype.restoreGame = function() {
 						};
 						switch (attr) {
 							case 'hand_cards':
-								$('#'+user).find('.js_hand_cards').append(self.createCard(data, 'hand'));
+								$('#'+user+'.'+self.classes.player_block).find('.'+self.classes.hand_block).append(self.createCard(data, 'hand'));
 								break;
 							case 'play_cards':
-								$('#'+user).find('.js_first_row').append(self.createCard(data, 'play'));
+								$('#'+user+'.'+self.classes.player_block).find('.'+self.classes.play_block).append(self.createCard(data, 'play'));
 								break;
 						}
 					}
@@ -169,7 +200,7 @@ CardActions.prototype.restoreGame = function() {
 					};
 					switch (attr) {
 						case 'field_cards':
-							$('#main_field').append(self.createCard(data, 'field'));
+							$('#'+self.fieldId).append(self.createCard(data, 'field'));
 							break;
 					}
 				}
@@ -180,7 +211,7 @@ CardActions.prototype.restoreGame = function() {
 }
 
 /**
- * 
+ * Actions on cards, after response
  *
  * @param resp - needed object with such parameters: 
  * 		* card_id - ID of current card, 
@@ -198,7 +229,6 @@ CardActions.prototype.actions = function(resp) {
 				callback = function() {
 					self.turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', self.defClasses.play_card+' '+self.classes.enlarge_card+' '+self.classes.play_card);
-						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
 			break;
@@ -207,7 +237,6 @@ CardActions.prototype.actions = function(resp) {
 				callback = function() {
 					self.turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
-						card.removeAttr('style').detach().appendTo(target);
 					});
 				};
 			break;
@@ -215,7 +244,6 @@ CardActions.prototype.actions = function(resp) {
 			var target = $('#main_field'),
 				callback = function() {
 					card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
-					card.removeAttr('style').detach().appendTo(target);
 				};
 			break;
 		case acts['get_doors_card']:
@@ -239,15 +267,7 @@ CardActions.prototype.actions = function(resp) {
 			break;
 	}
 	if (!target) return false;
-	var pos = target.offset(),
-		cardPos = card.offset();
-	card.css({'position':'absolute', 'z-index': 9999});
-	card.animate({
-		"left": cardPos.left > (pos.left+target.width()/2) ? cardPos.left-(pos.left+target.width()/2) : (pos.left+target.width()/2)-cardPos.left,
-		"top": pos.top-cardPos.top+target.height()/2
-	}, 'slow', function() {
-		callback();
-	});
+	self.moveCard(card, target, callback);
 }
 
 CardActions.prototype.dealCards = function(deckId, players, callback) {
@@ -283,6 +303,9 @@ CardActions.prototype.getOneCard = function(cardId, deckId, parent, callback) {
 		newCard.removeAttr('style').detach().appendTo(parent);
 		if (typeof callback == 'function') callback(newCard); 
 	});
+	/*this.moveCard(newCard, parent, function() {
+		if (typeof callback == 'function') callback(newCard); 
+	});*/
 }
 
 CardActions.prototype.turnCards = function(block, callback) {
@@ -316,6 +339,22 @@ CardActions.prototype.turnOneCard = function(card, url, count, callback) {
 	});
 }
 
+/**
+ * TODO: universal left, top positions
+ */
+CardActions.prototype.moveCard = function(card, target, callback) {
+	var pos = target.offset(),
+		cardPos = card.offset();
+	card.css({'position':'absolute', 'z-index': 9999});
+	card.animate({
+		"left": cardPos.left > (pos.left+target.width()/2) ? cardPos.left-(pos.left+target.width()/2) : (pos.left+target.width()/2)-cardPos.left,
+		"top": pos.top-cardPos.top+target.height()/2
+	}, 'slow', function() {
+		if (typeof callback == 'function') callback();
+		card.removeAttr('style').detach().appendTo(target);
+	});
+}
+
 CardActions.prototype.createUserBlock = function(user, width) {
 	return '<div id="'+user.id+'" class="col-md-'+width+' text-center '+this.classes.player_block+'">\
 		<div class="row">\
@@ -340,13 +379,22 @@ CardActions.prototype.placeUserBlocks = function(users) {
 		users[el]['id'] = el;
 		var curUser = users[el];
 		if (!$('#'+el).length) {
+			if ($('.js_player_place:empty').length == 0) {
+				var block = $('#'+this.exampleBlockId).clone();
+				block.find('.js_player_place').html('');
+				$('#'+this.exampleBlockId+':last').after(block);
+			}
 			$('.js_player_place').each(function() {
-				if ($(this).find('.js_players').length < 2) {
-					if ($(this).find('.js_players').length > 0) $(this).find('.js_players').removeClass('col-md-12').addClass('col-md-6');
-					if ($(this).find('#main_field').length > 0) $(this).find('#main_field').removeClass('col-md-12').addClass('col-md-6');
-					var width = $(this).find('.js_players').length > 0 || $(this).find('#main_field').length > 0 ? 6 : 12;
-					if ($(this).attr('id') == 'second_row') $(this).prepend(self.createUserBlock(curUser, width));
-					else $(this).append(self.createUserBlock(curUser, width));
+				var player_block = $(this).find('.'+self.classes.player_block),
+					field = $(this).find('#'+self.fieldId);
+				if (player_block.length < 2) {
+					if (player_block.length > 0 && field.length > 0) return true;
+					if (player_block.length > 0) player_block.removeClass('col-md-12').addClass('col-md-6');
+					var width = player_block.length > 0 || field.length > 0 ? 6 : 12;
+					if (field.length > 0) {
+						field.removeClass('col-md-12').addClass('col-md-6');
+						$(this).prepend(self.createUserBlock(curUser, width));
+					} else $(this).append(self.createUserBlock(curUser, width));
 					return false;
 				}
 			});
@@ -383,6 +431,13 @@ CardActions.prototype.getPercentOffset = function(el) {
 	return {
     	'top': el.offset().top / $(document).height() * 100 + '%',
     	'left': el.offset().left / $(document).width() * 100 + '%',
+    };
+}
+
+CardActions.prototype.getPosition = function(el) {
+	return {
+    	'top': (el.position().top + el.height()) + 'px',
+    	'left': (el.position().left - 80) + 'px',
     };
 }
 
