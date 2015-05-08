@@ -22,3 +22,23 @@ Object.defineProperty(Object.prototype, 'objShift', {
 Object.defineProperty(Object.prototype, 'count', {
 	value: function() {return Object.keys(this).length;}
 });
+
+Object.defineProperty(Object.prototype, 'getAttrs', {
+	value: function() {
+		var attrs = {}; 
+		for (var i in this) {
+			if (typeof this[i] != 'function') attrs[i] = this[i];
+		}
+		return attrs;
+	}
+});
+
+Object.defineProperty(Object.prototype, 'copyAttrs', {
+	value: function(par) {
+		var attrs = par.getAttrs();
+		for (var i in attrs) {
+			this[i] = attrs[i];
+		}
+		return this;
+	}
+});

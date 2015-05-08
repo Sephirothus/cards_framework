@@ -84,6 +84,26 @@ class PusherController extends Controller implements WampServerInterface {
                         $event['pic_id'] = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])])['id'];
                         $event['to_all'] = true;
                         break;
+                    case 'discard_from_hand':
+                    case 'discard_from_play':
+                    case 'discard_from_field':
+                        switch ($event['action']) {
+                            case 'discard_from_hand':
+                                $place = 'hand_cards';
+                                break;
+                            case 'discard_from_play':
+                                $place = 'play_cards';
+                                break;
+                            case 'discard_from_field':
+                                $place = 'field_cards';
+                                break;
+                        }
+                        $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
+                        if ($event['action'] == 'discard_from_field') unset($temp[$place][$type['type']][$type['index']]);
+                        else unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
+                        $temp['discards'][$type['type']][] = $event['card_id'];
+                        $isSave = true;
+                        break;
                 }
                 if ($isSave) {
                     foreach ($gameData->getAttributes() as $attr => $val) {

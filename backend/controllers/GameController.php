@@ -93,7 +93,7 @@ class GameController extends Controller {
                 break;
             case 'restore_game':
                 $data = GameDataModel::findOne(['games_id' => IdHelper::toId($post['game_id'])]);
-                $data = GameDataModel::formData($data->getAttributes(), ['hand_cards', 'play_cards', 'field_cards']);
+                $data = GameDataModel::formData($data->getAttributes(), ['hand_cards', 'play_cards', 'field_cards', 'discards']);
                 break;
         }
         return Json::encode(['results' => $data]);

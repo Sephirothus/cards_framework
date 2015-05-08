@@ -1,8 +1,21 @@
+/**
+ * Params
+ *
+ *
+ */
+var Params = {
+	imgExt: 'jpg',
+	cardPath: function(id, is_small) {
+		return '/imgs/cards/'+id+(is_small ? '-small' : '')+'.'+Params.imgExt;
+	}
+};
+
 /*
 1. переделать структуру игрального стола и после обновить метод actions
 2. возможно обернуть все картинки в дивки
 3. перебор приходящего массива, в restoreGame, должен быть универсальный
 4. создать настройки дефолтных классов для разных позиций карт (на руке, в игре, в поле)
+5. класс decks - заменить
 */
 
 function CardActions(settings) {
@@ -31,7 +44,10 @@ function CardActions(settings) {
 		'from_hand_to_field': 'from_hand_to_field',
 		'from_play_to_field': 'from_play_to_field',
 		'get_doors_card': 'get_doors_card',
-		'get_treasures_card': 'get_treasures_card'
+		'get_treasures_card': 'get_treasures_card',
+		'discard_from_hand': 'discard_from_hand',
+		'discard_from_play': 'discard_from_play',
+		'discard_from_field': 'discard_from_field',
 	};
 	this.socketTypes = {
 		'not_all_users': 'not_all_users',
@@ -40,10 +56,12 @@ function CardActions(settings) {
 	this.gameId = settings['gameId'];
 	this.userId = settings['userId'];
 	this.ajaxUrl = settings['ajaxUrl'];
+	this.html;
 }
 
 CardActions.prototype.init = function() {
 	var self = this, restoreGameFlag = false;
+	self.html = new HtmlBuilder(self);
 
 	WS.setParams({
 		'topic': self.gameId
@@ -57,7 +75,7 @@ CardActions.prototype.init = function() {
 			var count = resp.decks.length,
 				func = function() {
 					setTimeout(function() {
-						var block = $('#'+self.userId);
+						var block = $('#'+self.userId+'.'+self.classes.player_block);
 						self.turnCards(block.find('.'+self.classes.hand_block), function() {
 							//eventsOn(block, self.userId);
 						});
@@ -73,7 +91,14 @@ CardActions.prototype.init = function() {
 		}
 	});
 
+	self.events();
+}
+
+CardActions.prototype.events = function() {
+	var self = this;
+
 	$(function() {
+		// on card hover
 	    $(document).on({
 			mouseenter: function(e) {
 	        	if (e.pageX > ($(window).width()/2)) var pos = 'left:0';
@@ -88,12 +113,13 @@ CardActions.prototype.init = function() {
 				$(this).css({'position': 'relative', 'z-index': 999});
 			},
 			mouseleave: function(e) {
-				if ($('#card_actions').length == 0) $(this).css({'position': '', 'z-index': ''});
+				if ($(this).next('#card_actions').length == 0) $(this).css({'position': '', 'z-index': ''});
 				$('.js_temp_pic').remove();
 			}
 		}, '.js_enlarge_card');
 
-		$(document).on('click', '#'+self.userId+' img', function() {
+	    // card click - actions show
+		$(document).on('click', '#'+self.userId+'.'+self.classes.player_block+' img', function() {
 			var nextId = $(this).next().attr('id');
 
 			self.onOffActions($(this));
@@ -101,32 +127,55 @@ CardActions.prototype.init = function() {
 			self.onOffActions($(this), 'on');
 		});
 
+		// card actions click
 		$(document).on('click', '#card_actions span', function() {
+			var card = $('#'+$(this).parent().attr('card_id')),
+				action = false,
+				acts = self.actionTypes;
 			switch($(this).attr('action')) {
 				case 'discard':
-					var card = $('#'+$(this).parent().attr('card_id'));
-					self.moveCard(card, $('#'+card.attr('type')+'_discard div'), function() {
-						card.attr('class', 'decks');
-						self.onOffActions(card);
+					self.onOffActions(card);
+					self.discard(card);
+					if (card.hasClass(self.classes.hand_card)) action = acts['discard_from_hand'];
+					else if (card.hasClass(self.classes.play_card)) action = acts['discard_from_play'];
+					else if (card.hasClass(self.classes.field_card)) action = acts['discard_from_field'];
+					break;
+				case 'to_play':
+					action = acts['from_hand_to_play'];
+					self.onOffActions(card);
+					self.moveCard(card, $('#'+self.userId+'.'+self.classes.player_block+' .'+self.classes.play_block), function() {
+						card.attr('class', self.classes.enlarge_card+' '+self.defClasses.play_card+' '+self.classes.play_card);
 					});
 					break;
-				case 'sell':
-					
+				case 'to_field':
+					action = card.hasClass(self.classes.hand_card) ? acts['from_hand_to_field'] : acts['from_play_to_field'];
+					self.onOffActions(card);
+					self.moveCard(card, $('#'+self.fieldId), function() {
+						card.attr('class', self.classes.enlarge_card+' '+self.defClasses.field_card+' '+self.classes.field_card);
+					});
+					break;
+				case 'turn':
+					card.toggleClass('decks');
 					break;
 			}
-			/*WS.publish({
-	    		card_id: $(this).attr('id'), 
-	    		card_coords: self.getPercentOffset($(this)), 
-	    		user_id: self.userId,
-	    		action: action,
-	    		to_all: true
-			});*/
+			if (action) {
+				WS.publish({
+		    		card_id: card.attr('id'), 
+		    		card_coords: self.getPercentOffset(card), 
+		    		user_id: self.userId,
+		    		action: action
+				});
+			}
+		});
+	
+		// discard all field cards
+		$(document).on('click', '#discard_all', function() {
+			$('#'+self.fieldId+' img').each(function() {
+				self.discard($(this));
+			});
 		});
 
-		$(document).on('click', '.js_card_new_place', function() {
-
-		});
-
+		// get card from deck
 		$(document).on('click', '#doors, #treasures', function() {
 			WS.publish({
 	    		card_type: $(this).attr('id'),
@@ -138,28 +187,27 @@ CardActions.prototype.init = function() {
 }
 
 CardActions.prototype.onOffActions = function(elem, action) {
-	var play_block = $('#'+this.userId+'.'+this.classes.player_block+' .'+this.classes.play_block),
-		field_block = $('#'+this.fieldId);
+	$('#card_actions').remove();
+	elem.parent().find('img').css({'position': '', 'z-index': ''});
 
 	if (action == 'on') {
-		var pos = this.getPosition(elem), height = elem.height();
 		elem.after($('<div>', {
-			css: $.extend({'z-index': 999, 'position': 'absolute'}, pos),
+			css: {'z-index': 999, 'position': 'absolute'},
 			id: 'card_actions',
 			card_id: elem.attr('id'),
-			html: '<span class="glyphicon glyphicon-remove" action="discard" aria-hidden="true"></span>\
-				<span class="glyphicon glyphicon-usd" action="sell" aria-hidden="true"></span>\
-				<span class="glyphicon glyphicon-refresh" action="change" aria-hidden="true"></span>\
-				<span class="glyphicon glyphicon-retweet" action="turn" aria-hidden="true"></span>'
+			html: this.html.glyph('remove', 'discard', 'Сбросить')+
+				this.html.glyph('usd', 'sell', 'Продать')+
+				this.html.glyph('refresh', 'change', 'Обменять')+
+				this.html.glyph('retweet', 'turn', 'Перевернуть')+
+				this.html.glyph('play', 'to_play', 'В игру')+
+				this.html.glyph('th-large', 'to_field', 'В поле')
 		}));
-		play_block.addClass('js_card_new_place').css({'border': '1px solid red'});
-		field_block.addClass('js_card_new_place').css({'border': '1px solid red'});
 		elem.css({'position': 'relative', 'z-index': 999});
-	} else {
-		$('#card_actions').remove();
-		elem.css({'position': '', 'z-index': ''});
-		play_block.removeClass('js_card_new_place').css({'border': ''});
-		field_block.removeClass('js_card_new_place').css({'border': ''});
+		// set position
+		var offset = elem.offset();
+		offset.top += elem.height();
+		offset.left -= 10;
+		$('#card_actions').offset(offset);
 	}
 }
 
@@ -179,10 +227,10 @@ CardActions.prototype.restoreGame = function() {
 						};
 						switch (attr) {
 							case 'hand_cards':
-								$('#'+user+'.'+self.classes.player_block).find('.'+self.classes.hand_block).append(self.createCard(data, 'hand'));
+								$('#'+user+'.'+self.classes.player_block+' .'+self.classes.hand_block).append(self.html.createCard(data, 'hand'));
 								break;
 							case 'play_cards':
-								$('#'+user+'.'+self.classes.player_block).find('.'+self.classes.play_block).append(self.createCard(data, 'play'));
+								$('#'+user+'.'+self.classes.player_block+' .'+self.classes.play_block).append(self.html.createCard(data, 'play'));
 								break;
 						}
 					}
@@ -200,7 +248,12 @@ CardActions.prototype.restoreGame = function() {
 					};
 					switch (attr) {
 						case 'field_cards':
-							$('#'+self.fieldId).append(self.createCard(data, 'field'));
+							$('#'+self.fieldId).append(self.html.createCard(data, 'field'));
+							break;
+						case 'discards':
+							var card = self.html.createCard(data, 'discard');
+							$('#'+type+'_discard div').append(card);
+							self.discardPos(card, type);
 							break;
 					}
 				}
@@ -225,7 +278,7 @@ CardActions.prototype.actions = function(resp) {
 		acts = self.actionTypes;
 	switch (resp.action) {
 		case acts['from_hand_to_play']:
-			var target = $('#'+resp.user_id+' .'+self.classes.play_block),
+			var target = $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.play_block),
 				callback = function() {
 					self.turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', self.defClasses.play_card+' '+self.classes.enlarge_card+' '+self.classes.play_card);
@@ -233,7 +286,7 @@ CardActions.prototype.actions = function(resp) {
 				};
 			break;
 		case acts['from_hand_to_field']:
-			var target = $('#main_field'),
+			var target = $('#'+self.fieldId),
 				callback = function() {
 					self.turnOneCard(card, Params.cardPath(resp.pic_id, true), false, function() {
 						card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
@@ -241,7 +294,7 @@ CardActions.prototype.actions = function(resp) {
 				};
 			break;
 		case acts['from_play_to_field']:
-			var target = $('#main_field'),
+			var target = $('#'+self.fieldId),
 				callback = function() {
 					card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
 				};
@@ -262,14 +315,25 @@ CardActions.prototype.actions = function(resp) {
 			} else {
 				var callback, cardId = resp.card_id;
 			}
-			self.getOneCard(cardId, resp.card_type, $('#'+resp.user_id).find('.'+self.classes.hand_block), callback);
-			return false;
-			break;
+			self.getOneCard(cardId, resp.card_type, $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.hand_block), callback);
+			return;
+		case acts['discard_from_hand']:
+			self.turnOneCard(card, Params.cardPath(resp.pic_id, true), 0, function() {
+				self.discard(card);
+			});
+			return;
+		case acts['discard_from_play']:
+		case acts['discard_from_field']:
+			self.discard(card);
+			return;
 	}
 	if (!target) return false;
 	self.moveCard(card, target, callback);
 }
 
+/**
+ * TODO: totalCards вынести
+ */
 CardActions.prototype.dealCards = function(deckId, players, callback) {
 	var self = this,
 		totalCards = 0,
@@ -286,26 +350,9 @@ CardActions.prototype.dealCards = function(deckId, players, callback) {
 			}
 			curUserId = players.firstKey();
 		}
-		self.getOneCard(players[curUserId][deckId].objShift(), deckId, $('#'+curUserId).find('.'+self.classes.hand_block));
+		self.getOneCard(players[curUserId][deckId].objShift(), deckId, $('#'+curUserId+'.'+self.classes.player_block+' .'+self.classes.hand_block));
 		curUserId = players.nextKey(curUserId);
 	}, 50);
-}
-
-CardActions.prototype.getOneCard = function(cardId, deckId, parent, callback) {
-	var deck = $('#'+deckId).offset(),
-		parPos = parent.offset(),
-		newCard = $('#'+deckId).clone().appendTo('body').attr('id', cardId).attr('type', deckId);
-	newCard.attr('class', this.defClasses.hand_card+' '+this.classes.hand_card).css({'position':'absolute', 'left': deck.left+'px', 'top': deck.top+'px'});
-	newCard.animate({
-		"left": (parPos.left+parent.width()/2)+'px',
-		"top": parPos.top+'px'
-	}, 'slow', function() {
-		newCard.removeAttr('style').detach().appendTo(parent);
-		if (typeof callback == 'function') callback(newCard); 
-	});
-	/*this.moveCard(newCard, parent, function() {
-		if (typeof callback == 'function') callback(newCard); 
-	});*/
 }
 
 CardActions.prototype.turnCards = function(block, callback) {
@@ -325,6 +372,14 @@ CardActions.prototype.turnCards = function(block, callback) {
 	});
 }
 
+CardActions.prototype.getOneCard = function(cardId, deckId, parent, callback) {
+	var newCard = $('#'+deckId).clone().appendTo($('#'+deckId).parent()).attr('id', cardId).attr('type', deckId);
+	newCard.attr('class', this.defClasses.hand_card+' '+this.classes.hand_card);
+	this.moveCard(newCard, parent, function() {
+		if (typeof callback == 'function') callback(newCard); 
+	});
+}
+
 CardActions.prototype.turnOneCard = function(card, url, count, callback) {
 	var self = this;
 	card.addClass('turn_card_effect');
@@ -339,38 +394,40 @@ CardActions.prototype.turnOneCard = function(card, url, count, callback) {
 	});
 }
 
-/**
- * TODO: universal left, top positions
- */
-CardActions.prototype.moveCard = function(card, target, callback) {
-	var pos = target.offset(),
-		cardPos = card.offset();
-	card.css({'position':'absolute', 'z-index': 9999});
-	card.animate({
-		"left": cardPos.left > (pos.left+target.width()/2) ? cardPos.left-(pos.left+target.width()/2) : (pos.left+target.width()/2)-cardPos.left,
-		"top": pos.top-cardPos.top+target.height()/2
-	}, 'slow', function() {
+CardActions.prototype.discard = function(card, discardType, callback) {
+	var self = this;
+	if (!discardType) discardType = card.attr('type');
+	this.moveCard(card, $('#'+discardType+'_discard div'), function() {
+		card.attr('class', 'decks');
+		self.discardPos(card, discardType);
 		if (typeof callback == 'function') callback();
-		card.removeAttr('style').detach().appendTo(target);
 	});
 }
 
-CardActions.prototype.createUserBlock = function(user, width) {
-	return '<div id="'+user.id+'" class="col-md-'+width+' text-center '+this.classes.player_block+'">\
-		<div class="row">\
-			<div class="col-md-4 '+this.classes.hand_block+'"></div>\
-			<div class="col-md-8 '+this.classes.play_block+'" style="height:100px;"></div>\
-		</div>\
-		<div class="row">\
-			<div class="col-md-12 text-left">\
-				<span class="label label-primary">\
-					'+user.name+'\
-					<span id="lvl">1 lvl</span>\
-					<span id="sex">('+user.sex+')</span>\
-				</span>\
-			</div>\
-		</div>\
-	</div>';
+CardActions.prototype.discardPos = function(card, discardType) {
+	if ($('#'+discardType+'_discard div img').length > 1) card.css({'position': 'absolute', 'left': $('#'+discardType+'_discard').width()/2-card.width()/2});
+}
+
+/**
+ * 
+ */
+CardActions.prototype.moveCard = function(card, target, callback) {
+	var self = this,
+		pos = target.offset(),
+		cardPos = card.offset();
+	console.log(pos, cardPos);
+	console.log(pos.left-cardPos.left+target.width()/2, pos.top-cardPos.top+target.height()/2)
+
+	card.removeClass(self.classes.enlarge_card)
+	card.css({'position':'absolute', 'z-index': 9999});
+	card.animate({
+		"left": pos.left-cardPos.left+target.width()/2,
+		"top": pos.top-cardPos.top+target.height()/2
+	}, 'slow', function() {
+		card.addClass(self.classes.enlarge_card)
+		card.removeAttr('style').detach().appendTo(target);
+		if (typeof callback == 'function') callback();
+	});
 }
 
 CardActions.prototype.placeUserBlocks = function(users) {
@@ -378,7 +435,7 @@ CardActions.prototype.placeUserBlocks = function(users) {
 	for (var el in users) {
 		users[el]['id'] = el;
 		var curUser = users[el];
-		if (!$('#'+el).length) {
+		if (!$('#'+el+'.'+self.classes.player_block).length) {
 			if ($('.js_player_place:empty').length == 0) {
 				var block = $('#'+this.exampleBlockId).clone();
 				block.find('.js_player_place').html('');
@@ -388,43 +445,20 @@ CardActions.prototype.placeUserBlocks = function(users) {
 				var player_block = $(this).find('.'+self.classes.player_block),
 					field = $(this).find('#'+self.fieldId);
 				if (player_block.length < 2) {
-					if (player_block.length > 0 && field.length > 0) return true;
-					if (player_block.length > 0) player_block.removeClass('col-md-12').addClass('col-md-6');
+					if (player_block.length > 0) {
+						if (field.length > 0) return true;
+						player_block.removeClass('col-md-12').addClass('col-md-6');
+					}
 					var width = player_block.length > 0 || field.length > 0 ? 6 : 12;
 					if (field.length > 0) {
 						field.removeClass('col-md-12').addClass('col-md-6');
-						$(this).prepend(self.createUserBlock(curUser, width));
-					} else $(this).append(self.createUserBlock(curUser, width));
+						$(this).prepend(self.html.createUserBlock(curUser, width));
+					} else $(this).append(self.html.createUserBlock(curUser, width));
 					return false;
 				}
 			});
 		}
 	}
-}
-
-CardActions.prototype.createCard = function(data, where) {
-	var img = $('<img>', {
-		id: data['id'],
-		type: data['type'],
-		src: data['pic_id'] ? Params.cardPath(data['pic_id'], true) : $('#'+data['type']).attr('src')
-	});
-	switch (where) {
-		case 'hand':
-			img.addClass(this.classes.hand_card+' '+this.defClasses.hand_card);
-			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
-			break;
-		case 'field':
-			img.addClass(this.classes.field_card+' '+this.defClasses.field_card);
-			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
-			break;
-		case 'play':
-			img.addClass(this.classes.play_card+' '+this.defClasses.play_card);
-			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
-			break;
-		case 'discard':
-			break;
-	}
-	return img;
 }
 
 CardActions.prototype.getPercentOffset = function(el) {
@@ -467,4 +501,61 @@ CardActions.prototype.ajaxRequest = function(url, data, successFunc, beforeSendF
             if (typeof errorFunc == 'function') errorFunc();
         }
     });
+}
+
+/**
+ * HtmlBuilder
+ *
+ *
+ */ 
+function HtmlBuilder(mainObj) {
+	this.copyAttrs(mainObj);
+}
+
+HtmlBuilder.prototype.createCard = function(data, where) {
+	var img = $('<img>', {
+		id: data['id'],
+		type: data['type'],
+		src: data['pic_id'] ? Params.cardPath(data['pic_id'], true) : $('#'+data['type']).attr('src')
+	});
+	switch (where) {
+		case 'hand':
+			img.addClass(this.classes.hand_card+' '+this.defClasses.hand_card);
+			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
+			break;
+		case 'field':
+			img.addClass(this.classes.field_card+' '+this.defClasses.field_card);
+			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
+			break;
+		case 'play':
+			img.addClass(this.classes.play_card+' '+this.defClasses.play_card);
+			if (data['pic_id']) img.addClass(this.classes.enlarge_card);
+			break;
+		case 'discard':
+			img.addClass('decks');
+			break;
+	}
+	return img;
+}
+
+HtmlBuilder.prototype.createUserBlock = function(user, width) {
+	return '<div id="'+user.id+'" class="col-md-'+width+' text-center '+this.classes.player_block+'">\
+		<div class="row">\
+			<div class="col-md-4 '+this.classes.hand_block+'"></div>\
+			<div class="col-md-8 '+this.classes.play_block+'" style="height:100px;"></div>\
+		</div>\
+		<div class="row">\
+			<div class="col-md-12 text-left">\
+				<span class="label label-primary">\
+					'+user.name+'\
+					<span id="lvl">1 lvl</span>\
+					<span id="sex">('+user.sex+')</span>\
+				</span>\
+			</div>\
+		</div>\
+	</div>';
+}
+
+HtmlBuilder.prototype.glyph = function(type, action, title) {
+	return '<span class="glyphicon glyphicon-'+type+'" title="'+title+'" style="cursor:pointer;" action="'+action+'" aria-hidden="true"></span>';
 }

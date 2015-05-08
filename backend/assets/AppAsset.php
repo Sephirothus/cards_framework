@@ -21,7 +21,6 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-        'js/mainParams.js',
         'js/libs/autobahn.min.js',
         'js/objExtend.js'
     ];

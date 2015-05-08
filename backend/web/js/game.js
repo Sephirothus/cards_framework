@@ -6,6 +6,7 @@ var ajaxUrl = $('input[name="ajax_url"]').val(),
 var obj = new CardActions({'gameId': gameId, 'userId': userId, 'ajaxUrl': ajaxUrl});
 obj.init();
 
+
 /*WS.setParams({
 	'topic': gameId
 }).init(function(resp) {
