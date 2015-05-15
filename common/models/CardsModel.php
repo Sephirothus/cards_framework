@@ -99,7 +99,7 @@ class CardsModel extends ActiveRecord {
 	public function getCardsByIds($cards) {
 		$data = [];
 		foreach ($cards as $card) {
-			$data[$card] = $this->getCardInfo($card, ['id']);
+			$data[$card] = $this->getCardInfo($card, ['id', 'price']);
 		}
 		return $data;
 	}

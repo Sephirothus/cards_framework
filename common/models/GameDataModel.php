@@ -78,10 +78,18 @@ class GameDataModel extends ActiveRecord {
                     }
                     break;
                 case 'field_cards':
-                case 'discards':
                     if (isset($data[$attr])) {
                         foreach ($data[$attr] as $key => $val) {
                             $new[$attr][$key] = $obj->getCardsByIds($val);
+                        }
+                    }
+                    break;
+                case 'discards':
+                    if (isset($data[$attr])) {
+                        $new[$attr] = [];
+                        foreach ($data[$attr] as $key => $val) {
+                            $card = end($val);
+                            $new[$attr][$key][$card] = $obj->getCardInfo($card, ['id', 'price']);
                         }
                     }
                     break;

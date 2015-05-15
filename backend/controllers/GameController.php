@@ -85,7 +85,6 @@ class GameController extends Controller {
      **/
     public function actionAjaxAction($id) {
         $post = Yii::$app->request->post();
-        $userId = (string)Yii::$app->user->identity->_id;
         $obj = new CardsModel();
         switch ($post['type']) {
             case 'get_cards':

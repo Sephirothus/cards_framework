@@ -18,8 +18,6 @@ use common\models\CardsModel;
 use common\models\GameDataModel;
 use common\helpers\IdHelper;
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
 class PusherController extends Controller implements WampServerInterface {
 
 	/**
@@ -48,6 +46,8 @@ class PusherController extends Controller implements WampServerInterface {
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         try {
             $gameId = IdHelper::toId($topic->getId());
+            if (!(new \common\libs\Rules)->check(isset($event['card_id']) ? $event['card_id'] : 0, $event['user_id'], $gameId, $event['action'])) return false;
+
             $game = GamesModel::findOne(['_id' => $gameId]);
             if ($game['status'] == GamesModel::$status['in_progress']) {
                 $data = $event;
@@ -81,7 +81,9 @@ class PusherController extends Controller implements WampServerInterface {
                     case 'get_doors_card':
                     case 'get_treasures_card':
                         $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id']);
-                        $event['pic_id'] = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])])['id'];
+                        $card = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])]);
+                        $event['pic_id'] = $card['id'];
+                        if (isset($card['price'])) $event['price'] = $card['price'];
                         $event['to_all'] = true;
                         break;
                     case 'discard_from_hand':
@@ -98,9 +100,14 @@ class PusherController extends Controller implements WampServerInterface {
                                 $place = 'field_cards';
                                 break;
                         }
-                        $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
-                        if ($event['action'] == 'discard_from_field') unset($temp[$place][$type['type']][$type['index']]);
-                        else unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
+                        if ($event['action'] == 'discard_from_field') {
+                            // TODO: $event['card_id'] - actually is pic_id, need to find real card_id
+                            $type = GameDataModel::findCardType($temp[$place], $event['card_id']);
+                            unset($temp[$place][$type['type']][$type['index']]);
+                        } else {
+                            $type = GameDataModel::findCardType($temp[$place][$event['user_id']], $event['card_id']);
+                            unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
+                        }
                         $temp['discards'][$type['type']][] = $event['card_id'];
                         $isSave = true;
                         break;
