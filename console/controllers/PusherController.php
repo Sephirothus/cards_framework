@@ -51,7 +51,7 @@ class PusherController extends Controller implements WampServerInterface {
             $game = GamesModel::findOne(['_id' => $gameId]);
             if ($game['status'] == GamesModel::$status['in_progress']) {
                 $data = $event;
-                if (isset($data['card_id'])) {
+                if (isset($data['card_id']) && intval($data['card_id']) > 0) {
                     $event['pic_id'] = CardsModel::findOne(['_id' => $event['card_id']])['id'];
                 }
                 $data['games_id'] = $gameId;
@@ -84,7 +84,6 @@ class PusherController extends Controller implements WampServerInterface {
                         $card = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])]);
                         $event['pic_id'] = $card['id'];
                         if (isset($card['price'])) $event['price'] = $card['price'];
-                        $event['to_all'] = true;
                         break;
                     case 'discard_from_hand':
                     case 'discard_from_play':
@@ -101,7 +100,6 @@ class PusherController extends Controller implements WampServerInterface {
                                 break;
                         }
                         if ($event['action'] == 'discard_from_field') {
-                            // TODO: $event['card_id'] - actually is pic_id, need to find real card_id
                             $type = GameDataModel::findCardType($temp[$place], $event['card_id']);
                             unset($temp[$place][$type['type']][$type['index']]);
                         } else {
@@ -109,6 +107,19 @@ class PusherController extends Controller implements WampServerInterface {
                             unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
                         }
                         $temp['discards'][$type['type']][] = $event['card_id'];
+                        $isSave = true;
+                        break;
+                    case 'sell_cards':
+                        /*foreach ($event['card_id'] as $card) {
+                            $type = GameDataModel::findCardType($temp[''][$event['user_id']], $card);
+                            unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
+                            $temp['discards'][$type['type']][] = $card;
+                        }
+                        $isSave = true;*/
+                        break;
+                    case 'turn_card':
+                        if (in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
+                        else $temp['turn_cards'][] = $event['card_id'];
                         $isSave = true;
                         break;
                 }

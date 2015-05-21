@@ -24,7 +24,7 @@ class CardsModel extends ActiveRecord {
     }
 
     public function attributes() {
-        return ['_id', 'id'];
+        return ['_id', 'id', 'price'];
     }
 
 	/**

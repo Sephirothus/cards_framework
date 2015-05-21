@@ -14,7 +14,7 @@ use common\helpers\IdHelper;
 class GameDataModel extends ActiveRecord {
 
 	public function attributes() {
-        return ['_id', 'games_id', 'decks', 'hand_cards', 'play_cards', 'discards', 'field_cards'];
+        return ['_id', 'games_id', 'decks', 'hand_cards', 'play_cards', 'discards', 'field_cards', 'turn_cards', 'cur_move'];
     }
 
 	/**
@@ -40,6 +40,8 @@ class GameDataModel extends ActiveRecord {
             $obj->getCards()->shuffleCards();
             $model->hand_cards = [];
             $model->games_id = $id;
+            $model->cur_move = $users[0];
+            $model->turn_cards = [];
         } else {
             $obj->setDecks($model->decks);
         }
@@ -61,6 +63,9 @@ class GameDataModel extends ActiveRecord {
         foreach ($attrs as $attr) {
             $new[$attr] = $data[$attr];
             switch ($attr) {
+                case 'turn_cards':
+                    $new[$attr] = $data[$attr];
+                    break;
                 case 'hand_cards':
                     if (isset($data[$attr][$userId])) {
                         foreach ($data[$attr][$userId] as $key => $val) {
