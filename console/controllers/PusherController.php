@@ -59,6 +59,15 @@ class PusherController extends Controller implements WampServerInterface {
                 $isSave = false;
                 $gameData = GameDataModel::findOne(['games_id' => $gameId]);
                 $temp = $gameData->getAttributes();
+                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], $game['users'], $temp['cur_move']))) {
+                    if (is_array($nextPhase)) {
+                        $event['next_user'] = $temp['cur_move'] = $nextPhase['next_user'];
+                        $nextPhase = $nextPhase['next_phase'];
+                    }
+                    $event['next_phase'] = $temp['cur_phase'] = $nextPhase;
+                    $isSave = true;
+                }
+                //print_r($event);
                 switch ($event['action']) {
                     case 'from_hand_to_play':
                         $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
@@ -80,7 +89,14 @@ class PusherController extends Controller implements WampServerInterface {
                         break;
                     case 'get_doors_card':
                     case 'get_treasures_card':
-                        $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id']);
+                        switch ($event['action']) {
+                            case 'get_doors_card':
+                                $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], false, 'field_cards');
+                                break;
+                            case 'get_treasures_card':
+                                $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id'], 'hand_cards');
+                                break;
+                        }
                         $card = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])]);
                         $event['pic_id'] = $card['id'];
                         if (isset($card['price'])) $event['price'] = $card['price'];
@@ -115,6 +131,7 @@ class PusherController extends Controller implements WampServerInterface {
                             unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
                             $temp['discards'][$type['type']][] = $card;
                         }
+                        $event['user_lvl'] = 2;
                         $isSave = true;*/
                         break;
                     case 'turn_card':

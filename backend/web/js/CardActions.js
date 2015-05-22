@@ -283,14 +283,14 @@ CardActions.prototype.restoreGame = function() {
 						break;
 				}
 				for (var type in resp[attr][user]) {
-					data = getInfo(resp[attr][user][type], type);
+					data = getInfo(resp[attr][user][type], user);
 					switch (attr) {
 						case 'field_cards':
 							$('#'+self.fieldId).append(self.html.createCard(data, 'field'));
 							break;
 						case 'discards':
 							var card = self.html.createCard(data, 'discard');
-							$('#'+type+'_discard div').append(card);
+							$('#'+user+'_discard div').append(card);
 							break;
 					}
 					for (var el in resp[attr][user][type]) {
@@ -355,7 +355,6 @@ CardActions.prototype.actions = function(resp) {
 			break;
 		case acts['discard_from_hand']:
 		case acts['discard_from_play']:
-		case acts['discard_from_field']:
 			var anotherCallback = function() { self.defActions.discard(card); };
 			if (resp.user_id != self.userId && resp.action == acts['discard_from_hand']) {
 				callback = function() { 
@@ -365,30 +364,41 @@ CardActions.prototype.actions = function(resp) {
 			break;
 		case acts['sell_cards']:
 			callback = function() {
-				var count = 0;
+				var anotherCallback;
 				for (var el in resp.card_id) {
-					self.defActions.discard($('#'+resp.card_id[el]));
-					count += parseInt($('#'+resp.card_id[el]).attr('price'));
+					anotherCallback = function() { self.defActions.discard($('#'+resp.card_id[el])); };
+					if (resp.user_id != self.userId) self.defActions.turnOneCard($('#'+resp.card_id[el]), {src: Params.cardPath(''/*resp.pic_id*/, true)}, false, anotherCallback);
+					else anotherCallback();
 				}
-				if (resp.user_id == self.userId) {
-					var lvl = parseInt($('#'+self.userId).find('#lvl').html());
-					$('#'+self.userId).find('#lvl').html((lvl+Math.floor(count/1000))+' lvl');
-				}
+				$('#'+resp.user_id).find('#lvl').html(resp.user_lvl+' lvl');
 			};
 			break;
+		case acts['discard_from_field']:
+			self.defActions.discard(card);
+			return;
 		case acts['get_doors_card']:
+			var cardId = resp.card_id;
+			self.defActions.getOneCard({id: cardId, type: resp.card_type, price: resp.price}, $('#'+self.fieldId), function(newCard) {
+				newCard.css({'z-index': 99999});
+				self.defActions.turnOneCard(newCard, {src: Params.cardPath(resp.pic_id, true)}, false, function() {
+					newCard.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
+					newCard.removeAttr('style');
+					newCard.css({'position': 'relative'});
+				});
+			});
+			return;
 		case acts['get_treasures_card']:
 			var cardId = resp.card_id;
 			if (resp.user_id == self.userId) {
 				callback = function(newCard) {
-						newCard.css({'z-index': 99999});
-						self.defActions.turnOneCard(newCard, {src: Params.cardPath(resp.pic_id, true)}, false, function() {
-							newCard.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
-							newCard.removeAttr('style');
-							newCard.css({'position': 'relative'});
-							//if (self.userId = resp.user_id) eventsOn($('#'+self.userId));
-						});
-					}
+					newCard.css({'z-index': 99999});
+					self.defActions.turnOneCard(newCard, {src: Params.cardPath(resp.pic_id, true)}, false, function() {
+						newCard.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
+						newCard.removeAttr('style');
+						newCard.css({'position': 'relative'});
+						//if (self.userId = resp.user_id) eventsOn($('#'+self.userId));
+					});
+				}
 			}
 			self.defActions.getOneCard({id: cardId, type: resp.card_type, price: resp.price}, $('#'+resp.user_id+' .'+self.classes.hand_block), callback);
 			return;

@@ -124,14 +124,15 @@ class CardsModel extends ActiveRecord {
 	 * @return void
 	 * @author 
 	 **/
-	public function dealOneByType($gameId, $type, $userId) {
+	public function dealOneByType($gameId, $type, $userId=false, $place) {
 		$game = GameDataModel::findOne(['games_id' => $gameId]);
 		$decks = $game->decks;
-		$handCards = $game->hand_cards;
+		$cards = $game->$place;
 		$card = array_shift($decks[$type]);
-		$handCards[$userId][$type][] = $card;
+		if ($userId) $cards[$userId][$type][] = $card;
+		else $cards[$type][] = $card;
 		$game->decks = $decks;
-		$game->hand_cards = $handCards;
+		$game->$place = $cards;
 		$game->save();
 		return $card;
 	}
