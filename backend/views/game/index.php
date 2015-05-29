@@ -31,16 +31,24 @@ echo Html::tag('div',
 	Html::tag('div', 
 		Html::tag('div', 
 			'',
-			['class' => 'row playing_rows js_player_place', 'id' => 'first_row']
+			['class' => 'row playing_rows js_player_place']
 		).Html::tag('div', 
 			Html::tag('div', 
-				Html::button('Сбросить все', ['id' => 'discard_all', 'class' => 'btn btn-danger', 'style' => 'position: absolute; bottom:0;']), 
+				Html::tag('div', 
+					Html::tag('div', Html::tag('span', '', ['class' => 'label label-success', 'id' => 'your_str']), ['class' => 'col-md-6 text-left']) .
+					Html::tag('div', Html::tag('span', '', ['class' => 'label label-warning', 'id' => 'boss_str']), ['class' => 'col-md-6 text-right']),
+					['class' => 'row']
+				) .
+				Html::button('Закончить ход', ['id' => 'end_move', 'class' => 'btn btn-success', 'style' => 'position: absolute; bottom:0; left:0;']) . 
+				Html::button('Забрать на руку', ['id' => 'from_field_to_hand', 'class' => 'btn btn-info', 'style' => 'position: absolute; bottom:0;']) . 
+				Html::button('Сбросить все', ['id' => 'discard_all', 'class' => 'btn btn-danger', 'style' => 'position: absolute; bottom:0; right:0;']), 
 				['class' => 'col-md-12 text-center playing_rows', 'id' => 'main_field']
 			),
-			['class' => 'row playing_rows js_player_place', 'id' => 'second_row']
+			['class' => 'row playing_rows js_player_place']
 		), 
 		['class' => 'col-md-10']
 	).Html::tag('div', 
+		Html::tag('div', Html::tag('span', '', ['class' => 'label label-primary', 'id' => 'phase_name']), ['class' => 'row text-center']) . 
 		$decks, 
 		['class' => 'col-md-2 decks_col']
 	), 
@@ -49,7 +57,7 @@ echo Html::tag('div',
 	Html::tag('div', 
 		Html::tag('div', 
 			'',
-			['class' => 'row playing_rows js_player_place', 'id' => 'third_row']
+			['class' => 'row playing_rows js_player_place']
 		),
 		['class' => 'col-md-10']
 	).Html::tag('div', 

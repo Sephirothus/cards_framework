@@ -1253,15 +1253,13 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 		];
 
 		$cards = [];
-    	$this->_multipleCards($doors['children'], $cards);
-    	$this->_multipleCards($treasures['children'], $cards);
+		$key = 1;
+    	$this->_multipleCards(array_merge([$doors], [$treasures]), $cards, 0, $key);
 
 		$this->createCollection('cards');
 		foreach ($cards as $card) {
 			$this->insert('cards', $card);
 		}
-		$this->insert('cards', ['_id' => 'doors', 'children' => $this->_getIds($doors['children'])]);
-		$this->insert('cards', ['_id' => 'treasures', 'children' => $this->_getIds($treasures['children'])]);
     }
 
     public function down()
@@ -1275,12 +1273,17 @@ class m150113_145611_cards extends \yii\mongodb\Migration
      * @return void
      * @author 
      **/
-    private function _multipleCards($cards, &$newData) {
+    private function _multipleCards($cards, &$newData, $parent, &$key) {
     	foreach ($cards as &$card) {
     		if (isset($card['children'])) {
-	    		$this->_multipleCards($card['children'], $newData);
-	    		$card['children'] = $this->_getIds($card['children']);
+    			$card['parent'] = $parent;
+    			$card['left'] = $key++;
+	    		$this->_multipleCards($card['children'], $newData, $card['_id'], $key);
+	    		$card['right'] = $key++;
 	    	} else {
+	    		$card['parent'] = $parent;
+	    		$card['left'] = $key++;
+	    		$card['right'] = $key++;
 	    		if (isset($card['cards_count'])) {
 	    			for ($i=2; $i<=$card['cards_count']; $i++) {
 		    			$temp = $card;
@@ -1293,21 +1296,8 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 		    		unset($card['cards_count']);
 	    		}
 	    	}
+	    	unset($card['children']);
 	    	$newData[] = $card;
     	}
-    }
-
-    /**
-     * undocumented function
-     *
-     * @return void
-     * @author 
-     **/
-    private function _getIds($arr) {
-    	$ids = [];
-    	foreach ($arr as $val) {
-    		$ids[] = $val['_id'];
-    	}
-    	return $ids;
     }
 }

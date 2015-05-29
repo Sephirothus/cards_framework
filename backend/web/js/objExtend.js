@@ -10,6 +10,10 @@ Object.defineProperty(Object.prototype, 'firstKey', {
 	value: function() {return Object.keys(this)[0];}
 });
 
+Object.defineProperty(Object.prototype, 'firstVal', {
+	value: function() {return this[this.firstKey()];}
+});
+
 Object.defineProperty(Object.prototype, 'objShift', {
 	value: function() {
 		var el = this.firstKey(),

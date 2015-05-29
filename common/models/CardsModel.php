@@ -24,7 +24,7 @@ class CardsModel extends ActiveRecord {
     }
 
     public function attributes() {
-        return ['_id', 'id', 'price'];
+        return ['_id', 'id', 'price', 'bonus', 'parent', 'left', 'right', 'lvl'];
     }
 
 	/**
@@ -37,12 +37,14 @@ class CardsModel extends ActiveRecord {
 		$obj = new Query();
 		$data = [];
 		foreach ($obj->from(self::collectionName())->where(['_id' => ['$in' => self::$deckTypes]])->all() as $row) {
-			$temp = [];
 			if (!isset($data[$row['_id']])) $data[$row['_id']] = [];
-			foreach ($obj->from(self::collectionName())->where(['_id' => ['$in' => $row['children']]])->all() as $child) {
-				$temp = array_merge($temp, array_map(function($param) {
-					return (string)$param;
-				}, $child['children']));
+			$childs = $obj->from(self::collectionName())->where([
+				'left' => ['$gt' => $row['left']], 
+				'right' => ['$lt' => $row['right']]
+			])->all();
+			$temp = [];
+			foreach ($childs as $key => $child) {
+				if (($child['right']-$child['left']) == 1) $temp[] = (string)$child['_id'];
 			}
 			$data[$row['_id']] = array_merge($data[$row['_id']], $temp);
 		}
@@ -99,7 +101,7 @@ class CardsModel extends ActiveRecord {
 	public function getCardsByIds($cards) {
 		$data = [];
 		foreach ($cards as $card) {
-			$data[$card] = $this->getCardInfo($card, ['id', 'price']);
+			$data[$card] = $this->getCardInfo($card);
 		}
 		return $data;
 	}
@@ -135,6 +137,16 @@ class CardsModel extends ActiveRecord {
 		$game->$place = $cards;
 		$game->save();
 		return $card;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public static function getOne($cardId) {
+		return static::findOne(['_id' => \common\helpers\IdHelper::toId($cardId)])->toArray();
 	}
 
 	/**

@@ -59,15 +59,6 @@ class PusherController extends Controller implements WampServerInterface {
                 $isSave = false;
                 $gameData = GameDataModel::findOne(['games_id' => $gameId]);
                 $temp = $gameData->getAttributes();
-                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], $game['users'], $temp['cur_move']))) {
-                    if (is_array($nextPhase)) {
-                        $event['next_user'] = $temp['cur_move'] = $nextPhase['next_user'];
-                        $nextPhase = $nextPhase['next_phase'];
-                    }
-                    $event['next_phase'] = $temp['cur_phase'] = $nextPhase;
-                    $isSave = true;
-                }
-                //print_r($event);
                 switch ($event['action']) {
                     case 'from_hand_to_play':
                         $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
@@ -87,6 +78,13 @@ class PusherController extends Controller implements WampServerInterface {
                         $temp['field_cards'][$type['type']][] = $event['card_id'];
                         $isSave = true;
                         break;
+                    case 'from_field_to_hand':
+                        $type = GameDataModel::findCardType($temp['field_cards'], $event['card_id']);
+                        unset($temp['field_cards'][$type['type']][$type['index']]);
+                        $temp['hand_cards'][$event['user_id']][$type['type']][] = $event['card_id'];
+                        $event['card_type'] = $type['type'];
+                        $isSave = true;
+                        break;
                     case 'get_doors_card':
                     case 'get_treasures_card':
                         switch ($event['action']) {
@@ -97,9 +95,9 @@ class PusherController extends Controller implements WampServerInterface {
                                 $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id'], 'hand_cards');
                                 break;
                         }
-                        $card = CardsModel::findOne(['_id' => IdHelper::toId($data['card_id'])]);
+                        $card = CardsModel::getOne($data['card_id']);
                         $event['pic_id'] = $card['id'];
-                        if (isset($card['price'])) $event['price'] = $card['price'];
+                        $event['card_info'] = $card;
                         break;
                     case 'discard_from_hand':
                     case 'discard_from_play':
@@ -140,6 +138,20 @@ class PusherController extends Controller implements WampServerInterface {
                         $isSave = true;
                         break;
                 }
+                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], $game['users'], $temp['cur_move'], isset($event['card_id']) ? $event['card_id'] : false))) {
+                    if (is_array($nextPhase)) {
+                        $temp['cur_move'] = $nextPhase['next_user'];
+                        $nextPhase['next_user'] = (string)$nextPhase['next_user'];
+                        $event['next_user'][$nextPhase['next_user']] = \common\libs\Phases::getWaitActions($nextPhase['next_phase']);
+                        $nextPhase = $nextPhase['next_phase'];
+                    } else {
+                        $event['next_user'][(string)$temp['cur_move']] = \common\libs\Phases::getWaitActions($nextPhase);
+                    }
+                    $temp['cur_phase'] = $nextPhase;
+                    $event['next_phase'][$nextPhase] = \common\libs\Phases::getActions($nextPhase);
+                    $isSave = true;
+                }
+                print_r($event);
                 if ($isSave) {
                     foreach ($gameData->getAttributes() as $attr => $val) {
                         $gameData->$attr = $temp[$attr];
@@ -159,26 +171,31 @@ class PusherController extends Controller implements WampServerInterface {
     }
 
     public function onSubscribe(ConnectionInterface $conn, $topic) {
-        $event = [];
-        $gameId = IdHelper::toId($topic->getId());
-        $this->subscribedTopics[$topic->getId()] = $topic;
-        $game = GamesModel::findOne(['_id' => $gameId]);
-        $gameData = GameDataModel::findOne(['games_id' => $gameId]);
-        if ($game['status'] == GamesModel::$status['new']) {
-            if ($game['count_users'] == count($game['users'])) {
-                $game->status = GamesModel::$status['in_progress'];
-                $game->save();
-                $event['cards'] = $gameData['hand_cards'];
-                $event['decks'] = CardsModel::$deckTypes;
-                $event['type'] = 'start_game';
-                $event['first_move'] = (string)$game['users'][0];
-                $event['count'] = 1;
-            } else {
-                $event['type'] = 'not_all_users';
-                $event['count'] = intval($game['count_users'])-count($game['users']);
+        try {
+            $event = [];
+            $gameId = IdHelper::toId($topic->getId());
+            $this->subscribedTopics[$topic->getId()] = $topic;
+            $game = GamesModel::findOne(['_id' => $gameId]);
+            $gameData = GameDataModel::findOne(['games_id' => $gameId]);
+            if ($game['status'] == GamesModel::$status['new']) {
+                if ($game['count_users'] == count($game['users'])) {
+                    $game->status = GamesModel::$status['in_progress'];
+                    $game->save();
+                    $event['cards'] = $gameData['hand_cards'];
+                    $event['decks'] = CardsModel::$deckTypes;
+                    $event['type'] = 'start_game';
+                    $event['count'] = 1;
+                } else {
+                    $event['type'] = 'not_all_users';
+                    $event['count'] = intval($game['count_users'])-count($game['users']);
+                }
             }
+            $event['next_user'][(string)$gameData['cur_move']] = \common\libs\Phases::getWaitActions($gameData['cur_phase']);
+            $event['next_phase'][$gameData['cur_phase']] = \common\libs\Phases::getActions($gameData['cur_phase']);
+            $event['users'] = (new \common\models\User)->getUsers($game['users']);
+            $topic->broadcast($event);
+        } catch (\Exception $e) {
+            echo $e->getMessage().' '.$e->getFile().' '.$e->getLine();
         }
-        $event['users'] = (new \common\models\User)->getUsers($game['users']);
-        $topic->broadcast($event);
     }
 }
