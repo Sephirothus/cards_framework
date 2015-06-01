@@ -202,11 +202,10 @@ class User extends ActiveRecord implements IdentityInterface
      * @return void
      * @author 
      **/
-    public function getUsers($ids) {
-        $users = [];
-        foreach ($ids as $user) {
-            $user = self::findOne(['_id' => (string)$user]);
-            $users[(string)$user['_id']] = ['name' => $user['username'], 'sex' => $user['gender']];
+    public function getUsers($users) {
+        foreach ($users as $userId => $info) {
+            $user = self::findOne(['_id' => (string)$userId]);
+            $users[$userId]['name'] = $user['username'];
         }
         return $users;
     }

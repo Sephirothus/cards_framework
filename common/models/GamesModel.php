@@ -38,9 +38,11 @@ class GamesModel extends ActiveRecord {
      * @author 
      **/
     public function create($model) {
+        $userId = (string)Yii::$app->user->identity->_id;
     	if (!intval($model->count_users)) $model->count_users = 2;
-        $model->host_id = Yii::$app->user->identity->_id;
-        $model->users = [Yii::$app->user->identity->_id];
+        $user = \common\models\User::findOne(['_id' => $userId]);
+        $model->host_id = $userId;
+        $model->users = [$userId => ['lvl' => 1, 'gender' => $user['gender']]];
         $model->created_date = date('Y-m-d H:i:s');
         $model->status = self::$status['new'];
         if ($model->insert()) {
@@ -57,23 +59,10 @@ class GamesModel extends ActiveRecord {
      * @author 
      **/
     public function addUser($id) {
-    	$userId = Yii::$app->user->identity->_id;
+    	$userId = (string)Yii::$app->user->identity->_id;
     	$model = self::findOne(['_id' => $id]);
-    	$model->users = array_merge($model->users, [$userId]);
-    	if ($model->save()) (new GameDataModel)->refresh($id, [$userId]);
-    }
-
-    /**
-     * undocumented function
-     *
-     * @return void
-     * @author 
-     **/
-    public static function usersToArr($users) {
-    	$new = [];
-    	foreach ($users as $user) {
-    		$new[] = (string)$user;
-    	}
-    	return $new;
+        $user = [$userId => ['lvl' => 1, 'gender' => \common\models\User::findOne(['_id' => $userId])['gender']]];
+    	$model->users = array_merge($model->users, $user);
+    	if ($model->save()) (new GameDataModel)->refresh($id, $user);
     }
 }

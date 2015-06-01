@@ -46,7 +46,7 @@ class PusherController extends Controller implements WampServerInterface {
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         try {
             $gameId = IdHelper::toId($topic->getId());
-            if (!(new \common\libs\Rules)->check(isset($event['card_id']) ? $event['card_id'] : 0, $event['user_id'], $gameId, $event['action'])) return false;
+            //$rule = (new \common\libs\Rules)->check(isset($event['card_id']) ? $event['card_id'] : 0, $event['user_id'], $gameId, $event['action']);
 
             $game = GamesModel::findOne(['_id' => $gameId]);
             if ($game['status'] == GamesModel::$status['in_progress']) {
@@ -138,7 +138,7 @@ class PusherController extends Controller implements WampServerInterface {
                         $isSave = true;
                         break;
                 }
-                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], $game['users'], $temp['cur_move'], isset($event['card_id']) ? $event['card_id'] : false))) {
+                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], array_keys($game['users']), $temp['cur_move'], isset($event['card_id']) ? $event['card_id'] : false))) {
                     if (is_array($nextPhase)) {
                         $temp['cur_move'] = $nextPhase['next_user'];
                         $nextPhase['next_user'] = (string)$nextPhase['next_user'];
@@ -177,6 +177,7 @@ class PusherController extends Controller implements WampServerInterface {
             $this->subscribedTopics[$topic->getId()] = $topic;
             $game = GamesModel::findOne(['_id' => $gameId]);
             $gameData = GameDataModel::findOne(['games_id' => $gameId]);
+
             if ($game['status'] == GamesModel::$status['new']) {
                 if ($game['count_users'] == count($game['users'])) {
                     $game->status = GamesModel::$status['in_progress'];

@@ -35,11 +35,11 @@ class GameController extends Controller {
     }
 
     public function actionIndex($id) {
-        $userId = Yii::$app->user->identity->_id;
+        $userId = (string)Yii::$app->user->identity->_id;
         $game = GamesModel::findOne(['_id' => $id]);
         if (!$game) return $this->redirect(Url::toRoute(['/site']));
         
-        $isIn = in_array($userId, GamesModel::usersToArr($game['users']));
+        $isIn = isset($game['users'][$userId]);
         if ($game['status'] == GamesModel::$status['new'] && 
             !$isIn &&
             count($game['users']) < $game['count_users']) {

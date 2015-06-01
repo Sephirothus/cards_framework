@@ -56,7 +56,8 @@ class SiteController extends Controller {
     }
 
     public function actionIndex() {
-        if ($inGame = GamesModel::findOne(['users' => Yii::$app->user->identity->_id, 'status' => [GamesModel::$status['new'], GamesModel::$status['in_progress']]])) 
+        $userId = (string)Yii::$app->user->identity->_id;
+        if ($inGame = GamesModel::findOne(['users.'.$userId => ['$exists' => true], 'status' => [GamesModel::$status['new'], GamesModel::$status['in_progress']]])) 
             return $this->redirect(Url::to(['/game/index', 'id' => (string)$inGame['_id']]));
 
         return $this->render('index', [

@@ -36,12 +36,13 @@ class GameDataModel extends ActiveRecord {
         $obj = new CardsModel();
         $model = self::findOne(['games_id' => IdHelper::toId($id)]);
         if (!$model) {
+            reset($users);
             reset(\common\libs\Phases::$phases);
             $model = new static;
             $obj->getCards()->shuffleCards();
             $model->hand_cards = [];
             $model->games_id = $id;
-            $model->cur_move = $users[0];
+            $model->cur_move = key($users);
             $model->cur_phase = key(\common\libs\Phases::$phases);
             $model->turn_cards = [];
         } else {

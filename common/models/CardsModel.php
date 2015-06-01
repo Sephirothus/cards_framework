@@ -80,7 +80,7 @@ class CardsModel extends ActiveRecord {
 	 **/
 	public function dealCards($data, $players) {
 		$cards = [];
-		foreach ($players as $player) {
+		foreach ($players as $player => $info) {
 			$cur = [];
 			foreach ($this->_decks as $key => $val) {
 				if (isset($data[$key]) && intval($data[$key]) > 0) {
