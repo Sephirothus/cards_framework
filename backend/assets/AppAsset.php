@@ -22,11 +22,13 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/libs/autobahn.min.js',
-        'js/objExtend.js'
+        'js/objExtend.js',
+        'js/'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset'
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset'
     ];
 
     public $jsOptions = [ 

@@ -53,6 +53,13 @@ HtmlBuilder.prototype.glyph = function(type, action, title) {
 	</button>';
 }
 
+HtmlBuilder.prototype.message = function(text) {
+	return '<div id="message" class="alert alert-warning alert-dismissible" role="alert" style="position:fixed; bottom:0; right:0;">\
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+		'+text+'\
+	</div>';
+}
+
 HtmlBuilder.prototype.drawDice = function(parId) {
 	$('#'+parId).append('<canvas id="dice" width="100" height="100"></canvas>');
 	var ctx = document.getElementById('dice').getContext("2d");

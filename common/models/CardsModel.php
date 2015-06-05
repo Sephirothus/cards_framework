@@ -112,10 +112,10 @@ class CardsModel extends ActiveRecord {
 	 * @return void
 	 * @author 
 	 **/
-	public function getCardInfo($cardID, $select='*') {
+	public function getCardInfo($cardId, $select='*') {
 		$query = new Query;
 		if ($select != '*') $query->select($select);
-		$info = $query->from(self::collectionName())->where(['_id' => $cardID])->one();
+		$info = $query->from(self::collectionName())->where(['_id' => $cardId])->one();
 		$info['_id'] = (string)$info['_id'];
 		return $info;
 	}
@@ -146,7 +146,22 @@ class CardsModel extends ActiveRecord {
 	 * @author 
 	 **/
 	public static function getOne($cardId) {
-		return static::findOne(['_id' => \common\helpers\IdHelper::toId($cardId)])->toArray();
+		if (!$cardId) return false;
+		return (new self)->getCardInfo(\common\helpers\IdHelper::toId($cardId));
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public static function getAll($cardIds) {
+		$data = [];
+		foreach ((new Query)->from(self::collectionName())->where(['_id' => $cardIds])->all() as $row) {
+			$data[(string)$row['_id']] = $row;
+		}
+		return $data;
 	}
 
 	/**

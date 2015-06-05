@@ -22,11 +22,13 @@ class Phases {
 				'yes' => ['discard_from_field', 'discard_from_play'],
 				'next_on' => 'discard_from_field',
 				'on_card' => 'curses',
+				'subphase' => ['get_boss', 'get_doors_card']
 			],
 			'get_other' => [
 				'yes' => ['from_field_to_hand'],
 				'next_on' => 'from_field_to_hand',
-				'on_card' => 'default'
+				'on_card' => 'default',
+				'subphase' => ['get_boss', 'get_doors_card']
 			],
 		],
 		'final_place_cards' => [
