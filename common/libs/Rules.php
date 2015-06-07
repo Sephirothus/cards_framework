@@ -103,7 +103,7 @@ class Rules {
 						$errors .= ($errors ? '<br>' : '').'У вас уже есть большая шмотка.';
 					}
 				}
-				if ($overall > $this->defRules[$card['parent']]) $errors .= ($errors ? '<br>' : '').'У вас уже исчерпан лимит надетых шмоток такого типа.';
+				if (isset($this->defRules[$card['parent']]) && $overall > $this->defRules[$card['parent']]) $errors .= ($errors ? '<br>' : '').'У вас уже исчерпан лимит надетых шмоток такого типа.';
 			}
 			if ((isset($card['race_type']) && $card['race_type'] != $data['userInfo']['race']) || (isset($card['race_type_not']) && $card['race_type_not'] == $data['userInfo']['race'])) $errors .= ($errors ? '<br>' : '').'Ваша расса не может носить данную шмотку';
 			if ((isset($card['class_type']) && $card['class_type'] != $data['userInfo']['class']) || (isset($card['class_type_not']) && $card['class_type_not'] == $data['userInfo']['class'])) $errors .= ($errors ? '<br>' : '').'Ваш класс не может носить данную шмотку';

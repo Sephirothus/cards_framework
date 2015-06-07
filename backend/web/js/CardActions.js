@@ -16,20 +16,32 @@ var Params = {
 };
 
 /**
- * Chain class
+ * CChain class
  */
-function Chain(mainObj) {
-	this.copyAttrs(mainObj);
+function CChain() {
 	this.chains = [];
-	this.mainObj = mainObj;
+	this.objs = [];
 }
 
-Chain.prototype.registerCall = function(func, args, obj) {
-	this.chains.push({'obj': obj ? obj : this.mainObj, 'function': func, 'args': args ? args : []});
+CChain.prototype.registerObjs = function(objs) {
+	this.objs = objs;
+}
+
+CChain.prototype.searchMethod = function(method) {
+	console.log(method.prototype);
+	for (var obj in this.objs) {
+		if (method.apply(this.objs[obj])) return this.objs[obj];
+	}
+	return {};
+}
+
+CChain.prototype.registerCall = function(func, args, obj) {
+	console.log(this.searchMethod(func))
+	this.chains.push({'obj': obj ? obj : this.searchMethod(func), 'function': func, 'args': args ? args : []});
 	return this;
 }
 
-Chain.prototype.runWithCallback = function() {
+CChain.prototype.runWithCallback = function() {
 	var self = this, func = self.chains.shift();
 	if (func) {
 		func['args'].push(function() {
@@ -39,7 +51,7 @@ Chain.prototype.runWithCallback = function() {
 	}
 }
 
-Chain.prototype.run = function() {
+CChain.prototype.run = function() {
 	console.log(this.chains)
 	this.runWithCallback();
 }
@@ -129,7 +141,8 @@ CardActions.prototype.init = function() {
 	var self = this, restoreGameFlag = false;
 	self.html = new HtmlBuilder(self);
 	self.defActions = new DefaultActions(self);
-	self.chain = new Chain(self);
+	self.chain = new CChain(self);
+	self.chain.registerObjs([self, self.defActions]);
 
 	WS.setParams({
 		'topic': self.gameId
@@ -298,6 +311,7 @@ CardActions.prototype.onOffActions = function(elem, action, callback) {
 		self.focusCard(elem);
 		if (typeof callback == 'function') callback();
 	});
+	else if (typeof callback == 'function') callback();
 
 	if (action == 'on') {
 		if (!$('#card_actions').length) {
@@ -441,15 +455,6 @@ CardActions.prototype.actions = function(resp) {
 		if (resp.rule.action != acts['turn_card_off']) return;
 	}
 
-	$('.'+self.classes.user_info).each(function() {
-		$(this).attr({
-			'data-toggle': "tooltip", 
-			'data-placement': "bottom",
-			'title': self.getUserInfo($(this).parents('.'+self.classes.player_block).attr('id'))
-		});
-		$(this).tooltip({html: true});
-	});
-
 	if (resp.action) actionOn(resp.action.shift());
 	else self.phaseActions(resp);
 
@@ -458,9 +463,9 @@ CardActions.prototype.actions = function(resp) {
 		var nextAction = function(callback) { var nextAction = resp.action.shift(); if (nextAction) actionOn(nextAction); else self.phaseActions(resp); };
 		switch (action) {
 			case acts['from_hand_to_play']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.play_block)], self.defActions);
+				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.play_block)]);
 				if (resp.user_id != self.userId) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false], self.defActions);
+					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false]);
 				} 
 				self.chain.registerCall(function(callback) { 
 					card.attr('class', self.defClasses.play_card+' '+self.classes.enlarge_card+' '+self.classes.play_card); 
@@ -468,9 +473,9 @@ CardActions.prototype.actions = function(resp) {
 				});
 				break;
 			case acts['from_hand_to_field']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)], self.defActions);
+				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)]);
 				if (resp.user_id != self.userId) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false], self.defActions);
+					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false]);
 				}
 				self.chain.registerCall(function(callback) { 
 					card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card); 
@@ -478,7 +483,7 @@ CardActions.prototype.actions = function(resp) {
 				});
 				break;
 			case acts['from_play_to_field']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)], self.defActions) 
+				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)]).
 					registerCall(function(callback) {
 						card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
 						callback();
@@ -487,16 +492,16 @@ CardActions.prototype.actions = function(resp) {
 			case acts['discard_from_hand']:
 			case acts['discard_from_play']:
 				if (resp.user_id != self.userId && action == acts['discard_from_hand']) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, 0], self.defActions);
+					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, 0]);
 				}
-				self.chain.registerCall(self.defActions.discard, [card], self.defActions);
+				self.chain.registerCall(self.defActions.discard, [card, false]);
 				break;
 			case acts['sell_cards']:
 				for (var el in resp.card_id) {
 					if (resp.user_id != self.userId) {
-						self.chain.registerCall(self.defActions.turnOneCard, [$('#'+resp.card_id[el]), {src: Params.cardPath(''/*resp.pic_id*/, true)}, false], self.defActions);
+						self.chain.registerCall(self.defActions.turnOneCard, [$('#'+resp.card_id[el]), {src: Params.cardPath(''/*resp.pic_id*/, true)}, false]);
 					}
-					self.chain.registerCall(self.defActions.discard, [$('#'+resp.card_id[el])], self.defActions);
+					self.chain.registerCall(self.defActions.discard, [$('#'+resp.card_id[el]), false]);
 				}
 				self.chain.registerCall(function(callback) { 
 					$('#'+resp.user_id).find('#lvl').html(resp.user_lvl+' lvl'); 
@@ -504,10 +509,10 @@ CardActions.prototype.actions = function(resp) {
 				});
 				break;
 			case acts['from_field_to_hand']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+' .'+self.classes.hand_block)], self.defActions);
+				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+' .'+self.classes.hand_block)]);
 				if (resp.user_id != self.userId) {
 					self.chain.registerCall(function(callback) { card.css({'z-index': 99999}); callback(); }).
-						registerCall(self.defActions.turnOneCard, [card, {src: Params.typePath(resp.card_type)}, false], self.defActions). 
+						registerCall(self.defActions.turnOneCard, [card, {src: Params.typePath(resp.card_type)}, false]). 
 						registerCall(function(callback) {
 							card.attr('class', self.defClasses.hand_card+' '+self.classes.hand_card);
 							card.removeAttr('style');
@@ -525,14 +530,14 @@ CardActions.prototype.actions = function(resp) {
 				}
 				break;
 			case acts['discard_from_field']:
-				self.chain.registerCall(self.defActions.discard, [card, false], self.defActions).
+				self.chain.registerCall(self.defActions.discard, [card, false]).
 					registerCall(function(callback) { $('#your_str').html(''); $('#boss_str').html(''); callback(); });
 				break;
 			case acts['get_doors_card']:
 				var newCardObj;
-				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+self.fieldId)], self.defActions).
+				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+self.fieldId)]).
 					registerCall(function(newCard, callback) { console.log(newCard); newCardObj = newCard; newCardObj.css({'z-index': 99999}); callback(); }).
-					registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false], self.defActions).
+					registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false]).
 					registerCall(function(callback) {
 						newCardObj.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card).
 						newCardObj.removeAttr('style').
@@ -542,10 +547,10 @@ CardActions.prototype.actions = function(resp) {
 				break;
 			case acts['get_treasures_card']:
 				var newCardObj;
-				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+resp.user_id+' .'+self.classes.hand_block)], self.defActions);
+				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+resp.user_id+' .'+self.classes.hand_block)]);
 				if (resp.user_id == self.userId) {
 					self.chain.registerCall(function(newCard, callback) { newCardObj = newCard; newCardObj.css({'z-index': 99999}); callback(); }).
-						registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false], self.defActions).
+						registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false]).
 						registerCall(function(callback) {
 							newCardObj.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
 							newCardObj.removeAttr('style')
@@ -568,9 +573,7 @@ CardActions.prototype.actions = function(resp) {
 
 CardActions.prototype.phaseActions = function(resp) {
 	var self = this;
-	console.log('next_phase out')
 	if (resp.next_phase) {
-		console.log('next_phase in')
 		var curUser = (resp.next_user || false).firstKey();
 		if (curUser && self.userId != curUser) {
 			self.allowedActions = resp.next_user[curUser]['yes'];
@@ -603,6 +606,15 @@ CardActions.prototype.phaseActions = function(resp) {
 			$('#boss_str').html('Сила босса: '+bossStr);
 		}
 	}
+
+	$('.'+self.classes.user_info).each(function() {
+		$(this).attr({
+			'data-toggle': "tooltip", 
+			'data-placement': "bottom",
+			'title': self.getUserInfo($(this).parents('.'+self.classes.player_block).attr('id'))
+		});
+		$(this).tooltip({html: true});
+	});
 }
 
 CardActions.prototype.formCardData = function(info) {
