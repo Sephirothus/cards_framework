@@ -10,7 +10,7 @@ class Phases {
 		],
 		'open_door' => [
 			'get_boss' => [
-				'not' => ['get_treasures_card', 'get_doors_card', 'sell_cards', 'turn_card', 'from_field_to_hand'],
+				'not' => ['get_treasures_card', 'get_doors_card', 'sell_cards', 'turn_card', 'from_field_to_hand', 'from_hand_to_play'],
 				'next_on' => 'discard_from_field',
 				'on_card' => 'monsters',
 				'subphase' => [

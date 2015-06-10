@@ -13,7 +13,10 @@ class Rules {
 		'armor' => 1,
 		'foot' => 1,
 		'big_item' => 1,
-		'on_hand_cards' => 5,
+		'on_hand_cards' => [
+			'default' => 5,
+			'dwarf' => 6
+		],
 		'game_win_lvl' => 10
 	];
 
@@ -29,11 +32,23 @@ class Rules {
 	 **/
 	public function check($cardId, $userId, $gameId, $action) {
 		$card = CardsModel::getOne($cardId);
+		$data = $this->_getInfo($userId, $gameId);
 		if (in_array($card['parent'], $this->itemsTypes)) $method = 'items';
 		else $method = $card['parent'];
+
 		if (!$this->_allowedActions($card, $userId, $gameId, $action)) return 'Данное действие запрещено.';
 
-		return method_exists($this, $method) ? $this->$method($card, $userId, $gameId, $action) : '';
+		if ($action == 'end_move') {
+			$total = 0;
+			$needed = $this->defRules['on_hand_cards']['default'];
+			if (in_array('dwarf', $data['userInfo']['race'])) $needed = $this->defRules['on_hand_cards']['dwarf'];
+			foreach ($data['data']['hand_cards'][$userId] as $cards) {
+				$total += count($cards);
+			}
+			if ($total > $needed) return 'У вас слишком много карт на руке';
+		}
+
+		return method_exists($this, $method) ? $this->$method($card, $data, $userId, $gameId, $action) : '';
 	}
 
 	/**
@@ -83,10 +98,9 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function items($card, $userId, $gameId, $action) {
+	private function items($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if (in_array($action, ['from_hand_to_play', 'turn_card_on'])) {
-			$data = $this->_getInfo($userId, $gameId);
 			if (isset($data['data']['play_cards'][$userId]['treasures'])) {
 				$cards = CardsModel::getAll($data['data']['play_cards'][$userId]['treasures']);
 				$overall = 0;
@@ -118,12 +132,10 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function races($card, $userId, $gameId, $action) {
+	private function races($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if ($action == 'from_hand_to_play') {
-			$data = $this->_getInfo($userId, $gameId);
-			if ($data['userInfo']['race'] != 'human' && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть расса';
-			else GamesModel::changeUserInfo($userId, $gameId, ['race' => $this->_getCardName($card)]);
+			if (!in_array('human', $data['userInfo']['race']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть расса';
 		}
 		return '';
 	}
@@ -134,12 +146,10 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function classes($card, $userId, $gameId, $action) {
+	private function classes($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if ($action == 'from_hand_to_play') {
-			$data = $this->_getInfo($userId, $gameId);
-			if ($data['userInfo']['class'] && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть класс';
-			else GamesModel::changeUserInfo($userId, $gameId, ['class' => $this->_getCardName($card)]);
+			if (!empty($data['userInfo']['class']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть класс';
 		}
 		return '';
 	}
@@ -150,10 +160,9 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function other_doors($card, $userId, $gameId, $action) {
+	private function other_doors($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if ($action == 'from_hand_to_play') {
-			$data = $this->_getInfo($userId, $gameId);
 			switch ($this->_getCardName($card)) {
 				case 'super_munchkin':
 					if (!$data['userInfo']['class']) return 'У вас нету ниодного класса';
@@ -196,9 +205,10 @@ class Rules {
 	 **/
 	private function _getInfo($userId, $gameId) {
 		$game = GamesModel::findOne(['_id' => $gameId]);
+		$data = GameDataModel::findOne(['games_id' => $gameId]);
 		return [
-			'data' => GameDataModel::findOne(['games_id' => $gameId]),
-			'userInfo' => $game['users'][$userId]
+			'data' => $data,
+			'userInfo' => $this->_getUserInfo($game['users'][$userId], $data, $userId)
 		];
 	}
 
@@ -209,38 +219,18 @@ class Rules {
 	 * @author 
 	 **/
 	private function _getUserInfo($userInfo, $data, $userId) {
-		$info = ['class' => [], 'race' => [], 'str' => $userInfo['lvl'], 'additional_str' => 0];
-		foreach ($data['play_cards'][$userId] as $cards) {
-			foreach (CardsModel::getAll($cards) as $card) {
-				switch ($card['parent']) {
-					case 'classes':
-						$info['class'][] = $this->_getCardName($card);
-						break;
-					case 'races':
-						$info['race'][] = $this->_getCardName($card);
-						break;
-					case 'head': 
-					case 'armor': 
-					case 'foot': 
-					case 'arms': 
-					case 'items':
-						if (isset($card['bonus'])) $info['str'] += $card['bonus'];
-						break;
-					case 'disposables':
-						if (isset($card['bonus'])) $info['additional_str'] += $card['bonus'];
-						break;
-				}
+		$info = ['class' => [], 'race' => [], 'gender' => $userInfo['gender'], 'lvl' => $userInfo['lvl']];
+		foreach (CardsModel::getAll($data['play_cards'][$userId]['doors']) as $card) {
+			switch ($card['parent']) {
+				case 'classes':
+					$info['class'][] = $this->_getCardName($card);
+					break;
+				case 'races':
+					$info['race'][] = $this->_getCardName($card);
+					break;
 			}
 		}
-		foreach ($data['hand_cards'][$userId] as $cards) {
-			foreach (CardsModel::getAll($cards) as $card) {
-				switch ($card['parent']) {
-					case 'disposables':
-						if (isset($card['bonus'])) $info['additional_str'] += $card['bonus'];
-						break;
-				}
-			}
-		}
+		if (empty($info['race'])) $info['race'][] = 'human';
 		return $info;
 	}
 

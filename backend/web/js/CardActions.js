@@ -15,47 +15,6 @@ var Params = {
 	},
 };
 
-/**
- * CChain class
- */
-function CChain() {
-	this.chains = [];
-	this.objs = [];
-}
-
-CChain.prototype.registerObjs = function(objs) {
-	this.objs = objs;
-}
-
-CChain.prototype.searchMethod = function(method) {
-	console.log(method.prototype);
-	for (var obj in this.objs) {
-		if (method.apply(this.objs[obj])) return this.objs[obj];
-	}
-	return {};
-}
-
-CChain.prototype.registerCall = function(func, args, obj) {
-	console.log(this.searchMethod(func))
-	this.chains.push({'obj': obj ? obj : this.searchMethod(func), 'function': func, 'args': args ? args : []});
-	return this;
-}
-
-CChain.prototype.runWithCallback = function() {
-	var self = this, func = self.chains.shift();
-	if (func) {
-		func['args'].push(function() {
-			self.runWithCallback();
-		});
-		func['function'].apply(func['obj'], func['args']);
-	}
-}
-
-CChain.prototype.run = function() {
-	console.log(this.chains)
-	this.runWithCallback();
-}
-
 /*
 1. переделать структуру игрального стола и после обновить метод actions
 2. возможно обернуть все картинки в дивки
@@ -91,6 +50,7 @@ function CardActions(settings) {
 		'field_card': 'card'
 	};
 	this.fieldId = 'main_field';
+	this.fieldPlaceId = 'card_field';
 	this.exampleBlockId = 'example';
 	this.actionTypes = {
 		'from_hand_to_play': 'from_hand_to_play',
@@ -105,6 +65,7 @@ function CardActions(settings) {
 		'sell_cards': 'sell_cards',
 		'turn_card_off': 'turn_card_off',
 		'turn_card_on': 'turn_card_on',
+		'throw_dice': 'throw_dice',
 		'end_move': 'end_move'
 	};
 	this.socketTypes = {
@@ -141,8 +102,6 @@ CardActions.prototype.init = function() {
 	var self = this, restoreGameFlag = false;
 	self.html = new HtmlBuilder(self);
 	self.defActions = new DefaultActions(self);
-	self.chain = new CChain(self);
-	self.chain.registerObjs([self, self.defActions]);
 
 	WS.setParams({
 		'topic': self.gameId
@@ -264,7 +223,7 @@ CardActions.prototype.events = function() {
 	
 		// discard all field cards
 		$(document).on('click', '#discard_all', function() {
-			$('#'+self.fieldId+' img').each(function() {
+			$('#'+self.fieldPlaceId+' img').each(function() {
 				self.sendAction({
 					card_id: $(this).attr('id'), 
 		    		card_coords: self.getPercentOffset($(this)), 
@@ -291,9 +250,21 @@ CardActions.prototype.events = function() {
 			});
 		});
 
+		// throw dice
+		$(document).on('click', '#throw_dice', function() {
+			if ($('#dice_place').find('div').length) {
+				$('#dice_place').html('');
+			} else {
+				self.sendAction({
+		    		user_id: self.userId,
+		    		action: self.actionTypes['throw_dice']
+				});
+			}
+		});
+
 		// from field to hand
 		$(document).on('click', '#from_field_to_hand', function() {
-			$('#'+self.fieldId+' img').each(function() {
+			$('#'+self.fieldPlaceId+' img').each(function() {
 				self.sendAction({
 					card_id: $(this).attr('id'), 
 					card_coords: self.getPercentOffset($(this)), 
@@ -307,11 +278,12 @@ CardActions.prototype.events = function() {
 
 CardActions.prototype.onOffActions = function(elem, action, callback) {
 	var self = this;
-	if ($('#card_actions').length) $('#card_actions').slideUp("fast", function() {
-		self.focusCard(elem);
-		if (typeof callback == 'function') callback();
-	});
-	else if (typeof callback == 'function') callback();
+	if ($('#card_actions').length) {
+		$('#card_actions').slideUp("fast", function() {
+			self.focusCard(elem);
+			if (typeof callback == 'function') callback();
+		});
+	} else if (typeof callback == 'function') callback();
 
 	if (action == 'on') {
 		if (!$('#card_actions').length) {
@@ -406,7 +378,7 @@ CardActions.prototype.restoreGame = function() {
 					data = getInfo(resp[attr][user][type], user);
 					switch (attr) {
 						case 'field_cards':
-							$('#'+self.fieldId).append(self.html.createCard(data, 'field'));
+							$('#'+self.fieldPlaceId).append(self.html.createCard(data, 'field'));
 							break;
 						case 'discards':
 							var card = self.html.createCard(data, 'discard');
@@ -444,8 +416,10 @@ CardActions.prototype.restoreGame = function() {
 CardActions.prototype.actions = function(resp) {
 	var self = this,
 		card = $('#'+resp.card_id).length ? $('#'+resp.card_id) : $('#'+resp.pic_id),
-		acts = self.actionTypes;
+		acts = self.actionTypes,
+		chainObj = new CChain();
 
+	chainObj.registerObjs([self, self.defActions]);
 	if (resp.rule) {
 		if (resp.user_id == self.userId) {
 			var text = typeof resp.rule == 'string' ? resp.rule : resp.rule.text;
@@ -460,30 +434,30 @@ CardActions.prototype.actions = function(resp) {
 
 	function actionOn(action) {
 		var action = arguments[0];
-		var nextAction = function(callback) { var nextAction = resp.action.shift(); if (nextAction) actionOn(nextAction); else self.phaseActions(resp); };
+		var nextAction = function() { var nextAction = resp.action.shift(); if (nextAction) actionOn(nextAction); else self.phaseActions(resp); };
 		switch (action) {
 			case acts['from_hand_to_play']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.play_block)]);
+				chainObj.registerCall('moveCard', [card, $('#'+resp.user_id+'.'+self.classes.player_block+' .'+self.classes.play_block)]);
 				if (resp.user_id != self.userId) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false]);
+					chainObj.registerCall('turnOneCard', [card, {src: Params.cardPath(resp.pic_id, true)}]);
 				} 
-				self.chain.registerCall(function(callback) { 
+				chainObj.registerCall(function(callback) { 
 					card.attr('class', self.defClasses.play_card+' '+self.classes.enlarge_card+' '+self.classes.play_card); 
 					callback(); 
 				});
 				break;
 			case acts['from_hand_to_field']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)]);
+				chainObj.registerCall('moveCard', [card, $('#'+self.fieldPlaceId)]);
 				if (resp.user_id != self.userId) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, false]);
+					chainObj.registerCall('turnOneCard', [card, {src: Params.cardPath(resp.pic_id, true)}]);
 				}
-				self.chain.registerCall(function(callback) { 
+				chainObj.registerCall(function(callback) { 
 					card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card); 
 					callback();
 				});
 				break;
 			case acts['from_play_to_field']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+self.fieldId)]).
+				chainObj.registerCall('moveCard', [card, $('#'+self.fieldPlaceId)]).
 					registerCall(function(callback) {
 						card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
 						callback();
@@ -492,27 +466,27 @@ CardActions.prototype.actions = function(resp) {
 			case acts['discard_from_hand']:
 			case acts['discard_from_play']:
 				if (resp.user_id != self.userId && action == acts['discard_from_hand']) {
-					self.chain.registerCall(self.defActions.turnOneCard, [card, {src: Params.cardPath(resp.pic_id, true)}, 0]);
+					chainObj.registerCall('turnOneCard', [card, {src: Params.cardPath(resp.pic_id, true)}]);
 				}
-				self.chain.registerCall(self.defActions.discard, [card, false]);
+				chainObj.registerCall('discard', [card]);
 				break;
 			case acts['sell_cards']:
 				for (var el in resp.card_id) {
 					if (resp.user_id != self.userId) {
-						self.chain.registerCall(self.defActions.turnOneCard, [$('#'+resp.card_id[el]), {src: Params.cardPath(''/*resp.pic_id*/, true)}, false]);
+						chainObj.registerCall('turnOneCard', [$('#'+resp.card_id[el]), {src: Params.cardPath(''/*resp.pic_id*/, true)}]);
 					}
-					self.chain.registerCall(self.defActions.discard, [$('#'+resp.card_id[el]), false]);
+					chainObj.registerCall('discard', [$('#'+resp.card_id[el])]);
 				}
-				self.chain.registerCall(function(callback) { 
+				chainObj.registerCall(function(callback) { 
 					$('#'+resp.user_id).find('#lvl').html(resp.user_lvl+' lvl'); 
 					callback(); 
 				});
 				break;
 			case acts['from_field_to_hand']:
-				self.chain.registerCall(self.defActions.moveCard, [card, $('#'+resp.user_id+' .'+self.classes.hand_block)]);
+				chainObj.registerCall('moveCard', [card, $('#'+resp.user_id+' .'+self.classes.hand_block)]);
 				if (resp.user_id != self.userId) {
-					self.chain.registerCall(function(callback) { card.css({'z-index': 99999}); callback(); }).
-						registerCall(self.defActions.turnOneCard, [card, {src: Params.typePath(resp.card_type)}, false]). 
+					chainObj.registerCall(function(callback) { card.css({'z-index': 99999}); callback(); }).
+						registerCall('turnOneCard', [card, {src: Params.typePath(resp.card_type)}]). 
 						registerCall(function(callback) {
 							card.attr('class', self.defClasses.hand_card+' '+self.classes.hand_card);
 							card.removeAttr('style');
@@ -523,35 +497,48 @@ CardActions.prototype.actions = function(resp) {
 							callback();
 						});
 				} else {
-					self.chain.registerCall(function(callback) { 
+					chainObj.registerCall(function(callback) { 
 						card.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
 						callback();
 					});
 				}
 				break;
 			case acts['discard_from_field']:
-				self.chain.registerCall(self.defActions.discard, [card, false]).
-					registerCall(function(callback) { $('#your_str').html(''); $('#boss_str').html(''); callback(); });
+				chainObj.registerCall('discard', [card]).
+					registerCall(function(callback) { 
+						$('#your_str').html(''); 
+						$('#boss_str').html(''); 
+						if (resp.lvl_up) {
+							$('#'+resp.user_id).find('#lvl').html((parseInt($('#'+resp.user_id).find('#lvl').html())+1)+' lvl');
+						}
+						callback(); 
+					});
 				break;
 			case acts['get_doors_card']:
-				var newCardObj;
-				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+self.fieldId)]).
-					registerCall(function(newCard, callback) { console.log(newCard); newCardObj = newCard; newCardObj.css({'z-index': 99999}); callback(); }).
-					registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false]).
+				chainObj.registerCall('getOneCard', [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+self.fieldPlaceId)]).
+					registerCall(function(callback) { 
+						var newCardObj = $('#'+resp.card_id); 
+						newCardObj.css({'z-index': 99999});
+						self.defActions.turnOneCard(newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false, callback);
+					}).
 					registerCall(function(callback) {
-						newCardObj.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card).
-						newCardObj.removeAttr('style').
+						var newCardObj = $('#'+resp.card_id); 
+						newCardObj.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
+						newCardObj.removeAttr('style');
 						newCardObj.css({'position': 'relative'});
 						callback();
 					});
 				break;
 			case acts['get_treasures_card']:
-				var newCardObj;
-				self.chain.registerCall(self.defActions.getOneCard, [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+resp.user_id+' .'+self.classes.hand_block)]);
+				chainObj.registerCall('getOneCard', [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+resp.user_id+' .'+self.classes.hand_block)]);
 				if (resp.user_id == self.userId) {
-					self.chain.registerCall(function(newCard, callback) { newCardObj = newCard; newCardObj.css({'z-index': 99999}); callback(); }).
-						registerCall(self.defActions.turnOneCard, [newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false]).
+					chainObj.registerCall(function(callback) { 
+							var newCardObj = $('#'+resp.card_id); 
+							newCardObj.css({'z-index': 99999}); 
+							self.defActions.turnOneCard(newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false, callback);
+						}).
 						registerCall(function(callback) {
+							var newCardObj = $('#'+resp.card_id); 
 							newCardObj.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
 							newCardObj.removeAttr('style')
 							newCardObj.css({'position': 'relative'});
@@ -562,12 +549,15 @@ CardActions.prototype.actions = function(resp) {
 				break;
 			case acts['turn_card_off']:
 			case acts['turn_card_on']:
-				self.chain.registerCall(function(callback) { card.toggleClass('decks'); callback(); });
+				chainObj.registerCall(function(callback) { card.toggleClass('decks'); callback(); });
+				break;
+			case acts['throw_dice']:
+				chainObj.registerCall(function(callback) { (new Dice).throwDice($('#dice_place'), resp.dice, callback); });
 				break;
 		}
 
-		if (resp.user_id == self.userId) self.chain.registerCall(self.onOffActions, [card, 'off']);
-		self.chain.registerCall(nextAction).run();
+		if (resp.user_id == self.userId) chainObj.registerCall('onOffActions', [card, 'off']);
+		chainObj.registerCall(nextAction).run();
 	}
 }
 
@@ -600,7 +590,7 @@ CardActions.prototype.phaseActions = function(resp) {
 		if (phase == 'get_boss') {
 			$('#your_str').html('Сила манчкина: '+self.getUserStr(resp.user_id ? resp.user_id : curUser));
 			var bossStr = 0;
-			$('#'+self.fieldId+' img[data-parent="monsters"]').each(function() {
+			$('#'+self.fieldPlaceId+' img[data-parent="monsters"]').each(function() {
 				bossStr += parseInt($(this).data('lvl'));
 			});
 			$('#boss_str').html('Сила босса: '+bossStr);
@@ -611,7 +601,7 @@ CardActions.prototype.phaseActions = function(resp) {
 		$(this).attr({
 			'data-toggle': "tooltip", 
 			'data-placement': "bottom",
-			'title': self.getUserInfo($(this).parents('.'+self.classes.player_block).attr('id'))
+			'data-original-title': self.getUserInfo($(this).parents('.'+self.classes.player_block).attr('id'))
 		});
 		$(this).tooltip({html: true});
 	});

@@ -42,7 +42,7 @@ class GamesModel extends ActiveRecord {
     	if (!intval($model->count_users)) $model->count_users = 2;
         $user = \common\models\User::findOne(['_id' => $userId]);
         $model->host_id = $userId;
-        $model->users = [$userId => ['lvl' => 1, 'gender' => $user['gender'], 'race' => 'human', 'class' => '']];
+        $model->users = [$userId => ['lvl' => 1, 'gender' => $user['gender']]];
         $model->created_date = date('Y-m-d H:i:s');
         $model->status = self::$status['new'];
         if ($model->insert()) {
@@ -61,7 +61,7 @@ class GamesModel extends ActiveRecord {
     public function addUser($id) {
     	$userId = (string)Yii::$app->user->identity->_id;
     	$model = static::findOne(['_id' => $id]);
-        $user = [$userId => ['lvl' => 1, 'gender' => \common\models\User::findOne(['_id' => $userId])['gender'], 'race' => 'human', 'class' => '']];
+        $user = [$userId => ['lvl' => 1, 'gender' => \common\models\User::findOne(['_id' => $userId])['gender']]];
     	$model->users = array_merge($model->users, $user);
     	if ($model->save()) (new GameDataModel)->refresh($id, $user);
     }

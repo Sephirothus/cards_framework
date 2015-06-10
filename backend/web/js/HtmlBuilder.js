@@ -39,7 +39,7 @@ HtmlBuilder.prototype.createUserBlock = function(user, width) {
 			<div class="col-md-12 text-left">\
 				<span class="label label-primary">\
 					'+user.name+'\
-					<span id="lvl">1 lvl</span>\
+					<span id="lvl">'+user.lvl+' lvl</span>\
 					<span id="sex">('+user.gender+')</span>\
 				</span>\
 			</div>\

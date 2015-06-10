@@ -5,6 +5,7 @@ use Yii;
 use yii\mongodb\ActiveRecord;
 use yii\mongodb\Query;
 use common\models\GameDataModel;
+use common\helpers\IdHelper;
 
 /**
  * Cards model
@@ -147,7 +148,7 @@ class CardsModel extends ActiveRecord {
 	 **/
 	public static function getOne($cardId) {
 		if (!$cardId) return false;
-		return (new self)->getCardInfo(\common\helpers\IdHelper::toId($cardId));
+		return (new self)->getCardInfo(IdHelper::toId($cardId));
 	}
 
 	/**
@@ -157,8 +158,12 @@ class CardsModel extends ActiveRecord {
 	 * @author 
 	 **/
 	public static function getAll($cardIds) {
-		$data = [];
-		foreach ((new Query)->from(self::collectionName())->where(['_id' => $cardIds])->all() as $row) {
+		$data = $ids = [];
+		foreach ($cardIds as $id) {
+			if (gettype($id) != 'object') $ids[] = IdHelper::toId($id);
+			else $ids[] = $id;
+		}
+		foreach ((new Query)->from(self::collectionName())->where(['_id' => ['$in' => $ids]])->all() as $row) {
 			$data[(string)$row['_id']] = $row;
 		}
 		return $data;
