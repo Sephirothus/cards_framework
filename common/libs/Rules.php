@@ -135,7 +135,7 @@ class Rules {
 	private function races($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if ($action == 'from_hand_to_play') {
-			if (!in_array('human', $data['userInfo']['race']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть расса';
+			if (!in_array('human', $data['userInfo']['race']) && isset($data['data']['play_cards'][$userId]['doors']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть расса';
 		}
 		return '';
 	}
@@ -149,7 +149,7 @@ class Rules {
 	private function classes($card, $data, $userId, $gameId, $action) {
 		$errors = '';
 		if ($action == 'from_hand_to_play') {
-			if (!empty($data['userInfo']['class']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть класс';
+			if (!empty($data['userInfo']['class']) && isset($data['data']['play_cards'][$userId]['doors']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть класс';
 		}
 		return '';
 	}
@@ -166,10 +166,10 @@ class Rules {
 			switch ($this->_getCardName($card)) {
 				case 'super_munchkin':
 					if (!$data['userInfo']['class']) return 'У вас нету ниодного класса';
-					if ($this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть такая карта';
+					if (isset($data['data']['play_cards'][$userId]['doors']) && $this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть такая карта';
 					break;
 				case 'half_breed':
-					if ($this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть такая карта';
+					if (isset($data['data']['play_cards'][$userId]['doors']) && $this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть такая карта';
 					break;
 			}
 		}
@@ -220,14 +220,16 @@ class Rules {
 	 **/
 	private function _getUserInfo($userInfo, $data, $userId) {
 		$info = ['class' => [], 'race' => [], 'gender' => $userInfo['gender'], 'lvl' => $userInfo['lvl']];
-		foreach (CardsModel::getAll($data['play_cards'][$userId]['doors']) as $card) {
-			switch ($card['parent']) {
-				case 'classes':
-					$info['class'][] = $this->_getCardName($card);
-					break;
-				case 'races':
-					$info['race'][] = $this->_getCardName($card);
-					break;
+		if (isset($data['play_cards'][$userId]['doors'])) {
+			foreach (CardsModel::getAll($data['play_cards'][$userId]['doors']) as $card) {
+				switch ($card['parent']) {
+					case 'classes':
+						$info['class'][] = $this->_getCardName($card);
+						break;
+					case 'races':
+						$info['race'][] = $this->_getCardName($card);
+						break;
+				}
 			}
 		}
 		if (empty($info['race'])) $info['race'][] = 'human';

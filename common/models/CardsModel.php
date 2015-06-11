@@ -127,7 +127,7 @@ class CardsModel extends ActiveRecord {
 	 * @return void
 	 * @author 
 	 **/
-	public function dealOneByType($gameId, $type, $userId=false, $place) {
+	public function dealOneByType($gameId, $type, $userId, $place) {
 		$game = GameDataModel::findOne(['games_id' => $gameId]);
 		$decks = $game->decks;
 		$cards = $game->$place;

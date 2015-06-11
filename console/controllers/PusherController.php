@@ -64,7 +64,7 @@ class PusherController extends Controller implements WampServerInterface {
                 $isSave = false;
                 $gameData = GameDataModel::findOne(['games_id' => $gameId]);
                 $temp = $gameData->getAttributes();
-                foreach ($actions as $action) {
+                foreach ($actions as &$action) {
                     switch ($action) {
                         case 'from_hand_to_play':
                             $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
@@ -95,7 +95,16 @@ class PusherController extends Controller implements WampServerInterface {
                         case 'get_treasures_card':
                             switch ($action) {
                                 case 'get_doors_card':
-                                    $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], false, 'field_cards');
+                                    if ($temp['cur_phase'] == 'place_cards') {
+                                        $userId = false;
+                                        $toType = 'field_cards';
+                                        if ($event['action'] == $action) $event['action'] = 'open_door';
+                                        $action = 'open_door';
+                                    } else {
+                                        $userId = $data['user_id'];
+                                        $toType = 'hand_cards';
+                                    }
+                                    $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $userId, $toType);
                                     break;
                                 case 'get_treasures_card':
                                     $data['card_id'] = $event['card_id'] = (new CardsModel)->dealOneByType($gameId, $data['card_type'], $data['user_id'], 'hand_cards');
@@ -169,7 +178,6 @@ class PusherController extends Controller implements WampServerInterface {
                     $event['next_phase'][$nextPhase] = \common\libs\Phases::getActions($nextPhase);
                     $isSave = true;
                 }
-                //print_r($event);
                 if ($isSave) {
                     foreach ($gameData->getAttributes() as $attr => $val) {
                         $gameData->$attr = $temp[$attr];

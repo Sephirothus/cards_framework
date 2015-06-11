@@ -57,8 +57,9 @@ function CardActions(settings) {
 		'from_hand_to_field': 'from_hand_to_field',
 		'from_play_to_field': 'from_play_to_field',
 		'from_field_to_hand': 'from_field_to_hand',
-		'get_doors_card': 'get_doors_card',
+		'open_door': 'open_door',
 		'get_treasures_card': 'get_treasures_card',
+		'get_doors_card': 'get_doors_card',
 		'discard_from_hand': 'discard_from_hand',
 		'discard_from_play': 'discard_from_play',
 		'discard_from_field': 'discard_from_field',
@@ -81,6 +82,7 @@ function CardActions(settings) {
 		'get_boss': 'Битва с боссом',
 		'get_curse': 'Получи проклятие',
 		'get_other': 'Разная хня',
+		'not_boss': 'Чистим нычки или Бьемся со своим',
 		'final_place_cards': 'Готовимся передать ход'
 	};
 	this.gameId = 1;
@@ -514,7 +516,7 @@ CardActions.prototype.actions = function(resp) {
 						callback(); 
 					});
 				break;
-			case acts['get_doors_card']:
+			case acts['open_door']:
 				chainObj.registerCall('getOneCard', [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+self.fieldPlaceId)]).
 					registerCall(function(callback) { 
 						var newCardObj = $('#'+resp.card_id); 
@@ -529,6 +531,7 @@ CardActions.prototype.actions = function(resp) {
 						callback();
 					});
 				break;
+			case acts['get_doors_card']:
 			case acts['get_treasures_card']:
 				chainObj.registerCall('getOneCard', [$.extend(self.formCardData(resp.card_info), {id: resp.card_id, type: resp.card_type}), $('#'+resp.user_id+' .'+self.classes.hand_block)]);
 				if (resp.user_id == self.userId) {
@@ -536,16 +539,21 @@ CardActions.prototype.actions = function(resp) {
 							var newCardObj = $('#'+resp.card_id); 
 							newCardObj.css({'z-index': 99999}); 
 							self.defActions.turnOneCard(newCardObj, {src: Params.cardPath(resp.pic_id, true)}, false, callback);
-						}).
-						registerCall(function(callback) {
-							var newCardObj = $('#'+resp.card_id); 
-							newCardObj.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
-							newCardObj.removeAttr('style')
-							newCardObj.css({'position': 'relative'});
-							callback();
-							//if (self.userId = resp.user_id) eventsOn($('#'+self.userId));
 						});
-				}
+				} 
+				chainObj.registerCall(function(callback) {
+					var newCardObj = $('#'+resp.card_id); 
+					newCardObj.attr('class', self.defClasses.hand_card+' '+self.classes.enlarge_card+' '+self.classes.hand_card);
+					newCardObj.removeAttr('style');
+					if (resp.user_id != self.userId) {
+						for (var i in newCardObj.data()) {
+							newCardObj.removeAttr('data-'+i);
+						}
+					}
+					newCardObj.css({'position': 'relative'});
+					callback();
+					//if (self.userId = resp.user_id) eventsOn($('#'+self.userId));
+				});
 				break;
 			case acts['turn_card_off']:
 			case acts['turn_card_on']:
