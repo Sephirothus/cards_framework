@@ -19,7 +19,8 @@ class Rules {
 		],
 		'max_races' => 2,
 		'max_classes' => 2,
-		'game_win_lvl' => 10
+		'game_win_lvl' => 10,
+		'get_away_dice' => 5
 	];
 
 	public $itemsTypes = [
@@ -42,7 +43,7 @@ class Rules {
 
 		if (!$this->_allowedActions($card, $userId, $gameId, $action)) return 'Данное действие запрещено.';
 
-		if ($action == 'end_move') {
+		if ($action == 'end_move' && $this->_curPhase == 'final_place_cards') {
 			$total = 0;
 			$needed = $this->defRules['on_hand_cards']['default'];
 			if (in_array('dwarf', $data['userInfo']['race'])) $needed = $this->defRules['on_hand_cards']['dwarf'];

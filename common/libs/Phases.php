@@ -1,6 +1,9 @@
 <?php
 namespace common\libs;
 
+use common\models\CardsModel;
+use common\helpers\IdHelper;
+
 class Phases {
 
 	public static $phases = [
@@ -12,24 +15,51 @@ class Phases {
 
 		'get_boss' => [
 			'yes' => ['from_play_to_field', 'from_hand_to_field', 'discard_from_play'],
-			'next_on' => ['' => ['get_boss_lose', 'get_boss_win']],
-			'next_on_param' => 'special_check',
+			'next_on' => ['end_move' => [false => 'get_boss_lose', true => 'get_boss_win']],
+			'next_on_param' => function($gameData, $action) {
+				$str = $bossStr = 0;
+				foreach (CardsModel::getAll($gameData['play_cards'][$gameData['cur_move']]['treasures']) as $val) {
+					if (isset($val['bonus']) && intval($val['bonus']) > 0) $str += intval($val['bonus']);
+				}
+				foreach (CardsModel::getAll($gameData['field_cards']['doors']) as $val) {
+					if ($val['parent'] == 'monsters' && intval($val['lvl']) > 0) $bossStr += intval($val['lvl']);
+				}
+				if ($str > $bossStr) return true;
+				return false;
+			},
 			'on_card' => 'monsters'
 		],
 		'get_boss_lose' => [
 			'yes' => ['throw_dice', 'from_hand_to_field', 'from_play_to_field'],
-			'next_on' => ['throw_dice' => ['boss_bad_stuff', 'final_place_cards'], 'from_hand_to_field' => ['final_place_cards'], 'from_play_to_field' => ['final_place_cards']],
-			'next_on_param' => 'special_check'
+			'next_on' => ['throw_dice' => [false => 'boss_bad_stuff', true => 'final_place_cards'], 'from_hand_to_field' => ['final_place_cards'], 'from_play_to_field' => ['final_place_cards']],
+			'next_on_param' => function($gameData, $action) {
+				switch ($action) {
+					case 'throw_dice':
+						if ($gameData['temp_data']['cur_dice'] >= (new Rules)->defRules['get_away_dice']) return true;
+						break;
+					case 'from_hand_to_field':
+						break;
+				}
+				return false;
+			}
 		],
 		'boss_bad_stuff' => [
 			'yes' => ['discard_from_play', 'discard_from_hand'],
 			'next_on' => [''],
-			'next_on_param' => 'special_check'
+			'next_on_param' => function($gameData) {
+
+			}
 		],
 		'get_boss_win' => [
 			'yes' => ['get_treasures_card'],
 			'next_on' => ['get_treasures_card' => 'final_place_cards'],
-			'next_on_param' => 'special_check'
+			'next_on_param' => function($gameData) {
+				if ($gameData['temp_data']['in_battle']['cur_treasures'] == 0) return true;
+				else {
+					GameDataModel::updateAll(['temp_data' => --$gameData['temp_data']['in_battle']['cur_treasures']], ['_id' => $gameData['games_id']]);
+				}
+				return false;
+			}
 		],
 
 		'get_curse' => [
@@ -60,7 +90,7 @@ class Phases {
 		],
 
 		'get_boss' => [
-			'yes' => ['from_play_to_field'],
+			'yes' => ['from_play_to_field', 'end_move'],
 		]
 	];
 
@@ -70,7 +100,7 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	public static function getNextPhase($curPhase, $curAction, $users, $curUser, $cardId=false) {
+	public static function getNextPhase($curPhase, $curAction, $users, $gameData, $cardId=false) {
 		$phases = self::$phases;
 		if (isset($phases[$curPhase]['next_on'][$curAction])) {
 			$nextPhase = $phases[$curPhase]['next_on'][$curAction];
@@ -78,7 +108,7 @@ class Phases {
 			switch ($phases[$curPhase]['next_on_param']) {
 				case 'on_card':
 					if ($cardId) {
-						$card = \common\models\CardsModel::findOne(['_id' => \common\helpers\IdHelper::toId($cardId)]);
+						$card = CardsModel::findOne(['_id' => IdHelper::toId($cardId)]);
 						foreach ($nextPhase as $val) {
 							if (in_array($phases[$val]['on_card'], [$card['parent'], 'default'])) {
 								$nextPhase = $val;
@@ -87,37 +117,21 @@ class Phases {
 						}
 					}
 					break;
-				case 'special_check':
-					$nextPhase = self::_specialCheck($curPhase, $curAction);
-					break;
+			}
+			if (gettype($phases[$curPhase]['next_on_param']) == 'function') {
+				$check = $phases[$curPhase]['next_on_param']($gameData, $curAction, $cardId);
+				if (count($nextPhase) > 1) {
+					$nextPhase = $nextPhase[$check];
+				} else if (!$check) $nextPhase = $curPhase;
 			}
 
 			if (!$nextPhase) {
 				reset($phases);
 				$nextPhase['next_phase'] = key($phases);
-				$nextPhase['next_user'] = self::getNextUser($users, $curUser);
+				$nextPhase['next_user'] = self::getNextUser($users, $gameData['cur_move']);
 			}
 			return $nextPhase;
 		} else return $curPhase;
-	}
-
-	/**
-	 * undocumented function
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	private static function _specialCheck($curPhase, $curAction) {
-		$phase = self::$phases[$curPhase];
-		switch ($curAction) {
-			case 'throw_dice':
-				
-				break;
-			
-			default:
-				# code...
-				break;
-		}
 	}
 
 	/**

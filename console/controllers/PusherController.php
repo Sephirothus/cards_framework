@@ -166,7 +166,7 @@ class PusherController extends Controller implements WampServerInterface {
                             break;
                     }
                 }
-                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], array_keys($game['users']), $temp['cur_move'], isset($event['card_id']) ? $event['card_id'] : false))) {
+                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], array_keys($game['users']), $temp, isset($event['card_id']) ? $event['card_id'] : false))) {
                     if (is_array($nextPhase)) {
                         $temp['cur_move'] = $nextPhase['next_user'];
                         $nextPhase['next_user'] = (string)$nextPhase['next_user'];
