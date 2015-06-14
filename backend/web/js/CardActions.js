@@ -80,6 +80,8 @@ function CardActions(settings) {
 	this.phases = {
 		'place_cards': 'Выкладивание-продажа-обмен',
 		'get_boss': 'Битва с боссом',
+		'get_boss_lose': 'Смываемся, бросай кубик',
+		'get_boss_win': 'Победа, бери сокровища',
 		'get_curse': 'Получи проклятие',
 		'get_other': 'Разная хня',
 		'not_boss': 'Чистим нычки или Бьемся со своим',
@@ -98,6 +100,7 @@ function CardActions(settings) {
 	this.chain;
 	this.allowedActions = {};
 	this.notAllowedActions = {};
+	this.curPhase;
 }
 
 CardActions.prototype.init = function() {
@@ -306,46 +309,6 @@ CardActions.prototype.onOffActions = function(elem, action, callback) {
 		}
 		$('#card_actions').slideDown("fast", function() { self.focusCard(elem); });
 	}
-}
-
-CardActions.prototype.getUserInfo = function(userId) {
-	var self = this, 
-		info = {'Класс': '', 'Раса': '', 'Сила': parseInt($('#'+userId+' .'+self.classes.user_info+' #lvl').html()), 'Бонусная сила': 0}, 
-		str = '';
-
-	$('#'+userId+' .'+self.classes.play_card).each(function() {
-		switch($(this).data('parent')) {
-			case 'classes':
-				info['Класс'] += $(this).data('name')+'-';
-				break;
-			case 'races':
-				info['Раса'] += $(this).data('name')+'-';
-				break;
-			case 'head': 
-			case 'armor': 
-			case 'foot': 
-			case 'arms': 
-			case 'items':
-				if ($(this).data('bonus') && !$(this).hasClass('decks')) info['Сила'] += parseInt($(this).data('bonus'));
-				break;
-			case 'disposables':
-				if ($(this).data('bonus')) info['Бонусная сила'] += parseInt($(this).data('bonus'));
-				break;
-		}
-	});
-	$('#'+userId+' .'+self.classes.hand_card).each(function() {
-		switch($(this).data('parent')) {
-			case 'disposables':
-				if ($(this).data('bonus')) info['Бонусная сила'] += parseInt($(this).data('bonus'));
-				break;
-		}
-	});
-	info['Класс'] = info['Класс'].substring(0, info['Класс'].length - 1);
-	info['Раса'] = info['Раса'].substring(0, info['Раса'].length - 1);
-	for (var i in info) {
-		str += i+': '+(info[i] ? info[i] : (i == 'Раса' ? 'Человек' : 'нет'))+"<br>";
-	}
-	return str;
 }
 
 CardActions.prototype.focusCard = function(card) {
@@ -594,14 +557,11 @@ CardActions.prototype.phaseActions = function(resp) {
 			$('#'+curUser+' #lvl').parent().attr('class', 'label label-success '+self.classes.user_info);
 		}
 		var phase = resp.next_phase.firstKey();
+		self.curPhase = phase;
 		$('#phase_name').html('Фаза: '+self.phases[phase]);
 		if (phase == 'get_boss') {
 			$('#your_str').html('Сила манчкина: '+self.getUserStr(resp.user_id ? resp.user_id : curUser));
-			var bossStr = 0;
-			$('#'+self.fieldPlaceId+' img[data-parent="monsters"]').each(function() {
-				bossStr += parseInt($(this).data('lvl'));
-			});
-			$('#boss_str').html('Сила босса: '+bossStr);
+			$('#boss_str').html('Сила босса: '+self.getBossStr());
 		}
 	}
 
@@ -631,6 +591,54 @@ CardActions.prototype.getUserStr = function(userId) {
 	$('#'+userId+' .'+this.classes.play_block+' img').each(function() {
 		if (parseInt($(this).attr('data-bonus')) && !$(this).hasClass('decks') && $(this).attr('data-parent') != 'disposables') str += parseInt($(this).attr('data-bonus'));
 	});
+	return str;
+}
+
+CardActions.prototype.getBossStr = function() {
+	var bossStr = 0;
+	$('#'+this.fieldPlaceId+' img[data-parent="monsters"]').each(function() {
+		bossStr += parseInt($(this).data('lvl'));
+	});
+	return bossStr;
+}
+
+CardActions.prototype.getUserInfo = function(userId) {
+	var self = this, 
+		info = {'Класс': '', 'Раса': '', 'Сила': parseInt($('#'+userId+' .'+self.classes.user_info+' #lvl').html()), 'Бонусная сила': 0}, 
+		str = '';
+
+	$('#'+userId+' .'+self.classes.play_card).each(function() {
+		switch($(this).data('parent')) {
+			case 'classes':
+				info['Класс'] += $(this).data('name')+'-';
+				break;
+			case 'races':
+				info['Раса'] += $(this).data('name')+'-';
+				break;
+			case 'head': 
+			case 'armor': 
+			case 'foot': 
+			case 'arms': 
+			case 'items':
+				if ($(this).data('bonus') && !$(this).hasClass('decks')) info['Сила'] += parseInt($(this).data('bonus'));
+				break;
+			case 'disposables':
+				if ($(this).data('bonus')) info['Бонусная сила'] += parseInt($(this).data('bonus'));
+				break;
+		}
+	});
+	$('#'+userId+' .'+self.classes.hand_card).each(function() {
+		switch($(this).data('parent')) {
+			case 'disposables':
+				if ($(this).data('bonus')) info['Бонусная сила'] += parseInt($(this).data('bonus'));
+				break;
+		}
+	});
+	info['Класс'] = info['Класс'].substring(0, info['Класс'].length - 1);
+	info['Раса'] = info['Раса'].substring(0, info['Раса'].length - 1);
+	for (var i in info) {
+		str += i+': '+(info[i] ? info[i] : (i == 'Раса' ? 'Человек' : 'нет'))+"<br>";
+	}
 	return str;
 }
 

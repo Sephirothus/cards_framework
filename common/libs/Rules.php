@@ -17,12 +17,16 @@ class Rules {
 			'default' => 5,
 			'dwarf' => 6
 		],
+		'max_races' => 2,
+		'max_classes' => 2,
 		'game_win_lvl' => 10
 	];
 
 	public $itemsTypes = [
 		'head', 'armor', 'foot', 'arms', 'items'
 	];
+
+	private $_curPhase;
 
 	/**
 	 * undocumented function
@@ -64,6 +68,11 @@ class Rules {
 				if (in_array($card['parent'], array_merge($this->itemsTypes, ['items', 'classes', 'races', 'disposables', 'hirelings'])) || $this->_exceptions($card)) return true;
 				else return false;
 				break;
+			case 'from_hand_to_field':
+				if (in_array($card['parent'], ['disposables']) || $this->_exceptions($card)) return true;
+				else return false;
+				$this->_curPhase
+				break;
 			case 'turn_card_off':
 			case 'turn_card_on':
 				if (!in_array($card['parent'], array_merge($this->itemsTypes, ['items']))) return false;
@@ -85,6 +94,9 @@ class Rules {
 				foreach (['cheat', 'half_breed', 'super_munchkin'] as $find) {
 					if (strpos($card['id'], $find) === 0) return true;
 				}
+				break;
+			case 'monsters':
+				if ($this->_curPhase == 'not_boss') return true;
 				break;
 		}
 		return false;
@@ -134,8 +146,18 @@ class Rules {
 	 **/
 	private function races($card, $data, $userId, $gameId, $action) {
 		$errors = '';
-		if ($action == 'from_hand_to_play') {
-			if (!in_array('human', $data['userInfo']['race']) && isset($data['data']['play_cards'][$userId]['doors']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) return 'У вас уже есть расса';
+		switch ($action) {
+			case 'from_hand_to_play':
+				if (!in_array('human', $data['userInfo']['race']) && 
+					isset($data['data']['play_cards'][$userId]['doors']) && 
+					!$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) 
+						return 'У вас уже есть расса';
+				if (count($data['userInfo']['race']) >= $this->defRules['max_races']) return 'У вас уже максимальное кол-во расс';
+				if ($this->_checkCard($data['userInfo']['race'], $card['_id'], true, true)) return 'У вас есть такая расса'; 
+				break;
+			case 'discard_from_play':
+				
+				break;
 		}
 		return '';
 	}
@@ -148,8 +170,18 @@ class Rules {
 	 **/
 	private function classes($card, $data, $userId, $gameId, $action) {
 		$errors = '';
-		if ($action == 'from_hand_to_play') {
-			if (!empty($data['userInfo']['class']) && isset($data['data']['play_cards'][$userId]['doors']) && !$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) return 'У вас уже есть класс';
+		switch ($action) {
+			case 'from_hand_to_play':
+				if (!empty($data['userInfo']['class']) && 
+					isset($data['data']['play_cards'][$userId]['doors']) && 
+					!$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) 
+						return 'У вас уже есть класс';
+				if (count($data['userInfo']['class']) >= $this->defRules['max_classes']) return 'У вас уже максимальное кол-во классов';
+				if ($this->_checkCard($data['userInfo']['class'], $card['_id'], true, true)) return 'У вас есть такой класс'; 
+				break;
+			case 'discard_from_play':
+				
+				break;
 		}
 		return '';
 	}
@@ -184,9 +216,10 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function _checkCard($data, $cardId, $halfOfName=false) {
+	private function _checkCard($data, $cardId, $halfOfName=false, $withoutDbGet=false) {
 		if ($halfOfName) {
-			foreach (CardsModel::getAll($data) as $key => $val) {
+			if (!$withoutDbGet) $data = CardsModel::getAll($data);
+			foreach ($data as $val) {
 				if (strpos($val['id'], $cardId) === 0) return true;
 			}
 		} else {
@@ -205,6 +238,7 @@ class Rules {
 	 **/
 	private function _getInfo($userId, $gameId) {
 		$game = GamesModel::findOne(['_id' => $gameId]);
+		$this->_curPhase = $game['cur_phase'];
 		$data = GameDataModel::findOne(['games_id' => $gameId]);
 		return [
 			'data' => $data,

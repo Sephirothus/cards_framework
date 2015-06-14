@@ -5,20 +5,33 @@ class Phases {
 
 	public static $phases = [
 		'place_cards' => [
-			'not' => ['get_treasures_card', 'from_play_to_field', 'from_hand_to_field'],
+			'not' => ['get_treasures_card', 'from_play_to_field', 'throw_dice', 'end_move'],
 			'next_on' => ['open_door' => ['get_boss', 'get_curse', 'get_other']],
 			'next_on_param' => 'on_card'
 		],
 
 		'get_boss' => [
-			'not' => ['get_treasures_card', 'open_door', 'sell_cards', 'turn_card', 'from_field_to_hand', 'from_hand_to_play'],
-			'next_on' => ['discard_from_field' => 'final_place_cards'],
-			'on_card' => 'monsters',
-			'subphase' => [
-				'win' => ['get_treasures_card'],
-				'lose' => []
-			],
+			'yes' => ['from_play_to_field', 'from_hand_to_field', 'discard_from_play'],
+			'next_on' => ['' => ['get_boss_lose', 'get_boss_win']],
+			'next_on_param' => 'special_check',
+			'on_card' => 'monsters'
 		],
+		'get_boss_lose' => [
+			'yes' => ['throw_dice', 'from_hand_to_field', 'from_play_to_field'],
+			'next_on' => ['throw_dice' => ['boss_bad_stuff', 'final_place_cards'], 'from_hand_to_field' => ['final_place_cards'], 'from_play_to_field' => ['final_place_cards']],
+			'next_on_param' => 'special_check'
+		],
+		'boss_bad_stuff' => [
+			'yes' => ['discard_from_play', 'discard_from_hand'],
+			'next_on' => [''],
+			'next_on_param' => 'special_check'
+		],
+		'get_boss_win' => [
+			'yes' => ['get_treasures_card'],
+			'next_on' => ['get_treasures_card' => 'final_place_cards'],
+			'next_on_param' => 'special_check'
+		],
+
 		'get_curse' => [
 			'yes' => ['discard_from_field', 'discard_from_play'],
 			'next_on' => ['discard_from_field' => 'not_boss'],
@@ -31,12 +44,12 @@ class Phases {
 		],
 
 		'not_boss' => [
-			'yes' => ['discard_from_field', 'discard_from_play', 'get_doors_card'],
+			'yes' => ['discard_from_field', 'discard_from_play', 'get_doors_card', 'from_hand_to_field'],
 			'next_on' => ['get_doors_card' => 'final_place_cards', 'from_hand_to_field' => 'get_boss']
 		],
 
 		'final_place_cards' => [
-			'not' => ['get_treasures_card', 'open_door', 'from_hand_to_field', 'from_play_to_field'],
+			'not' => ['get_treasures_card', 'get_doors_card', 'open_door', 'from_play_to_field', 'throw_dice'],
 			'next_on' => ['end_move' => false]
 		],
 	];
@@ -45,20 +58,11 @@ class Phases {
 		'default_actions' => [
 			'yes' => ['discard_from_hand', 'discard_from_play', 'from_hand_to_field'],
 		],
+
 		'get_boss' => [
-			'yes' => ['from_hand_to_field', 'from_play_to_field', 'discard_from_hand', 'discard_from_play'],
+			'yes' => ['from_play_to_field'],
 		]
 	];
-
-	/**
-	 * undocumented function
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	public static function check($phase, $gameId) {
-		return true;
-	}
 
 	/**
 	 * undocumented function
@@ -70,14 +74,22 @@ class Phases {
 		$phases = self::$phases;
 		if (isset($phases[$curPhase]['next_on'][$curAction])) {
 			$nextPhase = $phases[$curPhase]['next_on'][$curAction];
-			if (is_array($nextPhase) && $phases[$curPhase]['next_on_param'] == 'on_card' && $cardId) {
-				$card = \common\models\CardsModel::findOne(['_id' => \common\helpers\IdHelper::toId($cardId)]);
-				foreach ($nextPhase as $val) {
-					if (in_array($phases[$val]['on_card'], [$card['parent'], 'default'])) {
-						$nextPhase = $val;
-						break;
-					}	
-				}
+			if (!isset($phases[$curPhase]['next_on_param'])) $phases[$curPhase]['next_on_param'] = false;
+			switch ($phases[$curPhase]['next_on_param']) {
+				case 'on_card':
+					if ($cardId) {
+						$card = \common\models\CardsModel::findOne(['_id' => \common\helpers\IdHelper::toId($cardId)]);
+						foreach ($nextPhase as $val) {
+							if (in_array($phases[$val]['on_card'], [$card['parent'], 'default'])) {
+								$nextPhase = $val;
+								break;
+							}	
+						}
+					}
+					break;
+				case 'special_check':
+					$nextPhase = self::_specialCheck($curPhase, $curAction);
+					break;
 			}
 
 			if (!$nextPhase) {
@@ -95,8 +107,29 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
+	private static function _specialCheck($curPhase, $curAction) {
+		$phase = self::$phases[$curPhase];
+		switch ($curAction) {
+			case 'throw_dice':
+				
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public static function getWaitActions($phase) {
-		return isset(self::$inWait[$phase]) ? self::$inWait[$phase] : self::$inWait['default_actions'];
+		$actions = self::$inWait['default_actions'];
+		if (isset(self::$inWait[$phase])) $actions = array_merge_recursive($actions, self::$inWait[$phase]);
+		return $actions;
 	}
 
 	/**

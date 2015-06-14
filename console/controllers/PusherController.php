@@ -161,7 +161,8 @@ class PusherController extends Controller implements WampServerInterface {
                             $isSave = true;
                             break;
                         case 'throw_dice':
-                            $event['dice'] = rand(1, 6);
+                            $temp['temp_data']['cur_dice'] = $event['dice'] = rand(1, 6);
+                            $isSave = true;
                             break;
                     }
                 }
