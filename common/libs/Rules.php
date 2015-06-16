@@ -74,7 +74,7 @@ class Rules {
 				else return false;
 				break;
 			case 'from_hand_to_field':
-				if (in_array($card['parent'], ['disposables']) || $this->_exceptions($card)) return true;
+				if (in_array($card['parent'], ['disposables', 'in_battle_monster_bonuses']) || $this->_exceptions($card)) return true;
 				else return false;
 				break;
 			case 'turn_card_off':

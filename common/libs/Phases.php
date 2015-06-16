@@ -3,6 +3,7 @@ namespace common\libs;
 
 use common\models\CardsModel;
 use common\models\GameDataModel;
+use common\models\GamesModel;
 use common\helpers\IdHelper;
 
 class Phases {
@@ -139,6 +140,9 @@ class Phases {
 			//if (count($gameData['temp_data']['end_move']) == )
 			$gameData['temp_data']['in_battle']['cur_treasures'] = $str['bosses_treasures'];
 			GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
+			$game = GamesModel::findOne(['_id' => $gameData['games_id']]);
+			$lvl = $game['users'][$gameData['cur_move']]['lvl'];
+            GamesModel::changeUserInfo($gameData['cur_move'], $gameData['games_id'], ['lvl' => ++$lvl]);
 			return true;
 		} else return false;
 	}

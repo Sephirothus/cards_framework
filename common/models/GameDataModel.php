@@ -136,6 +136,7 @@ class GameDataModel extends ActiveRecord {
             if (isset($gameData['play_cards'][$gameData['cur_move']]['doors'])) $cardIds = array_merge($cardIds, $gameData['play_cards'][$gameData['cur_move']]['doors']);
         }
         if (isset($gameData['field_cards']['doors'])) $cardIds = array_merge($cardIds, $gameData['field_cards']['doors']);
+        if (isset($gameData['field_cards']['treasures'])) $cardIds = array_merge($cardIds, $gameData['field_cards']['treasures']);
         foreach (CardsModel::getAll($cardIds) as $val) {
             switch ($val['parent']) {
                 case 'monsters':
@@ -157,7 +158,7 @@ class GameDataModel extends ActiveRecord {
                 case 'disposables':
                     if (isset($val['bonus']) && 
                         intval($val['bonus']) > 0 && 
-                        in_array($val['_id'], $gameData['field_cards']['doors'])) 
+                        in_array($val['_id'], $gameData['field_cards']['treasures'])) 
                             $str['users'] += intval($val['bonus']);
                     break;
             }

@@ -480,10 +480,7 @@ CardActions.prototype.actions = function(resp) {
 				chainObj.registerCall('discard', [card]).
 					registerCall(function(callback) { 
 						$('#your_str').html(''); 
-						$('#boss_str').html(''); 
-						if (resp.lvl_up) {
-							$('#'+resp.user_id).find('#lvl').html((parseInt($('#'+resp.user_id).find('#lvl').html())+1)+' lvl');
-						}
+						$('#boss_str').html('');
 						callback(); 
 					});
 				break;
@@ -569,6 +566,9 @@ CardActions.prototype.phaseActions = function(resp) {
 		if (curUser) {
 			$('.'+self.classes.player_block+' #lvl').parent().attr('class', 'label label-primary '+self.classes.user_info);
 			$('#'+curUser+' #lvl').parent().attr('class', 'label label-success '+self.classes.user_info);
+		}
+		if (resp.lvl_up) {
+			$('#'+resp.user_id).find('#lvl').html((parseInt($('#'+resp.user_id).find('#lvl').html())+1)+' lvl');
 		}
 		var phase = resp.next_phase.firstKey();
 		self.curPhase = phase;

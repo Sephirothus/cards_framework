@@ -139,15 +139,15 @@ class PusherController extends Controller implements WampServerInterface {
                             if ($action == 'discard_from_field') {
                                 $type = GameDataModel::findCardType($temp[$place], $event['card_id']);
                                 unset($temp[$place][$type['type']][$type['index']]);
+                            } else {
+                                $type = GameDataModel::findCardType($temp[$place][$event['user_id']], $event['card_id']);
+                                unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
 
-                                if (CardsModel::getCardInfo($event['card_id'])['parent'] == 'monsters') {
+                                if (CardsModel::getCardInfo($event['card_id'])['parent'] == 'get_level') {
                                     $lvl = $game['users'][$event['user_id']]['lvl'];
                                     GamesModel::changeUserInfo($event['user_id'], $gameId, ['lvl' => ++$lvl]);
                                     $event['lvl_up'] = true;
                                 }
-                            } else {
-                                $type = GameDataModel::findCardType($temp[$place][$event['user_id']], $event['card_id']);
-                                unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
                             }
                             if (in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
                             $temp['discards'][$type['type']][] = $event['card_id'];
@@ -186,6 +186,7 @@ class PusherController extends Controller implements WampServerInterface {
                     $temp['cur_phase'] = $nextPhase;
                     $event['next_phase'][$nextPhase] = \common\libs\Phases::getActions($nextPhase);
                     $isSave = true;
+                    if ($nextPhase == 'get_boss_win') $event['lvl_up'] = true;
                 }
                 if ($isSave) {
                     foreach ($gameData->getAttributes() as $attr => $val) {
