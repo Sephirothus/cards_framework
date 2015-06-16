@@ -2,6 +2,7 @@
 namespace common\libs;
 
 use common\models\CardsModel;
+use common\models\GameDataModel;
 use common\helpers\IdHelper;
 
 class Phases {
@@ -14,52 +15,25 @@ class Phases {
 		],
 
 		'get_boss' => [
-			'yes' => ['from_play_to_field', 'from_hand_to_field', 'discard_from_play'],
+			'yes' => ['from_play_to_field', 'from_hand_to_field', 'discard_from_play', 'end_move'],
 			'next_on' => ['end_move' => [false => 'get_boss_lose', true => 'get_boss_win']],
-			'next_on_param' => function($gameData, $action) {
-				$str = $bossStr = 0;
-				foreach (CardsModel::getAll($gameData['play_cards'][$gameData['cur_move']]['treasures']) as $val) {
-					if (isset($val['bonus']) && intval($val['bonus']) > 0) $str += intval($val['bonus']);
-				}
-				foreach (CardsModel::getAll($gameData['field_cards']['doors']) as $val) {
-					if ($val['parent'] == 'monsters' && intval($val['lvl']) > 0) $bossStr += intval($val['lvl']);
-				}
-				if ($str > $bossStr) return true;
-				return false;
-			},
+			'next_on_func' => 'getBossNext',
 			'on_card' => 'monsters'
 		],
 		'get_boss_lose' => [
 			'yes' => ['throw_dice', 'from_hand_to_field', 'from_play_to_field'],
 			'next_on' => ['throw_dice' => [false => 'boss_bad_stuff', true => 'final_place_cards'], 'from_hand_to_field' => ['final_place_cards'], 'from_play_to_field' => ['final_place_cards']],
-			'next_on_param' => function($gameData, $action) {
-				switch ($action) {
-					case 'throw_dice':
-						if ($gameData['temp_data']['cur_dice'] >= (new Rules)->defRules['get_away_dice']) return true;
-						break;
-					case 'from_hand_to_field':
-						break;
-				}
-				return false;
-			}
+			'next_on_func' => 'getBossLoseNext'
 		],
 		'boss_bad_stuff' => [
 			'yes' => ['discard_from_play', 'discard_from_hand'],
-			'next_on' => [''],
-			'next_on_param' => function($gameData) {
-
-			}
+			'next_on' => ['discard_from_play' => 'final_place_cards', 'discard_from_hand' => 'final_place_cards'],
+			'next_on_func' => 'bossBadStuffNext'
 		],
 		'get_boss_win' => [
 			'yes' => ['get_treasures_card'],
 			'next_on' => ['get_treasures_card' => 'final_place_cards'],
-			'next_on_param' => function($gameData) {
-				if ($gameData['temp_data']['in_battle']['cur_treasures'] == 0) return true;
-				else {
-					GameDataModel::updateAll(['temp_data' => --$gameData['temp_data']['in_battle']['cur_treasures']], ['_id' => $gameData['games_id']]);
-				}
-				return false;
-			}
+			'next_on_func' => 'getBossWinNext'
 		],
 
 		'get_curse' => [
@@ -118,8 +92,8 @@ class Phases {
 					}
 					break;
 			}
-			if (gettype($phases[$curPhase]['next_on_param']) == 'function') {
-				$check = $phases[$curPhase]['next_on_param']($gameData, $curAction, $cardId);
+			if (isset($phases[$curPhase]['next_on_func'])) {
+				$check = self::$phases[$curPhase]['next_on_func']($gameData, $curAction, $cardId);
 				if (count($nextPhase) > 1) {
 					$nextPhase = $nextPhase[$check];
 				} else if (!$check) $nextPhase = $curPhase;
@@ -133,6 +107,83 @@ class Phases {
 			return $nextPhase;
 		} else return $curPhase;
 	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public static function check($phase, $userId, $action, $isMain) {
+		$phase = $isMain ? self::getActions($phase) : self::getWaitActions($phase);
+		if (isset($phase['not'])) {
+			if (in_array($action, $phase['not'])) return false;
+		} elseif (isset($phase['yes'])) {
+			if (!in_array($action, $phase['yes'])) return false;
+		}
+		return true;
+	}
+
+	/* ==================== Special Check ========================*/
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	private static function getBossNext($gameData, $action) {
+		$str = GameDataModel::getBattleStr($gameData);
+		print_r($str);
+		if ($str['users'] > $str['bosses']) {
+			//if (count($gameData['temp_data']['end_move']) == )
+			$gameData['temp_data']['in_battle']['cur_treasures'] = $str['bosses_treasures'];
+			GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
+			return true;
+		} else return false;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	private static function getBossLoseNext($gameData, $action) {
+		switch ($action) {
+			case 'throw_dice':
+				if ($gameData['temp_data']['cur_dice'] >= (new Rules)->defRules['get_away_dice']) return true;
+				break;
+			case 'from_hand_to_field':
+				break;
+		}
+		return false;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	private static function getBossWinNext($gameData) {
+		$gameData['temp_data']['in_battle']['cur_treasures']--;
+		if ($gameData['temp_data']['in_battle']['cur_treasures'] == 0) return true;
+		else GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
+		return false;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	private static function bossBadStuffNext($gameData, $action, $cardId) {
+		return true;
+	}
+
+	/* ==========================================================*/
 
 	/**
 	 * undocumented function

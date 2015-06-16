@@ -82,6 +82,7 @@ function CardActions(settings) {
 		'get_boss': 'Битва с боссом',
 		'get_boss_lose': 'Смываемся, бросай кубик',
 		'get_boss_win': 'Победа, бери сокровища',
+		'boss_bad_stuff': 'Босс творит непотребство',
 		'get_curse': 'Получи проклятие',
 		'get_other': 'Разная хня',
 		'not_boss': 'Чистим нычки или Бьемся со своим',
@@ -228,14 +229,7 @@ CardActions.prototype.events = function() {
 	
 		// discard all field cards
 		$(document).on('click', '#discard_all', function() {
-			$('#'+self.fieldPlaceId+' img').each(function() {
-				self.sendAction({
-					card_id: $(this).attr('id'), 
-		    		card_coords: self.getPercentOffset($(this)), 
-		    		user_id: self.userId,
-		    		action: self.actionTypes['discard_from_field']
-				});
-			});
+			self.discardFromField();
 		});
 
 		// get card from deck
@@ -321,6 +315,19 @@ CardActions.prototype.focusCard = function(card) {
 	}).css({'position': 'relative', 'z-index': 999, 'border': '5px outset '+self.framesColors['select']});
 }
 
+CardActions.prototype.discardFromField = function() {
+	var self = this;
+	if (self.allowedActions.length > 0) self.allowedActions.push(self.actionTypes['discard_from_field']);
+	$('#'+self.fieldPlaceId+' img').each(function() {
+		self.sendAction({
+			card_id: $(this).attr('id'), 
+    		card_coords: self.getPercentOffset($(this)), 
+    		user_id: self.userId,
+    		action: self.actionTypes['discard_from_field']
+		});
+	});
+}
+
 CardActions.prototype.restoreGame = function() {
 	var self = this, data,
 		getInfo = function(info, type) {
@@ -382,9 +389,10 @@ CardActions.prototype.actions = function(resp) {
 	var self = this,
 		card = $('#'+resp.card_id).length ? $('#'+resp.card_id) : $('#'+resp.pic_id),
 		acts = self.actionTypes,
-		chainObj = new CChain();
+		chainObj = new CChain(),
+		diceObj = new Dice();
 
-	chainObj.registerObjs([self, self.defActions]);
+	chainObj.registerObjs([self, self.defActions, diceObj]);
 	if (resp.rule) {
 		if (resp.user_id == self.userId) {
 			var text = typeof resp.rule == 'string' ? resp.rule : resp.rule.text;
@@ -523,10 +531,16 @@ CardActions.prototype.actions = function(resp) {
 				chainObj.registerCall(function(callback) { card.toggleClass('decks'); callback(); });
 				break;
 			case acts['throw_dice']:
-				chainObj.registerCall(function(callback) { (new Dice).throwDice($('#dice_place'), resp.dice, callback); });
+				chainObj.registerCall('throwDice', [$('#dice_place'), resp.dice]);
 				break;
 		}
-
+		
+		if (action != 'discard_from_field' && resp.next_phase && resp.next_phase.firstKey() == 'final_place_cards') {
+			chainObj.registerCall(function(callback) {
+				self.discardFromField();
+				callback();
+			});
+		}
 		if (resp.user_id == self.userId) chainObj.registerCall('onOffActions', [card, 'off']);
 		chainObj.registerCall(nextAction).run();
 	}
@@ -543,13 +557,13 @@ CardActions.prototype.phaseActions = function(resp) {
 			var phaseActions = resp.next_phase.firstVal();
 			if (phaseActions['not']) {
 				self.notAllowedActions = phaseActions['not'];
-				self.allowedActions = {};
+				self.allowedActions = [];
 			} else if (phaseActions['yes']) {
 				self.allowedActions = phaseActions['yes'];
-				self.notAllowedActions = {};
+				self.notAllowedActions = [];
 			} else {
-				self.allowedActions = {};
-				self.notAllowedActions = {};
+				self.allowedActions = [];
+				self.notAllowedActions = [];
 			}
 		}
 		if (curUser) {

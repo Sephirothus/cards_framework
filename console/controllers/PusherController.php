@@ -55,6 +55,7 @@ class PusherController extends Controller implements WampServerInterface {
                     if (!isset($rule['action']) || $rule['action'] != 'turn_card_off') return $topic->broadcast($event);
                     $actions[] = $rule['action'];
                 }
+
                 $data = $event;
                 if (isset($data['card_id']) && intval($data['card_id']) > 0) {
                     $event['pic_id'] = CardsModel::findOne(['_id' => $event['card_id']])['id'];
@@ -64,6 +65,13 @@ class PusherController extends Controller implements WampServerInterface {
                 $isSave = false;
                 $gameData = GameDataModel::findOne(['games_id' => $gameId]);
                 $temp = $gameData->getAttributes();
+                if (!\common\libs\Phases::check(
+                    $temp['cur_phase'], 
+                    $event['user_id'], 
+                    $event['action'], 
+                    $event['user_id'] == $temp['cur_move'] ? true : false
+                )) return false;
+                    
                 foreach ($actions as &$action) {
                     switch ($action) {
                         case 'from_hand_to_play':

@@ -17,6 +17,10 @@ class Rules {
 			'default' => 5,
 			'dwarf' => 6
 		],
+		'max_big_items' => [
+			'default' => 1,
+			'except' => 'dwarf'
+		],
 		'max_races' => 2,
 		'max_classes' => 2,
 		'game_win_lvl' => 10,
@@ -72,7 +76,6 @@ class Rules {
 			case 'from_hand_to_field':
 				if (in_array($card['parent'], ['disposables']) || $this->_exceptions($card)) return true;
 				else return false;
-				$this->_curPhase
 				break;
 			case 'turn_card_off':
 			case 'turn_card_on':
@@ -126,15 +129,17 @@ class Rules {
 						if (isset($row['type']) && $row['type'] == 'two_hand') $overall += 2;
 						else $overall++;
 					}
-					if (!isset($cards[$card['_id']]) && isset($card['size']) && $card['size'] == 'big' && isset($row['size']) && $row['size'] == 'big' && $data['userInfo']['race'] != 'dwarf') {
-						$errors .= ($errors ? '<br>' : '').'У вас уже есть большая шмотка.';
-					}
 				}
 				if (isset($this->defRules[$card['parent']]) && $overall > $this->defRules[$card['parent']]) $errors .= ($errors ? '<br>' : '').'У вас уже исчерпан лимит надетых шмоток такого типа.';
 			}
-			if ((isset($card['race_type']) && $card['race_type'] != $data['userInfo']['race']) || (isset($card['race_type_not']) && $card['race_type_not'] == $data['userInfo']['race'])) $errors .= ($errors ? '<br>' : '').'Ваша расса не может носить данную шмотку';
-			if ((isset($card['class_type']) && $card['class_type'] != $data['userInfo']['class']) || (isset($card['class_type_not']) && $card['class_type_not'] == $data['userInfo']['class'])) $errors .= ($errors ? '<br>' : '').'Ваш класс не может носить данную шмотку';
-			if ((isset($card['sex_type']) && $card['sex_type'] != $data['userInfo']['gender']) || (isset($card['sex_type_not']) && $card['sex_type_not'] == $data['userInfo']['gender'])) $errors .= ($errors ? '<br>' : '').'Ваш пол не может носить данную шмотку';
+			if (isset($card['size']) && 
+				$card['size'] == 'big' && 
+				++$data['userInfo']['count_big_items'] > $this->defRules['max_big_items']['default'] && 
+				!in_array($this->defRules['max_big_items']['except'], $data['userInfo']['race'])) 
+					$errors .= ($errors ? '<br>' : '').'У вас уже есть большая шмотка.';
+			if ((isset($card['race_type']) && !in_array($card['race_type'], $data['userInfo']['race'])) || (isset($card['race_type_not']) && in_array($card['race_type_not'], $data['userInfo']['race']))) $errors .= ($errors ? '<br>' : '').'Ваша расса не может носить данную шмотку';
+			if ((isset($card['class_type']) && !in_array($card['class_type'], $data['userInfo']['class'])) || (isset($card['class_type_not']) && in_array($card['class_type_not'], $data['userInfo']['class']))) $errors .= ($errors ? '<br>' : '').'Ваш класс не может носить данную шмотку';
+			if ((isset($card['sex_type']) && !in_array($card['sex_type'], $data['userInfo']['gender'])) || (isset($card['sex_type_not']) && in_array($card['sex_type_not'], $data['userInfo']['gender']))) $errors .= ($errors ? '<br>' : '').'Ваш пол не может носить данную шмотку';
 		}
 		return $errors ? ['text' => $errors, 'action' => 'turn_card_off'] : '';
 	}
@@ -154,7 +159,7 @@ class Rules {
 					!$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'half_breed', true)) 
 						return 'У вас уже есть расса';
 				if (count($data['userInfo']['race']) >= $this->defRules['max_races']) return 'У вас уже максимальное кол-во расс';
-				if ($this->_checkCard($data['userInfo']['race'], $card['_id'], true, true)) return 'У вас есть такая расса'; 
+				if ($this->_checkCard($data['userInfo']['race'], $card['id'], true, true)) return 'У вас есть такая расса'; 
 				break;
 			case 'discard_from_play':
 				
@@ -178,7 +183,7 @@ class Rules {
 					!$this->_checkCard($data['data']['play_cards'][$userId]['doors'], 'super_munchkin', true)) 
 						return 'У вас уже есть класс';
 				if (count($data['userInfo']['class']) >= $this->defRules['max_classes']) return 'У вас уже максимальное кол-во классов';
-				if ($this->_checkCard($data['userInfo']['class'], $card['_id'], true, true)) return 'У вас есть такой класс'; 
+				if ($this->_checkCard($data['userInfo']['class'], $card['id'], true, true)) return 'У вас есть такой класс'; 
 				break;
 			case 'discard_from_play':
 				
@@ -221,7 +226,7 @@ class Rules {
 		if ($halfOfName) {
 			if (!$withoutDbGet) $data = CardsModel::getAll($data);
 			foreach ($data as $val) {
-				if (strpos($val['id'], $cardId) === 0) return true;
+				if (strpos(!empty($val['id']) ? $val['id'] : $val, $cardId) === 0) return true;
 			}
 		} else {
 			foreach ($data as $cards) {
@@ -239,8 +244,8 @@ class Rules {
 	 **/
 	private function _getInfo($userId, $gameId) {
 		$game = GamesModel::findOne(['_id' => $gameId]);
-		$this->_curPhase = $game['cur_phase'];
 		$data = GameDataModel::findOne(['games_id' => $gameId]);
+		$this->_curPhase = $data['cur_phase'];
 		return [
 			'data' => $data,
 			'userInfo' => $this->_getUserInfo($game['users'][$userId], $data, $userId)
@@ -254,17 +259,26 @@ class Rules {
 	 * @author 
 	 **/
 	private function _getUserInfo($userInfo, $data, $userId) {
-		$info = ['class' => [], 'race' => [], 'gender' => $userInfo['gender'], 'lvl' => $userInfo['lvl']];
-		if (isset($data['play_cards'][$userId]['doors'])) {
-			foreach (CardsModel::getAll($data['play_cards'][$userId]['doors']) as $card) {
-				switch ($card['parent']) {
-					case 'classes':
-						$info['class'][] = $this->_getCardName($card);
-						break;
-					case 'races':
-						$info['race'][] = $this->_getCardName($card);
-						break;
-				}
+		$cards = [];
+		$info = ['class' => [], 'race' => [], 'gender' => $userInfo['gender'], 'lvl' => $userInfo['lvl'], 'count_big_items' => 0];
+		if (isset($data['play_cards'][$userId]['doors'])) $cards = array_merge($cards, $data['play_cards'][$userId]['doors']);
+		if (isset($data['play_cards'][$userId]['treasures'])) $cards = array_merge($cards, $data['play_cards'][$userId]['treasures']);
+
+		foreach (CardsModel::getAll($cards) as $card) {
+			switch ($card['parent']) {
+				case 'classes':
+					$info['class'][] = $this->_getCardName($card);
+					break;
+				case 'races':
+					$info['race'][] = $this->_getCardName($card);
+					break;
+				case 'head': 
+                case 'armor': 
+                case 'foot': 
+                case 'arms': 
+                case 'items':
+					if (isset($card['size']) && $card['size'] == 'big' && !in_array($card['_id'], $data['turn_cards'])) $info['count_big_items']++;
+					break;
 			}
 		}
 		if (empty($info['race'])) $info['race'][] = 'human';
