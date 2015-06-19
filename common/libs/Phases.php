@@ -95,11 +95,9 @@ class Phases {
 			}
 			if (isset($phases[$curPhase]['next_on_func'])) {
 				$check = self::$phases[$curPhase]['next_on_func']($gameData, $curAction, $cardId);
-				if (count($nextPhase) > 1) {
-					$nextPhase = $nextPhase[$check];
-				} else if (!$check) $nextPhase = $curPhase;
+				if (count($nextPhase) > 1 && $check !== 'not_yet') $nextPhase = $nextPhase[$check];
+				else if (!$check || $check === 'not_yet') $nextPhase = $curPhase;
 			}
-
 			if (!$nextPhase) {
 				reset($phases);
 				$nextPhase['next_phase'] = key($phases);
@@ -133,14 +131,16 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private static function getBossNext($gameData, $action) {
+	private static function getBossNext($gameData) {
+		$game = GamesModel::findOne(['_id' => $gameData['games_id']]);
+		if (!isset($gameData['temp_data']['in_battle']['end_move']) || count($gameData['temp_data']['in_battle']['end_move']) < count($game['users'])) return 'not_yet';
+
 		$str = GameDataModel::getBattleStr($gameData);
 		print_r($str);
 		if ($str['users'] > $str['bosses']) {
-			//if (count($gameData['temp_data']['end_move']) == )
 			$gameData['temp_data']['in_battle']['cur_treasures'] = $str['bosses_treasures'];
+			$gameData['temp_data']['in_battle']['end_move'] = [];
 			GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
-			$game = GamesModel::findOne(['_id' => $gameData['games_id']]);
 			$lvl = $game['users'][$gameData['cur_move']]['lvl'];
             GamesModel::changeUserInfo($gameData['cur_move'], $gameData['games_id'], ['lvl' => ++$lvl]);
 			return true;
@@ -172,9 +172,9 @@ class Phases {
 	 **/
 	private static function getBossWinNext($gameData) {
 		$gameData['temp_data']['in_battle']['cur_treasures']--;
+		GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
 		if ($gameData['temp_data']['in_battle']['cur_treasures'] == 0) return true;
-		else GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
-		return false;
+		else return false;
 	}
 
 	/**

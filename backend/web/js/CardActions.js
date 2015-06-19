@@ -175,6 +175,7 @@ CardActions.prototype.events = function() {
 		$(document).on('click', '#card_actions button', function() {
 			var card = $('#'+$(this).parent().attr('card_id')),
 				action = false,
+				additional = {},
 				acts = self.actionTypes;
 			switch($(this).attr('action')) {
 				case 'discard':
@@ -187,6 +188,10 @@ CardActions.prototype.events = function() {
 					break;
 				case 'to_field':
 					action = card.hasClass(self.classes.hand_card) ? acts['from_hand_to_field'] : acts['from_play_to_field'];
+					if (card.data('parent') == 'disposables' && card.data('bonus')) {
+						if (confirm('Использовать бонус на себя?')) additional['bonus_on'] = 'self';
+						else additional['bonus_on'] = 'monster';
+					}
 					break;
 				case 'turn':
 					action = card.hasClass('decks') ? acts['turn_card_on'] : acts['turn_card_off'];
@@ -222,7 +227,8 @@ CardActions.prototype.events = function() {
 					card_id: cardIds ? cardIds : card.attr('id'),
 					card_coords: self.getPercentOffset(card), 
 					user_id: self.userId,
-					action: action
+					action: action,
+					additional: additional
 				});
 			}
 		});
@@ -420,6 +426,7 @@ CardActions.prototype.actions = function(resp) {
 				});
 				break;
 			case acts['from_hand_to_field']:
+				if (resp.additional.on_bonus) card.data('on_bonus') = resp.additional.on_bonus;
 				chainObj.registerCall('moveCard', [card, $('#'+self.fieldPlaceId)]);
 				if (resp.user_id != self.userId) {
 					chainObj.registerCall('turnOneCard', [card, {src: Params.cardPath(resp.pic_id, true)}]);
@@ -430,6 +437,7 @@ CardActions.prototype.actions = function(resp) {
 				});
 				break;
 			case acts['from_play_to_field']:
+				if (resp.additional.on_bonus) card.data('on_bonus') = resp.additional.on_bonus;
 				chainObj.registerCall('moveCard', [card, $('#'+self.fieldPlaceId)]).
 					registerCall(function(callback) {
 						card.attr('class', self.defClasses.field_card+' '+self.classes.enlarge_card+' '+self.classes.field_card);
@@ -567,16 +575,18 @@ CardActions.prototype.phaseActions = function(resp) {
 			$('.'+self.classes.player_block+' #lvl').parent().attr('class', 'label label-primary '+self.classes.user_info);
 			$('#'+curUser+' #lvl').parent().attr('class', 'label label-success '+self.classes.user_info);
 		}
-		if (resp.lvl_up) {
-			$('#'+resp.user_id).find('#lvl').html((parseInt($('#'+resp.user_id).find('#lvl').html())+1)+' lvl');
-		}
 		var phase = resp.next_phase.firstKey();
 		self.curPhase = phase;
 		$('#phase_name').html('Фаза: '+self.phases[phase]);
-		if (phase == 'get_boss') {
-			$('#your_str').html('Сила манчкина: '+self.getUserStr(resp.user_id ? resp.user_id : curUser));
-			$('#boss_str').html('Сила босса: '+self.getBossStr());
-		}
+	}
+
+	if (self.curPhase == 'get_boss') {
+		$('#your_str').html('Сила манчкина: '+self.getUserStr());
+		$('#boss_str').html('Сила босса: '+self.getBossStr());
+	}
+
+	if (resp.lvl_up) {
+		$('#'+resp.lvl_up).find('#lvl').html((parseInt($('#'+resp.user_id).find('#lvl').html())+1)+' lvl');
 	}
 
 	$('.'+self.classes.user_info).each(function() {
@@ -599,21 +609,49 @@ CardActions.prototype.formCardData = function(info) {
 	return data;
 }
 
-CardActions.prototype.getUserStr = function(userId) {
-	var str = 0;
+CardActions.prototype.getUserStr = function() {
+	var str = 0, userId = this.findCurUser();
 	str += parseInt($('#'+userId+' #lvl').html());
 	$('#'+userId+' .'+this.classes.play_block+' img').each(function() {
 		if (parseInt($(this).attr('data-bonus')) && !$(this).hasClass('decks') && $(this).attr('data-parent') != 'disposables') str += parseInt($(this).attr('data-bonus'));
+	});
+	$('#'+this.fieldPlaceId+' img').each(function() {
+		switch($(this).data('parent')) {
+			case 'disposables':
+				if ($(this).data('on_bonus') != 'monster' && parseInt($(this).data('bonus')) > 0) str += parseInt($(this).data('bonus'));
+				break;
+		}
 	});
 	return str;
 }
 
 CardActions.prototype.getBossStr = function() {
 	var bossStr = 0;
-	$('#'+this.fieldPlaceId+' img[data-parent="monsters"]').each(function() {
-		bossStr += parseInt($(this).data('lvl'));
+	$('#'+this.fieldPlaceId+' img').each(function() {
+		switch($(this).data('parent')) {
+			case 'monsters':
+				bossStr += parseInt($(this).data('lvl'));
+				break;
+			case 'in_battle_monster_bonuses':
+				bossStr += parseInt($(this).data('monster'));
+				break;
+			case 'disposables':
+				if ($(this).data('on_bonus') == 'monster' && parseInt($(this).data('bonus')) > 0) bossStr += parseInt($(this).data('bonus'));
+				break;
+		}
 	});
 	return bossStr;
+}
+
+CardActions.prototype.findCurUser = function() {
+	var curUser = false, self = this;
+	$('.'+self.classes.user_info).each(function() {
+		if ($(this).hasClass('label-success')) {
+			curUser = $(this).parents('.'+self.classes.player_block).attr('id');
+			return false;
+		}
+	});
+	return curUser;
 }
 
 CardActions.prototype.getUserInfo = function(userId) {

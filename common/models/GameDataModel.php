@@ -43,6 +43,7 @@ class GameDataModel extends ActiveRecord {
             $model->games_id = $id;
             $model->cur_move = key($users);
             $model->cur_phase = key(\common\libs\Phases::$phases);
+            $model->hand_cards = [];
         } else {
             $obj->setDecks($model->decks);
         }
@@ -147,6 +148,7 @@ class GameDataModel extends ActiveRecord {
                     break;
                 case 'in_battle_monster_bonuses':
                     $str['bosses'] += intval($val['monster']);
+                    $str['bosses_treasures'] += intval($val['treasures']);
                     break;
                 case 'head': 
                 case 'armor': 
@@ -158,8 +160,11 @@ class GameDataModel extends ActiveRecord {
                 case 'disposables':
                     if (isset($val['bonus']) && 
                         intval($val['bonus']) > 0 && 
-                        in_array($val['_id'], $gameData['field_cards']['treasures'])) 
-                            $str['users'] += intval($val['bonus']);
+                        isset($gameData['field_cards']['treasures']) && 
+                        in_array($val['_id'], $gameData['field_cards']['treasures'])) {
+                            if (isset($temp['temp_data']['in_battle']['bonuses'][$val['_id']]) && $temp['temp_data']['in_battle']['bonuses'][$val['_id']] == 'monster') $str['bosses'] += intval($val['bonus']);
+                            else $str['users'] += intval($val['bonus']);
+                        }
                     break;
             }
         }

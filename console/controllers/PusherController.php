@@ -71,7 +71,8 @@ class PusherController extends Controller implements WampServerInterface {
                     $event['action'], 
                     $event['user_id'] == $temp['cur_move'] ? true : false
                 )) return false;
-                    
+                
+                if (!empty($event['card_id'])) $cardInfo = CardsModel::getCardInfo($event['card_id']);
                 foreach ($actions as &$action) {
                     switch ($action) {
                         case 'from_hand_to_play':
@@ -85,12 +86,18 @@ class PusherController extends Controller implements WampServerInterface {
                             unset($temp['play_cards'][$event['user_id']][$type['type']][$type['index']]);
                             $temp['field_cards'][$type['type']][] = $event['card_id'];
                             $isSave = true;
+                            if (!empty($event['additional']) && $cardInfo['parent'] == 'disposables' && !empty($cardInfo['bonus'])) {
+                                $temp['temp_data']['in_battle']['bonuses'][$event['card_id']] = $event['additional']['bonus_on'];
+                            }
                             break;
                         case 'from_hand_to_field':
                             $type = GameDataModel::findCardType($temp['hand_cards'][$event['user_id']], $event['card_id']);
                             unset($temp['hand_cards'][$event['user_id']][$type['type']][$type['index']]);
                             $temp['field_cards'][$type['type']][] = $event['card_id'];
                             $isSave = true;
+                            if (!empty($event['additional']) && $cardInfo['parent'] == 'disposables' && !empty($cardInfo['bonus'])) {
+                                $temp['temp_data']['in_battle']['bonuses'][$event['card_id']] = $event['additional']['bonus_on'];
+                            }
                             break;
                         case 'from_field_to_hand':
                             $type = GameDataModel::findCardType($temp['field_cards'], $event['card_id']);
@@ -143,13 +150,13 @@ class PusherController extends Controller implements WampServerInterface {
                                 $type = GameDataModel::findCardType($temp[$place][$event['user_id']], $event['card_id']);
                                 unset($temp[$place][$event['user_id']][$type['type']][$type['index']]);
 
-                                if (CardsModel::getCardInfo($event['card_id'])['parent'] == 'get_level') {
+                                if ($cardInfo['parent'] == 'get_level') {
                                     $lvl = $game['users'][$event['user_id']]['lvl'];
                                     GamesModel::changeUserInfo($event['user_id'], $gameId, ['lvl' => ++$lvl]);
-                                    $event['lvl_up'] = true;
+                                    $event['lvl_up'] = $event['user_id'];
                                 }
                             }
-                            if (in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
+                            if (is_array($temp['turn_cards']) && in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
                             $temp['discards'][$type['type']][] = $event['card_id'];
                             $isSave = true;
                             break;
@@ -164,13 +171,22 @@ class PusherController extends Controller implements WampServerInterface {
                             break;
                         case 'turn_card_off':
                         case 'turn_card_on':
-                            if (in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
+                            if (isset($temp['turn_cards']) && in_array($event['card_id'], $temp['turn_cards'])) unset($temp['turn_cards'][array_search($event['card_id'], $temp['turn_cards'])]);
                             else $temp['turn_cards'][] = $event['card_id'];
                             $isSave = true;
                             break;
                         case 'throw_dice':
                             $temp['temp_data']['cur_dice'] = $event['dice'] = rand(1, 6);
                             $isSave = true;
+                            break;
+                        case 'end_move':
+                            if ($temp['cur_phase'] == 'get_boss') {
+                                if (!isset($temp['temp_data']['in_battle']['end_move'])) $temp['temp_data']['in_battle']['end_move'] = [];
+                                if (!in_array($event['user_id'], $temp['temp_data']['in_battle']['end_move'])) {
+                                    $temp['temp_data']['in_battle']['end_move'][] = $event['user_id'];
+                                    $isSave = true;
+                                }
+                            }
                             break;
                     }
                 }
@@ -186,7 +202,7 @@ class PusherController extends Controller implements WampServerInterface {
                     $temp['cur_phase'] = $nextPhase;
                     $event['next_phase'][$nextPhase] = \common\libs\Phases::getActions($nextPhase);
                     $isSave = true;
-                    if ($nextPhase == 'get_boss_win') $event['lvl_up'] = true;
+                    if ($nextPhase == 'get_boss_win') $event['lvl_up'] = $temp['cur_move'];
                 }
                 if ($isSave) {
                     foreach ($gameData->getAttributes() as $attr => $val) {
