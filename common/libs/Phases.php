@@ -69,13 +69,26 @@ class Phases {
 		]
 	];
 
+	private $_userId;
+
 	/**
 	 * undocumented function
 	 *
 	 * @return void
 	 * @author 
 	 **/
-	public static function getNextPhase($curPhase, $curAction, $users, $gameData, $cardId=false) {
+	public function setUserId($userId) {
+		$this->_userId = $userId;
+		return $this;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getNextPhase($curPhase, $curAction, $users, $gameData, $cardId=false) {
 		$phases = self::$phases;
 		if (isset($phases[$curPhase]['next_on'][$curAction])) {
 			$nextPhase = $phases[$curPhase]['next_on'][$curAction];
@@ -94,14 +107,14 @@ class Phases {
 					break;
 			}
 			if (isset($phases[$curPhase]['next_on_func'])) {
-				$check = self::$phases[$curPhase]['next_on_func']($gameData, $curAction, $cardId);
+				$check = $this->$phases[$curPhase]['next_on_func']($gameData, $curAction, $cardId);
 				if (count($nextPhase) > 1 && $check !== 'not_yet') $nextPhase = $nextPhase[$check];
 				else if (!$check || $check === 'not_yet') $nextPhase = $curPhase;
 			}
 			if (!$nextPhase) {
 				reset($phases);
 				$nextPhase['next_phase'] = key($phases);
-				$nextPhase['next_user'] = self::getNextUser($users, $gameData['cur_move']);
+				$nextPhase['next_user'] = $this->getNextUser($users, $gameData['cur_move']);
 			}
 			return $nextPhase;
 		} else return $curPhase;
@@ -131,20 +144,22 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private static function getBossNext($gameData) {
-		$game = GamesModel::findOne(['_id' => $gameData['games_id']]);
-		if (!isset($gameData['temp_data']['in_battle']['end_move']) || count($gameData['temp_data']['in_battle']['end_move']) < count($game['users'])) return 'not_yet';
-
+	private function getBossNext($gameData) {
 		$str = GameDataModel::getBattleStr($gameData);
 		print_r($str);
 		if ($str['users'] > $str['bosses']) {
+			$game = GamesModel::findOne(['_id' => $gameData['games_id']]);
+			if (!isset($gameData['temp_data']['in_battle']['end_move']) || count($gameData['temp_data']['in_battle']['end_move']) < count($game['users'])) return 'not_yet';
+			
 			$gameData['temp_data']['in_battle']['cur_treasures'] = $str['bosses_treasures'];
 			$gameData['temp_data']['in_battle']['end_move'] = [];
 			GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
 			$lvl = $game['users'][$gameData['cur_move']]['lvl'];
             GamesModel::changeUserInfo($gameData['cur_move'], $gameData['games_id'], ['lvl' => ++$lvl]);
 			return true;
-		} else return false;
+		} elseif ($this->_userId == $gameData['cur_move']) return false;
+
+		return 'not_yet';
 	}
 
 	/**
@@ -153,7 +168,7 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private static function getBossLoseNext($gameData, $action) {
+	private function getBossLoseNext($gameData, $action) {
 		switch ($action) {
 			case 'throw_dice':
 				if ($gameData['temp_data']['cur_dice'] >= (new Rules)->defRules['get_away_dice']) return true;
@@ -170,7 +185,7 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private static function getBossWinNext($gameData) {
+	private function getBossWinNext($gameData) {
 		$gameData['temp_data']['in_battle']['cur_treasures']--;
 		GameDataModel::updateAll(['temp_data' => $gameData['temp_data']], ['_id' => $gameData['_id']]);
 		if ($gameData['temp_data']['in_battle']['cur_treasures'] == 0) return true;
@@ -183,8 +198,25 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private static function bossBadStuffNext($gameData, $action, $cardId) {
-		return true;
+	private function bossBadStuffNext($gameData, $action, $cardId) {
+		$card = CardsModel::findOne(['_id' => IdHelper::toId($cardId)]);
+		$onlyOne = isset($card['bad_stuff'][0]) && $card['bad_stuff'][0] == 'or' ? true : false;
+
+		foreach ($card['bad_stuff'] as $key => $val) {
+			switch ($key) {
+				case 'discard_by_parent':
+
+					break;
+				case 'discard_hand_cards':
+					
+					break;
+				case 'lost_lvl':
+
+					break;
+			}
+			if ($onlyOne) return true;
+		}
+		return false;
 	}
 
 	/* ==========================================================*/

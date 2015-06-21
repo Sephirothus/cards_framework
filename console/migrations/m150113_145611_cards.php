@@ -281,108 +281,178 @@ class m150113_145611_cards extends \yii\mongodb\Migration
     						'id' => 'crabs',
 							'lvl' => 1,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'discard_by_parent' => ['armor', 'foot']
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'drool_slime',
 							'lvl' => 1,
 							'treasures' => 1,
+							'bonus' => ['type' => 'race', 'race' => 'elf', 'bonus' => 4],
+							'bad_stuff' => [
+								'or',
+								'discard_by_parent' => ['foot'],
+								'lost_lvl' => 1
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'lame_goblin',
 							'lvl' => 1,
 							'treasures' => 1,
+							'get_away' => 1,
+							'bad_stuff' => [
+								'lost_lvl' => 1
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'maul_rat',
 							'lvl' => 1,
 							'treasures' => 1,
+							'bonus' => ['type' => 'class', 'class' => 'cleric', 'bonus' => 3],
+							'bad_stuff' => [
+								'lost_lvl' => 1
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'potted_plant',
 							'lvl' => 1,
 							'treasures' => 1,
+							'bad_stuff' => [
+
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'mr_bones',
 							'lvl' => 2,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'large_angry_chick',
 							'lvl' => 2,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'lost_lvl' => 1
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'fly_frogs',
 							'lvl' => 2,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'gelatine_octahedron',
 							'lvl' => 2,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'discard_by_param' => [
+									'size' => 'big',
+									'count' => 'all'
+								]
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'pit_bull',
 							'lvl' => 2,
 							'treasures' => 1,
+							'bad_stuff' => [
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'leperchaun',
 							'lvl' => 4,
 							'treasures' => 2,
+							'bonus' => ['type' => 'race', 'race' => 'elf', 'bonus' => 5],
+							'bad_stuff' => [
+								
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'harpies',
 							'lvl' => 4,
 							'treasures' => 2,
+							'bonus' => ['type' => 'class', 'class' => 'wizard', 'bonus' => 5],
+							'bad_stuff' => [
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'speed_snails',
 							'lvl' => 4,
 							'treasures' => 2,
+							'get_away' => -2,
+							'bad_stuff' => [
+								
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'undead_horse',
 							'lvl' => 4,
 							'treasures' => 2,
+							'bonus' => ['type' => 'race', 'race' => 'dwarf', 'bonus' => 5],
+							'bad_stuff' => [
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'pukachu',
 							'lvl' => 6,
 							'treasures' => 2,
+							'bad_stuff' => [
+								'discard_hand_cards' => 'all'
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'shriek_geek',
 							'lvl' => 6,
 							'treasures' => 2,
+							'bonus' => ['type' => 'class', 'class' => 'warrior', 'bonus' => 6],
+							'bad_stuff' => [
+								'discard_by_parent' => ['races', 'classes']
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'lawyers',
 							'lvl' => 6,
 							'treasures' => 2,
+							'bad_stuff' => [
+								
+							]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'platycore',
 							'lvl' => 6,
 							'treasures' => 2,
+							'bonus' => ['type' => 'class', 'class' => 'wizard', 'bonus' => 6],
+							'bad_stuff' => [
+								'or',
+								'discard_hand_cards' => 'all',
+								'lost_lvl' => 2
+							]
 						],
 						[
 							'_id' => new \MongoId(),
@@ -407,6 +477,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'id' => 'face_sucker',
 							'lvl' => 8,
 							'treasures' => 2,
+							'bonus' => ['type' => 'race', 'race' => 'elf', 'bonus' => 6]
 						],
 						[
 							'_id' => new \MongoId(),
@@ -419,6 +490,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'id' => 'orcs_3872',
 							'lvl' => 10,
 							'treasures' => 3,
+							'bonus' => ['type' => 'race', 'race' => 'dwarf', 'bonus' => 6]
 						],
 						[
 							'_id' => new \MongoId(),
@@ -431,12 +503,14 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'id' => 'bigfoot',
 							'lvl' => 12,
 							'treasures' => 3,
+							'bonus' => ['type' => 'race', 'race' => ['dwarf', 'halfling'], 'bonus' => 3]
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'tongue_demon',
 							'lvl' => 12,
 							'treasures' => 3,
+							'bonus' => ['type' => 'class', 'class' => 'cleric', 'bonus' => 4]
 						],
 						[
 							'_id' => new \MongoId(),
@@ -449,6 +523,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'id' => 'unspeak_indescrib_horror',
 							'lvl' => 14,
 							'treasures' => 4,
+							'bonus' => ['type' => 'class', 'class' => 'warrior', 'bonus' => 4]
 						],
 						[
 							'_id' => new \MongoId(),
@@ -467,36 +542,49 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'id' => 'king_tut',
 							'lvl' => 16,
 							'treasures' => 4,
+							'not_fight_lvl' => 3,
+							'get_lvl' => 2
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'hippogriff',
 							'lvl' => 16,
 							'treasures' => 4,
+							'not_fight_lvl' => 3,
+							'get_lvl' => 2
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'wight_brothers',
 							'lvl' => 16,
 							'treasures' => 4,
+							'not_fight_lvl' => 3,
+							'get_lvl' => 2
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'squidzilla',
 							'lvl' => 18,
 							'treasures' => 4,
+							'not_fight_lvl' => 4,
+							'bonus' => ['type' => 'race', 'race' => 'elf', 'bonus_to_user' => -4],
+							'get_lvl' => 2
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'bullrog',
 							'lvl' => 18,
 							'treasures' => 5,
+							'not_fight_lvl' => 4,
+							'get_lvl' => 2
 						],
 						[
 							'_id' => new \MongoId(),
 							'id' => 'plutonium_dragon',
 							'lvl' => 20,
 							'treasures' => 5,
+							'not_fight_lvl' => 5,
+							'get_lvl' => 2
 						],
 					]
 				],

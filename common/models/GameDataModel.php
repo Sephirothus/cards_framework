@@ -127,14 +127,17 @@ class GameDataModel extends ActiveRecord {
      * @author 
      **/
     public static function getBattleStr($gameData) {
+        $userId = $gameData['cur_move'];
         $game = GamesModel::findOne(['_id' => $gameData['games_id']]);
-        $str['users'] = $game['users'][$gameData['cur_move']]['lvl'];
+        $userInfo = (new \common\libs\Rules)->getUserInfo($game['users'][$userId], $gameData, $userId);
+        $str['users'] = $game['users'][$userId]['lvl'];
         $str['bosses'] = 0;
         $str['bosses_treasures'] = 0;
+        $str['get_lvl'] = 0;
         $cardIds = [];
-        if (isset($gameData['play_cards'][$gameData['cur_move']])) {
-            if (isset($gameData['play_cards'][$gameData['cur_move']]['treasures'])) $cardIds = array_merge($cardIds, $gameData['play_cards'][$gameData['cur_move']]['treasures']);
-            if (isset($gameData['play_cards'][$gameData['cur_move']]['doors'])) $cardIds = array_merge($cardIds, $gameData['play_cards'][$gameData['cur_move']]['doors']);
+        if (isset($gameData['play_cards'][$userId])) {
+            if (isset($gameData['play_cards'][$userId]['treasures'])) $cardIds = array_merge($cardIds, $gameData['play_cards'][$userId]['treasures']);
+            if (isset($gameData['play_cards'][$userId]['doors'])) $cardIds = array_merge($cardIds, $gameData['play_cards'][$userId]['doors']);
         }
         if (isset($gameData['field_cards']['doors'])) $cardIds = array_merge($cardIds, $gameData['field_cards']['doors']);
         if (isset($gameData['field_cards']['treasures'])) $cardIds = array_merge($cardIds, $gameData['field_cards']['treasures']);
@@ -144,6 +147,12 @@ class GameDataModel extends ActiveRecord {
                     if (intval($val['lvl']) > 0) {
                         $str['bosses'] += intval($val['lvl']);
                         $str['bosses_treasures'] += intval($val['treasures']);
+                        if (isset($val['bonus']['type']) && in_array($val['bonus']['type'][$val['bonus']['type']], $userInfo[$val['bonus']['type']])) {
+                            if (isset($val['bonus']['bonus'])) $str['bosses'] += intval($val['bonus']['bonus']);
+                            if (isset($val['bonus']['bonus_to_user'])) $str['users'] += intval($val['bonus']['bonus_to_user']);
+                        }
+                        if (isset($val['get_lvl'])) $str['get_lvl'] += intval($val['get_lvl']);
+                        else $str['get_lvl'] += 1;
                     }
                     break;
                 case 'in_battle_monster_bonuses':

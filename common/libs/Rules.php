@@ -125,7 +125,7 @@ class Rules {
 				unset($cards[$card['_id']]);
 
 				foreach ($cards as $row) {
-					if ($card['parent'] == $row['parent'] && !in_array($row['_id'], $data['data']['turn_cards'])) {
+					if ($card['parent'] == $row['parent'] && (!isset($data['data']['turn_cards']) || !in_array($row['_id'], $data['data']['turn_cards']))) {
 						if (isset($row['type']) && $row['type'] == 'two_hand') $overall += 2;
 						else $overall++;
 					}
@@ -248,7 +248,7 @@ class Rules {
 		$this->_curPhase = $data['cur_phase'];
 		return [
 			'data' => $data,
-			'userInfo' => $this->_getUserInfo($game['users'][$userId], $data, $userId)
+			'userInfo' => $this->getUserInfo($game['users'][$userId], $data, $userId)
 		];
 	}
 
@@ -258,7 +258,7 @@ class Rules {
 	 * @return void
 	 * @author 
 	 **/
-	private function _getUserInfo($userInfo, $data, $userId) {
+	public function getUserInfo($userInfo, $data, $userId) {
 		$cards = [];
 		$info = ['class' => [], 'race' => [], 'gender' => $userInfo['gender'], 'lvl' => $userInfo['lvl'], 'count_big_items' => 0];
 		if (isset($data['play_cards'][$userId]['doors'])) $cards = array_merge($cards, $data['play_cards'][$userId]['doors']);

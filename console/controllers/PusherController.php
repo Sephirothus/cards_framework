@@ -17,6 +17,7 @@ use common\models\GamesModel;
 use common\models\CardsModel;
 use common\models\GameDataModel;
 use common\helpers\IdHelper;
+use common\libs\Phases;
 
 class PusherController extends Controller implements WampServerInterface {
 
@@ -65,7 +66,7 @@ class PusherController extends Controller implements WampServerInterface {
                 $isSave = false;
                 $gameData = GameDataModel::findOne(['games_id' => $gameId]);
                 $temp = $gameData->getAttributes();
-                if (!\common\libs\Phases::check(
+                if (!Phases::check(
                     $temp['cur_phase'], 
                     $event['user_id'], 
                     $event['action'], 
@@ -190,18 +191,19 @@ class PusherController extends Controller implements WampServerInterface {
                             break;
                     }
                 }
-                if ($temp['cur_phase'] != ($nextPhase = \common\libs\Phases::getNextPhase($temp['cur_phase'], $event['action'], array_keys($game['users']), $temp, isset($event['card_id']) ? $event['card_id'] : false))) {
+                if ($temp['cur_phase'] != ($nextPhase = (new Phases)->setUserId($event['user_id'])->getNextPhase($temp['cur_phase'], $event['action'], array_keys($game['users']), $temp, isset($event['card_id']) ? $event['card_id'] : false))) {
                     if (is_array($nextPhase)) {
                         $temp['cur_move'] = $nextPhase['next_user'];
                         $nextPhase['next_user'] = (string)$nextPhase['next_user'];
-                        $event['next_user'][$nextPhase['next_user']] = \common\libs\Phases::getWaitActions($nextPhase['next_phase']);
+                        $event['next_user'][$nextPhase['next_user']] = Phases::getWaitActions($nextPhase['next_phase']);
                         $nextPhase = $nextPhase['next_phase'];
                     } else {
-                        $event['next_user'][(string)$temp['cur_move']] = \common\libs\Phases::getWaitActions($nextPhase);
+                        $event['next_user'][(string)$temp['cur_move']] = Phases::getWaitActions($nextPhase);
                     }
                     $temp['cur_phase'] = $nextPhase;
-                    $event['next_phase'][$nextPhase] = \common\libs\Phases::getActions($nextPhase);
+                    $event['next_phase'][$nextPhase] = Phases::getActions($nextPhase);
                     $isSave = true;
+                    $temp['temp_data']['in_battle']['end_move'] = [];
                     if ($nextPhase == 'get_boss_win') $event['lvl_up'] = $temp['cur_move'];
                 }
                 if ($isSave) {
@@ -244,8 +246,8 @@ class PusherController extends Controller implements WampServerInterface {
                     $event['count'] = intval($game['count_users'])-count($game['users']);
                 }
             }
-            $event['next_user'][(string)$gameData['cur_move']] = \common\libs\Phases::getWaitActions($gameData['cur_phase']);
-            $event['next_phase'][$gameData['cur_phase']] = \common\libs\Phases::getActions($gameData['cur_phase']);
+            $event['next_user'][(string)$gameData['cur_move']] = Phases::getWaitActions($gameData['cur_phase']);
+            $event['next_phase'][$gameData['cur_phase']] = Phases::getActions($gameData['cur_phase']);
             $event['users'] = (new \common\models\User)->getUsers($game['users']);
             $topic->broadcast($event);
         } catch (\Exception $e) {
