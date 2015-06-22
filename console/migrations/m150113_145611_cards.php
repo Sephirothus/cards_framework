@@ -282,7 +282,10 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'lvl' => 1,
 							'treasures' => 1,
 							'bad_stuff' => [
-								'discard_by_parent' => ['armor', 'foot']
+								'discard_by_param' => [
+									'type' => ['armor', 'foot'],
+									'count' => 'all'
+								]
 							]
 						],
 						[
@@ -293,7 +296,10 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'bonus' => ['type' => 'race', 'race' => 'elf', 'bonus' => 4],
 							'bad_stuff' => [
 								'or',
-								'discard_by_parent' => ['foot'],
+								'discard_by_param' => [
+									'type' => ['foot'],
+									'count' => 'all'
+								]
 								'lost_lvl' => 1
 							]
 						],
@@ -360,7 +366,7 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'treasures' => 1,
 							'bad_stuff' => [
 								'discard_by_param' => [
-									'size' => 'big',
+									'type' => ['size' => 'big'],
 									'count' => 'all'
 								]
 							]
@@ -430,7 +436,10 @@ class m150113_145611_cards extends \yii\mongodb\Migration
 							'treasures' => 2,
 							'bonus' => ['type' => 'class', 'class' => 'warrior', 'bonus' => 6],
 							'bad_stuff' => [
-								'discard_by_parent' => ['races', 'classes']
+								'discard_by_param' => [
+									'type' => ['races', 'classes'],
+									'count' => 'all'
+								]
 							]
 						],
 						[

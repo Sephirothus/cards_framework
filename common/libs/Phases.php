@@ -107,7 +107,7 @@ class Phases {
 					break;
 			}
 			if (isset($phases[$curPhase]['next_on_func'])) {
-				$check = $this->$phases[$curPhase]['next_on_func']($gameData, $curAction, $cardId);
+				$check = $this->$phases[$curPhase]['next_on_func']($gameData, $curAction);
 				if (count($nextPhase) > 1 && $check !== 'not_yet') $nextPhase = $nextPhase[$check];
 				else if (!$check || $check === 'not_yet') $nextPhase = $curPhase;
 			}
@@ -198,23 +198,34 @@ class Phases {
 	 * @return void
 	 * @author 
 	 **/
-	private function bossBadStuffNext($gameData, $action, $cardId) {
-		$card = CardsModel::findOne(['_id' => IdHelper::toId($cardId)]);
-		$onlyOne = isset($card['bad_stuff'][0]) && $card['bad_stuff'][0] == 'or' ? true : false;
+	private function bossBadStuffNext($gameData) {
+		$cards = [];
+		if (isset($gameData['field_cards']['treasures'])) $cards = $gameData['field_cards']['treasures'];
+		if (isset($gameData['field_cards']['doors'])) $cards = $gameData['field_cards']['doors'];
 
-		foreach ($card['bad_stuff'] as $key => $val) {
-			switch ($key) {
-				case 'discard_by_parent':
+		$cards = CardsModel::findOne(['_id' => array_map(function($val) { return IdHelper::toId($val); }, $cards)]);
+		foreach ($cards as $card) {
+			$onlyOne = isset($card['bad_stuff'][0]) && $card['bad_stuff'][0] == 'or' ? true : false;
+			foreach ($card['bad_stuff'] as $key => $val) {
+				switch ($key) {
+					case 'discard_by_param':
+						foreach ($val['type'] as $param => $value) {
+							if (is_string($param)) {
+								
+							} else {
 
-					break;
-				case 'discard_hand_cards':
-					
-					break;
-				case 'lost_lvl':
+							}
+						}
+						break;
+					case 'discard_hand_cards':
+						
+						break;
+					case 'lost_lvl':
 
-					break;
+						break;
+				}
+				if ($onlyOne) break;
 			}
-			if ($onlyOne) return true;
 		}
 		return false;
 	}
