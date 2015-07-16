@@ -6,7 +6,7 @@ use common\models\GameDataModel;
 use common\models\GamesModel;
 use common\helpers\IdHelper;
 
-class Phases {
+class Phases extends RulesData {
 
 	public static $phases = [
 		'place_cards' => [
