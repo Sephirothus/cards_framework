@@ -1,10 +1,12 @@
 <?php
 namespace common\libs;
 
-use common\models\GameDataModel;
-use common\models\GamesModel;
+use common\libs\Action;
+use common\libs\Phases;
 use common\models\CardsModel;
+use common\models\GameDataModel;
 use common\models\GameLogsModel;
+use common\models\GamesModel;
 
 class Rules extends RulesData {
 
@@ -16,8 +18,10 @@ class Rules extends RulesData {
 	 **/
 	public function __construct($gameId, $eventData) {
 		$gameId = \common\helpers\IdHelper::toId($gameId);
+		$this->cardInfo = [];
         $this->game = GamesModel::findOne(['_id' => $gameId])->toArray();
         $this->gameData = GameDataModel::findOne(['games_id' => $gameId])->toArray();
+        if (!empty($eventData['card_id'])) $this->cardInfo = CardsModel::getCardInfo($event['card_id']);
         $this->eventData = $eventData;
 	}
 
@@ -38,11 +42,16 @@ class Rules extends RulesData {
         }
 
         // Actions loop
+        $this->setObj('Action')->iterate();
 
         $this->getPhaseNext();
 
-        GameLogsModel::add($this->eventData['pic_id']);
-        // save gamedata
+        //if ($isSave) {
+        	$gameData = new GameDataModel;
+            $gameData->setAttributes($this->gameData);
+            $gameData->save();
+        //}
+        //GameLogsModel::add($data);
         return $this->eventData;
 	}
 
@@ -56,8 +65,8 @@ class Rules extends RulesData {
 		$data = $this->eventData;
 		if (isset($data['card_id'])) {
 			$obj = $this->setObj('CardRules');
-			$rule = $obj->check();
-			
+			$this->eventData['rule'] = $obj->check();
+			if ($obj->isForbidden) return false;
 		}
 		return true;
 	}
@@ -83,20 +92,20 @@ class Rules extends RulesData {
 	 * @author 
 	 **/
 	public function getPhaseNext() {
-		if ($temp['cur_phase'] != ($nextPhase = $this->setObj('Phases')->getNextPhase())) {
+		if ($this->gameData['cur_phase'] != ($nextPhase = $this->setObj('Phases')->getNextPhase())) {
 			if (is_array($nextPhase)) {
-	            $temp['cur_move'] = $nextPhase['next_user'];
+	            $this->gameData['cur_move'] = $nextPhase['next_user'];
 	            $nextPhase['next_user'] = (string)$nextPhase['next_user'];
-	            $event['next_user'][$nextPhase['next_user']] = Phases::getWaitActions($nextPhase['next_phase']);
+	            $this->eventData['next_user'][$nextPhase['next_user']] = Phases::getWaitActions($nextPhase['next_phase']);
 	            $nextPhase = $nextPhase['next_phase'];
 	        } else {
-	            $event['next_user'][(string)$temp['cur_move']] = Phases::getWaitActions($nextPhase);
+	            $this->eventData['next_user'][(string)$this->gameData['cur_move']] = Phases::getWaitActions($nextPhase);
 	        }
-	        $temp['cur_phase'] = $nextPhase;
-	        $event['next_phase'][$nextPhase] = Phases::getActions($nextPhase);
+	        $this->gameData['cur_phase'] = $nextPhase;
+	        $this->eventData['next_phase'][$nextPhase] = Phases::getActions($nextPhase);
 	        $isSave = true;
-	        $temp['temp_data']['in_battle']['end_move'] = [];
-	        if ($nextPhase == 'get_boss_win') $event['lvl_up'] = $temp['cur_move'];
+	        $this->gameData['temp_data']['in_battle']['end_move'] = [];
+	        if ($nextPhase == 'get_boss_win') $this->eventData['lvl_up'] = $this->gameData['cur_move'];
 	    }
 	}
 }

@@ -29,6 +29,8 @@ class CardRules extends RulesData {
 		'head', 'armor', 'foot', 'arms', 'items'
 	];
 
+	public $isForbidden = true;
+
 	/**
 	 * undocumented function
 	 *
@@ -142,6 +144,7 @@ class CardRules extends RulesData {
 		}
 		if ($errors) {
 			$this->setObj('Action')->add(Action::TURN_CARD_OFF);
+			$this->isForbidden = false;
 		}
 		return $errors;
 	}

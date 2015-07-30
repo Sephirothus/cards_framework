@@ -49,9 +49,6 @@ class PusherController extends Controller implements WampServerInterface {
             $eventData = (new \common\libs\Rules($topic->getId(), $event))->check();
             if (is_array($eventData) && !empty($eventData)) return $topic->broadcast($eventData);
             else return false;
-
-
-           
         } catch (\Exception $e) {
             echo $e->getMessage().' '.$e->getFile().' '.$e->getLine();
         }
